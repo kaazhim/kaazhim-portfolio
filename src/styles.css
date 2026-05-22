@@ -287,6 +287,120 @@ section {
     #050814;
 }
 
+.cinematic-fallback {
+  --fallback-accent: var(--teal-500);
+  align-items: center;
+  background:
+    linear-gradient(120deg, rgba(255, 211, 77, 0.12), transparent 28%),
+    linear-gradient(240deg, rgba(114, 190, 248, 0.18), transparent 34%),
+    linear-gradient(180deg, rgba(5, 8, 20, 0.1), rgba(5, 8, 20, 0.78)),
+    #050814;
+  display: grid;
+  justify-items: center;
+}
+
+.cinematic-fallback[data-focus="hardware"] {
+  --fallback-accent: var(--sun-400);
+}
+
+.cinematic-fallback[data-focus="network"] {
+  --fallback-accent: var(--sky-300);
+}
+
+.cinematic-fallback[data-focus="firewall"] {
+  --fallback-accent: var(--coral-400);
+}
+
+.cinematic-fallback[data-focus="cyber"] {
+  --fallback-accent: #8d7cff;
+}
+
+.fallback-grid {
+  background:
+    linear-gradient(rgba(255, 250, 240, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 250, 240, 0.07) 1px, transparent 1px);
+  background-size: 34px 34px;
+  inset: 0;
+  mask-image: linear-gradient(180deg, transparent, black 20%, black 78%, transparent);
+  opacity: 0.74;
+  position: absolute;
+}
+
+.fallback-core {
+  align-items: center;
+  animation: fallback-float 5s ease-in-out infinite;
+  background:
+    linear-gradient(145deg, var(--cream-50), #ddf7ff);
+  border: 1px solid rgba(114, 190, 248, 0.48);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 18px rgba(114, 190, 248, 0.07),
+    0 0 0 40px rgba(255, 211, 77, 0.04),
+    0 24px 72px rgba(0, 0, 0, 0.36);
+  color: var(--ink-950);
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  height: min(32vw, 190px);
+  justify-content: center;
+  min-height: 126px;
+  min-width: 126px;
+  position: relative;
+  width: min(32vw, 190px);
+  z-index: 1;
+}
+
+.fallback-core span {
+  color: var(--teal-700);
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.fallback-ring {
+  border: 1px solid color-mix(in srgb, var(--fallback-accent) 62%, transparent);
+  border-radius: 50%;
+  height: min(52vw, 330px);
+  position: absolute;
+  width: min(52vw, 330px);
+}
+
+.fallback-ring.ring-a {
+  animation: orbit-spin 28s linear infinite;
+}
+
+.fallback-ring.ring-b {
+  animation: orbit-spin 38s linear reverse infinite;
+  height: min(68vw, 440px);
+  opacity: 0.5;
+  width: min(68vw, 440px);
+}
+
+.fallback-node {
+  background: var(--fallback-accent);
+  border: 3px solid rgba(255, 250, 240, 0.72);
+  border-radius: 50%;
+  box-shadow: 0 0 22px color-mix(in srgb, var(--fallback-accent) 70%, transparent);
+  height: 16px;
+  position: absolute;
+  width: 16px;
+  z-index: 1;
+}
+
+.fallback-node.node-a {
+  right: 28%;
+  top: 35%;
+}
+
+.fallback-node.node-b {
+  bottom: 34%;
+  left: 31%;
+}
+
+.fallback-node.node-c {
+  bottom: 27%;
+  right: 35%;
+}
+
 .cinematic-scene::after {
   background:
     radial-gradient(circle at 50% 38%, transparent 0 36%, rgba(5, 8, 20, 0.18) 62%, rgba(5, 8, 20, 0.72) 100%),
@@ -4508,6 +4622,17 @@ section {
 
   50% {
     opacity: 0.82;
+  }
+}
+
+@keyframes fallback-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
   }
 }
 

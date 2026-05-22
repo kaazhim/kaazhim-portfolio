@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useMemo, useState } from 'react';
+import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ArrowUpRight,
   Activity,
@@ -310,6 +310,7 @@ function App() {
             activeFocus={activeInfra}
             className="hero-cinematic-backdrop"
             mode={dashboardMode}
+            priority
             variant="hero"
           />
           <div className="stripe-strip" aria-hidden="true" />
@@ -833,17 +834,105 @@ function Header({ activeSection, mobileOpen, setMobileOpen }) {
 }
 
 function CinematicScene(props) {
+  const anchorRef = useRef(null);
+  const [capability, setCapability] = useState({ checked: false, enabled: false });
+  const [shouldMount, setShouldMount] = useState(Boolean(props.priority));
+  const variant = props.variant ?? 'hero';
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    const narrowViewport = window.matchMedia('(max-width: 860px)').matches;
+    const saveData = Boolean(navigator.connection?.saveData);
+    const lowMemory = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory < 4;
+    let webglSupported = false;
+
+    try {
+      const canvas = document.createElement('canvas');
+      webglSupported = Boolean(canvas.getContext('webgl2') || canvas.getContext('webgl'));
+    } catch {
+      webglSupported = false;
+    }
+
+    setCapability({
+      checked: true,
+      enabled: webglSupported && !reducedMotion && !coarsePointer && !narrowViewport && !saveData && !lowMemory,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!capability.enabled || props.priority || shouldMount) return undefined;
+
+    const target = anchorRef.current;
+    if (!target) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldMount(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '520px 0px', threshold: 0.01 },
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [capability.enabled, props.priority, shouldMount]);
+
+  if (!capability.checked || !capability.enabled || !shouldMount) {
+    return (
+      <CinematicFallback
+        activeFocus={props.activeFocus}
+        anchorRef={anchorRef}
+        className={props.className}
+        mode={props.mode}
+        variant={variant}
+      />
+    );
+  }
+
   return (
     <Suspense
       fallback={
         <div
-          className={`cinematic-scene cinematic-scene-loading cinematic-scene-${props.variant ?? 'hero'} ${props.className ?? ''}`}
+          className={`cinematic-scene cinematic-scene-loading cinematic-scene-${variant} ${props.className ?? ''}`}
           aria-hidden="true"
         />
       }
     >
       <CinematicInfraScene {...props} />
     </Suspense>
+  );
+}
+
+function CinematicFallback({
+  activeFocus = 'server',
+  anchorRef,
+  className = '',
+  mode = 'live',
+  variant = 'hero',
+}) {
+  const label = infraFocus.find((item) => item.id === activeFocus)?.label ?? 'Server';
+
+  return (
+    <div
+      className={`cinematic-scene cinematic-fallback cinematic-fallback-${mode} cinematic-scene-${variant} ${className}`}
+      data-focus={activeFocus}
+      ref={anchorRef}
+      aria-hidden="true"
+    >
+      <div className="fallback-grid" />
+      <div className="fallback-core">
+        {getInfraIcon(activeFocus, variant === 'dashboard' ? 26 : 34)}
+        <span>{label}</span>
+      </div>
+      <span className="fallback-ring ring-a" />
+      <span className="fallback-ring ring-b" />
+      <span className="fallback-node node-a" />
+      <span className="fallback-node node-b" />
+      <span className="fallback-node node-c" />
+    </div>
   );
 }
 

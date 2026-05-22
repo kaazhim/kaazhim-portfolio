@@ -278,10 +278,10 @@ export default function CinematicInfraScene({
 
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
-      antialias: true,
-      powerPreference: 'high-performance',
+      antialias: false,
+      powerPreference: 'default',
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.7));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = mode === 'hardening' ? 1.32 : 1.14;
@@ -373,7 +373,7 @@ export default function CinematicInfraScene({
     scan.rotation.x = -0.03;
     root.add(scan);
 
-    const particles = addParticles(root, isHero ? 150 : 250, accent);
+    const particles = addParticles(root, isHero ? 90 : 130, accent);
     const startedAt = performance.now();
     let animationFrame = 0;
 
