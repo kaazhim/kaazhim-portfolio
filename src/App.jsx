@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { Suspense, useEffect, useMemo, useState } from 'react';
 import {
   ArrowUpRight,
   Activity,
@@ -13,12 +13,14 @@ import {
   Download,
   ExternalLink,
   Eye,
+  FileCode2,
   FileText,
   Filter,
   Github,
   GraduationCap,
   Gauge,
   HardDrive,
+  Image as ImageIcon,
   Layers3,
   Lock,
   Mail,
@@ -59,6 +61,8 @@ import {
   sourceAudit,
 } from './data.js';
 
+const CinematicInfraScene = React.lazy(() => import('./CinematicInfraScene.jsx'));
+
 const sections = ['home', 'experience', 'dashboard', 'projects', 'skills', 'resume', 'contact'];
 const sectionLabels = {
   dashboard: 'infra lab',
@@ -89,6 +93,7 @@ function App() {
   const [copied, setCopied] = useState(false);
   const [contactStatus, setContactStatus] = useState('');
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [revealReady, setRevealReady] = useState(false);
   const [contactForm, setContactForm] = useState({
     name: '',
     email: '',
@@ -100,13 +105,14 @@ function App() {
   const readinessScore = Math.min(99, Math.round((currentInfra.score * 0.62) + (readiness * 0.28) + resolvedTickets.length * 2.4));
   const featuredProjects = useMemo(() => projects.filter((project) => project.featured), []);
   const filteredProjects = useMemo(() => {
-    const base =
-      projectFilter === 'All'
+    const query = projectQuery.trim().toLowerCase();
+    const base = query
+      ? projects
+      : projectFilter === 'All'
         ? projects
         : projectFilter === 'Featured'
           ? featuredProjects
           : projects.filter((project) => project.category === projectFilter);
-    const query = projectQuery.trim().toLowerCase();
 
     if (!query) return base;
 
@@ -142,6 +148,63 @@ function App() {
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const onPointerMove = (event) => {
+      document.documentElement.style.setProperty('--pointer-x', `${event.clientX}px`);
+      document.documentElement.style.setProperty('--pointer-y', `${event.clientY}px`);
+    };
+
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
+    return () => window.removeEventListener('pointermove', onPointerMove);
+  }, []);
+
+  useEffect(() => {
+    const targets = Array.from(
+      document.querySelectorAll(
+        [
+          '.section-heading',
+          '.clean-art-card',
+          '.wow-panel',
+          '.wow-orbit-stage',
+          '.timeline-card',
+          '.experience-detail',
+          '.infra-dashboard',
+          '.featured-chip',
+          '.project-card',
+          '.project-detail',
+          '.skill-card',
+          '.education-panel',
+          '.contact-form',
+        ].join(','),
+      ),
+    );
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    targets.forEach((target, index) => {
+      target.classList.add('reveal-target');
+      target.style.setProperty('--reveal-delay', `${Math.min((index % 6) * 55, 275)}ms`);
+      if (reducedMotion) target.classList.add('is-revealed');
+    });
+    setRevealReady(true);
+
+    if (reducedMotion) return undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.12 },
+    );
+
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -193,7 +256,7 @@ function App() {
   const openProject = (project) => {
     setSelectedProject(project);
     setModalProject(project);
-    setModalTab('story');
+    setModalTab('visuals');
     burst();
   };
 
@@ -212,6 +275,10 @@ function App() {
   const runDiagnostic = () => {
     setDashboardMode((current) => (current === 'live' ? 'diagnostic' : current === 'diagnostic' ? 'hardening' : 'live'));
     setReadiness((current) => Math.min(96, current + 3));
+    setActiveInfra((current) => {
+      const currentIndex = infraFocus.findIndex((item) => item.id === current);
+      return infraFocus[(currentIndex + 1) % infraFocus.length].id;
+    });
     burst();
   };
 
@@ -232,12 +299,19 @@ function App() {
   };
 
   return (
-    <div className={`app-shell ${funMode ? 'fun-mode' : ''}`}>
+    <div className={`app-shell ${funMode ? 'fun-mode' : ''} ${revealReady ? 'reveal-ready' : ''}`}>
       <Confetti pieces={confetti} />
+      <div className="wow-spotlight" aria-hidden="true" />
       <div className="scroll-meter" style={{ width: `${scrollProgress}%` }} />
       <Header activeSection={activeSection} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <main>
         <section className="hero ink-band" id="home">
+          <CinematicScene
+            activeFocus={activeInfra}
+            className="hero-cinematic-backdrop"
+            mode={dashboardMode}
+            variant="hero"
+          />
           <div className="stripe-strip" aria-hidden="true" />
           <div className="shell hero-layout">
             <div className="hero-copy">
@@ -262,6 +336,15 @@ function App() {
                   <Github size={18} />
                   GitHub
                 </a>
+                <a className="button button-cinema" href="#dashboard">
+                  <Rocket size={18} />
+                  Launch 3D Lab
+                </a>
+              </div>
+              <div className="hero-signal-strip" aria-label="Cinematic infrastructure signal">
+                <span>3D infra core online</span>
+                <strong>{dashboardMode === 'live' ? 'Live orbit' : dashboardMode === 'diagnostic' ? 'Diagnostic scan' : 'Hardening sweep'}</strong>
+                <small>{currentInfra.label} focus</small>
               </div>
             </div>
 
@@ -348,6 +431,10 @@ function App() {
           </div>
         </section>
 
+        <WowLayer activeInfra={activeInfra} currentInfra={currentInfra} onDiagnostic={runDiagnostic} onSelectInfra={setActiveInfra} />
+
+        <CleanIllustrationLab activeInfra={activeInfra} onSelectInfra={setActiveInfra} />
+
         <section className="cream-band" id="experience">
           <div className="shell section-grid">
             <SectionHeading
@@ -392,6 +479,8 @@ function App() {
             </div>
           </div>
         </section>
+
+        <CinematicStoryReel activeInfra={activeInfra} dashboardMode={dashboardMode} onDiagnostic={runDiagnostic} />
 
         <section className="infra-band" id="dashboard">
           <div className="shell section-grid">
@@ -497,10 +586,13 @@ function App() {
                     key={project.id}
                   >
                     <button className="project-card-main" onClick={() => setSelectedProject(project)} type="button">
-                      <span>{project.category}</span>
-                      <strong>{project.title}</strong>
-                      <p>{project.summary}</p>
-                      <small>{project.status}</small>
+                      <ProjectVisual project={project} compact />
+                      <div className="project-card-copy">
+                        <span>{project.category}</span>
+                        <strong>{project.title}</strong>
+                        <p>{project.summary}</p>
+                        <small>{project.status}</small>
+                      </div>
                       <ChevronRight size={20} />
                     </button>
                     <button className="project-view-link" onClick={() => openProject(project)} type="button">
@@ -740,6 +832,296 @@ function Header({ activeSection, mobileOpen, setMobileOpen }) {
   );
 }
 
+function CinematicScene(props) {
+  return (
+    <Suspense
+      fallback={
+        <div
+          className={`cinematic-scene cinematic-scene-loading cinematic-scene-${props.variant ?? 'hero'} ${props.className ?? ''}`}
+          aria-hidden="true"
+        />
+      }
+    >
+      <CinematicInfraScene {...props} />
+    </Suspense>
+  );
+}
+
+function WowLayer({ activeInfra, currentInfra, onDiagnostic, onSelectInfra }) {
+  const impactStats = [
+    { label: 'Recruiter scan path', value: '15 sec', text: 'Hero, infra focus, proof, projects' },
+    { label: 'Core identity', value: 'Infra+', text: 'Server, firewall, network, cyber, hardware' },
+    { label: 'Proof density', value: '20', text: 'Projects with real visuals or source evidence' },
+  ];
+  const journey = [
+    { icon: <Eye size={17} />, label: 'Scan', text: 'Identity first' },
+    { icon: <ShieldCheck size={17} />, label: 'Trust', text: 'Proof visible' },
+    { icon: <Network size={17} />, label: 'Route', text: 'Infra focus' },
+    { icon: <Rocket size={17} />, label: 'Act', text: 'Projects open' },
+  ];
+
+  return (
+    <section className="wow-layer-band" aria-label="Premium portfolio impact layer">
+      <div className="shell wow-layer-layout">
+        <div className="wow-copy">
+          <SectionHeading
+            icon={<Rocket />}
+            kicker="WOW Layer"
+            title="A sharper first impression for recruiters"
+            text="This layer turns the portfolio into a guided product experience: fast identity, clear infrastructure direction, real project evidence, and a premium visual rhythm."
+          />
+          <div className="wow-journey" aria-label="Recruiter journey preview">
+            {journey.map((item) => (
+              <div key={item.label}>
+                {item.icon}
+                <strong>{item.label}</strong>
+                <span>{item.text}</span>
+              </div>
+            ))}
+          </div>
+          <div className="wow-actions">
+            <button className="button button-primary" onClick={onDiagnostic} type="button">
+              <Sparkles size={18} />
+              Run wow sweep
+            </button>
+            <a className="button button-dark" href="#projects">
+              <ArrowUpRight size={18} />
+              Jump to proof
+            </a>
+          </div>
+        </div>
+
+        <div className="wow-orbit-stage" aria-label={`${currentInfra.label} visual focus selector`}>
+          <span className="wow-stage-label">Recruiter command orbit</span>
+          <span className="wow-beam beam-one" aria-hidden="true" />
+          <span className="wow-beam beam-two" aria-hidden="true" />
+          <div className="wow-orbit-core">
+            {getInfraIcon(activeInfra, 30)}
+            <span>{currentInfra.label}</span>
+            <strong>{currentInfra.risk}</strong>
+          </div>
+          <div className="wow-orbit-ring ring-one" aria-hidden="true" />
+          <div className="wow-orbit-ring ring-two" aria-hidden="true" />
+          {infraFocus.map((item, index) => (
+            <button
+              className={`wow-node node-${index + 1} ${activeInfra === item.id ? 'is-active' : ''}`}
+              key={item.id}
+              onClick={() => onSelectInfra(item.id)}
+              type="button"
+            >
+              {getInfraIcon(item.id, 18)}
+              <span>{item.label}</span>
+            </button>
+          ))}
+          <div className="wow-scan-readout">
+            <span>{currentInfra.score}% focus</span>
+            <strong>{currentInfra.title}</strong>
+          </div>
+        </div>
+
+        <div className="wow-panels">
+          {impactStats.map((item) => (
+            <article className="wow-panel" key={item.label}>
+              <span>{item.label}</span>
+              <strong>{item.value}</strong>
+              <p>{item.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CleanIllustrationLab({ activeInfra, onSelectInfra }) {
+  const artCards = [
+    {
+      id: 'server',
+      title: 'Server Core',
+      label: '3D rack',
+      copy: 'A cleaner service-room visual for uptime, backup thinking, and controlled changes.',
+    },
+    {
+      id: 'firewall',
+      title: 'Firewall Gate',
+      label: 'Security plane',
+      copy: 'A glass policy layer for ports, access, exposure checks, and cyber hygiene.',
+    },
+    {
+      id: 'network',
+      title: 'Network Orbit',
+      label: 'Signal map',
+      copy: 'Calm routing lines for LAN, Wi-Fi, DHCP, DNS, and troubleshooting flow.',
+    },
+    {
+      id: 'hardware',
+      title: 'Hardware Bench',
+      label: 'Device care',
+      copy: 'Clean endpoint art for replacement work, setup, inspection, and documentation.',
+    },
+  ];
+
+  return (
+    <section className="clean-art-band" id="visual-lab" aria-label="Clean portfolio illustration lab">
+      <div className="shell clean-art-layout">
+        <div className="clean-art-copy">
+          <SectionHeading
+            icon={<Sparkles />}
+            kicker="Illustration System"
+            title="More 3D character, less visual noise"
+            text="A set of clean interactive illustrations now supports the portfolio story without covering the real projects, resume, or recruiter-facing details."
+          />
+          <div className="clean-art-note">
+            <span>Design rule</span>
+            <strong>Every visual points back to infrastructure: server, firewall, network, and hardware.</strong>
+          </div>
+        </div>
+        <div className="clean-art-grid">
+          {artCards.map((card) => (
+            <button
+              className={`clean-art-card art-${card.id} ${activeInfra === card.id ? 'is-active' : ''}`}
+              key={card.id}
+              onClick={() => onSelectInfra(card.id)}
+              type="button"
+            >
+              <Clean3DIllustration id={card.id} />
+              <span>{card.label}</span>
+              <strong>{card.title}</strong>
+              <p>{card.copy}</p>
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Clean3DIllustration({ id }) {
+  return (
+    <div className={`clean-3d-art clean-3d-${id}`} aria-hidden="true">
+      <span className="clean-art-floor" />
+      <span className="clean-art-ring" />
+      <span className="clean-art-line line-one" />
+      <span className="clean-art-line line-two" />
+      <span className="clean-art-node node-one" />
+      <span className="clean-art-node node-two" />
+      <span className="clean-art-node node-three" />
+      {id === 'server' && (
+        <span className="server-mini-stack">
+          <i />
+          <i />
+          <i />
+        </span>
+      )}
+      {id === 'firewall' && (
+        <span className="firewall-mini-gate">
+          <i />
+          <i />
+          <i />
+        </span>
+      )}
+      {id === 'network' && (
+        <span className="network-mini-router">
+          <i />
+          <i />
+        </span>
+      )}
+      {id === 'hardware' && (
+        <span className="hardware-mini-device">
+          <i />
+          <i />
+        </span>
+      )}
+    </div>
+  );
+}
+
+function CinematicStoryReel({ activeInfra, dashboardMode, onDiagnostic }) {
+  const current = infraFocus.find((item) => item.id === activeInfra) ?? infraFocus[0];
+  const storySteps = [
+    {
+      id: 'hardware',
+      label: 'Device',
+      title: 'Replace',
+      copy: 'Laptop, printer, scanner, and endpoint checks.',
+    },
+    {
+      id: 'network',
+      label: 'Network',
+      title: 'Route',
+      copy: 'LAN, Wi-Fi, DNS, DHCP, and signal tracing.',
+    },
+    {
+      id: 'firewall',
+      label: 'Firewall',
+      title: 'Protect',
+      copy: 'Policy review, allowed ports, and exposure thinking.',
+    },
+    {
+      id: 'server',
+      label: 'Server',
+      title: 'Operate',
+      copy: 'Services, storage, backup, uptime, and documentation.',
+    },
+    {
+      id: 'cyber',
+      label: 'Cyber',
+      title: 'Harden',
+      copy: 'Patch hygiene, access review, and evidence capture.',
+    },
+  ];
+
+  return (
+    <section className={`cinema-reel-band mode-${dashboardMode}`} aria-label="Cinematic infrastructure illustration">
+      <div className="shell cinema-reel-layout">
+        <div className="cinema-reel-copy">
+          <SectionHeading
+            icon={<Layers3 />}
+            kicker="Cinematic Layer"
+            title="A portfolio scene that feels alive"
+            text="The visual system now moves like an infrastructure command room: device support, network paths, firewall focus, server readiness, and cyber hardening in one live storyboard."
+          />
+          <div className="cinema-reel-actions">
+            <button className="button button-primary" onClick={onDiagnostic} type="button">
+              <Sparkles size={18} />
+              Run cinematic sweep
+            </button>
+            <a className="button button-dark" href="#dashboard">
+              <Gauge size={18} />
+              Open dashboard
+            </a>
+          </div>
+        </div>
+
+        <div className="cinema-storyboard" aria-label={`${current.label} cinematic workflow`}>
+          <div className="storyboard-orbit" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
+          {storySteps.map((step, index) => (
+            <article
+              className={`story-node ${activeInfra === step.id ? 'is-active' : ''}`}
+              key={step.id}
+              style={{ '--node-index': index }}
+            >
+              <div>{getInfraIcon(step.id, 24)}</div>
+              <span>{step.label}</span>
+              <strong>{step.title}</strong>
+              <p>{step.copy}</p>
+            </article>
+          ))}
+          <div className="storyboard-core">
+            <Server size={30} />
+            <span>{current.label}</span>
+            <strong>{dashboardMode === 'live' ? 'Live' : dashboardMode === 'diagnostic' ? 'Scanning' : 'Hardening'}</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function InfraDashboard({
   activeInfra,
   currentInfra,
@@ -843,6 +1225,44 @@ function InfraDashboard({
               </li>
             ))}
           </ul>
+        </article>
+
+        <article className="infra-cinema-panel" aria-label="Interactive three dimensional infrastructure scene">
+          <div className="infra-panel-head compact cinema-panel-head">
+            <Layers3 size={25} />
+            <div>
+              <span>Blender-style WebGL</span>
+              <h3>{currentInfra.label} orbit</h3>
+            </div>
+            <button className="cinema-scan-button" onClick={onDiagnostic} type="button">
+              <Sparkles size={16} />
+              Scan
+            </button>
+          </div>
+          <div className="cinema-stage-shell">
+            <CinematicScene activeFocus={activeInfra} mode={dashboardMode} variant="dashboard" />
+            <div className="cinema-hud cinema-hud-top">
+              <span>Firewall</span>
+              <strong>{dashboardMode === 'hardening' ? 'Policy sweep' : 'Guarding edge'}</strong>
+            </div>
+            <div className="cinema-hud cinema-hud-bottom">
+              <span>Server core</span>
+              <strong>{readinessScore}% readiness</strong>
+            </div>
+          </div>
+          <div className="cinema-node-controls" aria-label="3D focus controls">
+            {infraFocus.map((item) => (
+              <button
+                className={activeInfra === item.id ? 'is-active' : ''}
+                key={item.id}
+                onClick={() => onSelectInfra(item.id)}
+                type="button"
+              >
+                {getInfraIcon(item.id, 16)}
+                {item.label}
+              </button>
+            ))}
+          </div>
         </article>
 
         <article className="infra-wave-panel">
@@ -951,6 +1371,94 @@ function InfraDashboard({
   );
 }
 
+function getProjectGallery(project) {
+  const gallery = [...(project.gallery ?? [])];
+
+  if (project.image && !gallery.some((item) => item.src === project.image)) {
+    gallery.unshift({ src: project.image, label: project.visualLabel ?? 'Real project visual' });
+  }
+
+  if (project.logo && !gallery.some((item) => item.src === project.logo)) {
+    gallery.push({ src: project.logo, label: `${project.title} logo` });
+  }
+
+  return gallery;
+}
+
+function SourceProofPanel({ artifact, compact = false }) {
+  if (!artifact) return null;
+
+  const visibleLines = compact ? artifact.lines.slice(0, 3) : artifact.lines;
+
+  return (
+    <div className={`source-proof ${compact ? 'is-compact' : ''}`}>
+      <div className="source-proof-top">
+        <FileCode2 size={compact ? 16 : 20} />
+        <div>
+          <span>{artifact.label}</span>
+          <strong>{artifact.source}</strong>
+        </div>
+      </div>
+      <pre>{visibleLines.join('\n')}</pre>
+    </div>
+  );
+}
+
+function ProjectVisual({ project, compact = false }) {
+  const gallery = getProjectGallery(project);
+  const primary = gallery[0];
+
+  if (primary) {
+    return (
+      <figure className={`project-visual ${compact ? 'is-compact' : ''}`}>
+        <img src={primary.src} alt={primary.label} />
+        <figcaption>
+          <ImageIcon size={compact ? 14 : 16} />
+          {project.visualLabel ?? primary.label}
+        </figcaption>
+      </figure>
+    );
+  }
+
+  if (project.artifact) {
+    return <SourceProofPanel artifact={project.artifact} compact={compact} />;
+  }
+
+  return (
+    <div className={`project-visual project-visual-empty ${compact ? 'is-compact' : ''}`}>
+      <Rocket size={compact ? 22 : 34} />
+      <span>Project evidence</span>
+    </div>
+  );
+}
+
+function ProjectVisualGallery({ project }) {
+  const gallery = getProjectGallery(project);
+
+  return (
+    <div className="modal-visuals">
+      {gallery.length > 0 && (
+        <div className="visual-gallery">
+          {gallery.map((item) => (
+            <figure key={`${project.id}-${item.src}`}>
+              <img src={item.src} alt={item.label} />
+              <figcaption>{item.label}</figcaption>
+            </figure>
+          ))}
+        </div>
+      )}
+      {project.artifact && <SourceProofPanel artifact={project.artifact} />}
+      {gallery.length === 0 && !project.artifact && (
+        <div className="visual-empty-state">
+          <ImageIcon />
+          <strong>No visual artifact yet</strong>
+          <p>This project is still listed with written source evidence only.</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ProjectDetail({ project, onView }) {
   const icon = getProjectIcon(project.category);
 
@@ -964,14 +1472,10 @@ function ProjectDetail({ project, onView }) {
         {icon}
       </div>
 
-      {project.logo && (
-        <div className="project-media">
-          <img src={project.logo} alt={`${project.title} logo`} />
-          <p>{project.summary}</p>
-        </div>
-      )}
-
-      {!project.logo && <p className="detail-summary">{project.summary}</p>}
+      <div className="project-detail-proof">
+        <ProjectVisual project={project} />
+        <p className="detail-summary">{project.summary}</p>
+      </div>
 
       <div className="meta-row">
         <span>{project.year}</span>
@@ -1037,6 +1541,7 @@ function ProjectDetail({ project, onView }) {
 
 function ProjectModal({ activeTab, onClose, onTabChange, project }) {
   const tabs = [
+    { id: 'visuals', label: 'Visuals' },
     { id: 'story', label: 'Story' },
     { id: 'stack', label: 'Stack' },
     { id: 'proof', label: 'Proof' },
@@ -1055,13 +1560,7 @@ function ProjectModal({ activeTab, onClose, onTabChange, project }) {
           <X size={22} />
         </button>
         <div className="modal-hero">
-          {project.logo ? (
-            <img src={project.logo} alt={`${project.title} logo`} />
-          ) : project.image ? (
-            <img src={project.image} alt={`${project.title} preview`} />
-          ) : (
-            <Rocket size={56} />
-          )}
+          <ProjectVisual project={project} compact />
           <div>
             <span>{project.category} | {project.type}</span>
             <h3 id="project-modal-title">{project.title}</h3>
@@ -1083,6 +1582,7 @@ function ProjectModal({ activeTab, onClose, onTabChange, project }) {
           ))}
         </div>
         <div className="modal-panel">
+          {activeTab === 'visuals' && <ProjectVisualGallery project={project} />}
           {activeTab === 'story' && (
             <div className="modal-story">
               <div>

@@ -122,8 +122,15 @@ export const projects = [
     accent: 'teal',
     role: 'Mobile developer and product designer',
     status: 'Source reviewed. Import casing fixed. Flutter analyzer blocked by local toolchain hang.',
-    image: '/assets/projects/stridez-klcc.jpg',
+    image: '/assets/projects/stridez-poster.png',
     logo: '/assets/projects/stridez-logo.png',
+    visualLabel: 'Real Stridez presentation poster',
+    gallery: [
+      { src: '/assets/projects/stridez-poster.png', label: 'Presentation poster from the Stridez project' },
+      { src: '/assets/projects/stridez-usecase.png', label: 'Use-case diagram from the Stridez system design' },
+      { src: '/assets/projects/stridez-logo.png', label: 'Stridez app logo asset' },
+      { src: '/assets/projects/stridez-klcc.jpg', label: 'Park image asset used by the app' },
+    ],
     tags: ['Flutter', 'Firebase', 'GPS', 'Firestore', 'Pedometer', 'Voice cues'],
     summary:
       'A GPS-enabled running app for novice runners, built around park discovery, run tracking, feedback, and beginner-friendly guidance.',
@@ -154,6 +161,12 @@ export const projects = [
     accent: 'sun',
     role: 'Full-stack maintainer',
     status: 'Fixed and PHP syntax checked across all PHP files.',
+    image: '/assets/projects/attendance-homepage.png',
+    visualLabel: 'Real admin dashboard screenshot',
+    gallery: [
+      { src: '/assets/projects/attendance-homepage.png', label: 'Admin dashboard screen from the attendance system' },
+      { src: '/assets/projects/attendance-table.png', label: 'Attendance database table screenshot' },
+    ],
     tags: ['PHP', 'MySQL', 'Bootstrap', 'Admin dashboard', 'CRUD'],
     summary:
       'A staff attendance system with employee time-in/time-out capture, admin login, employee management, user management, and attendance logs.',
@@ -184,6 +197,11 @@ export const projects = [
     accent: 'coral',
     role: 'Frontend application builder',
     status: 'GitHub clone build passed with Vite chunk-size warning.',
+    image: '/assets/projects/real-estate-proposal.png',
+    visualLabel: 'Live screenshot captured from the React/Vite app',
+    gallery: [
+      { src: '/assets/projects/real-estate-proposal.png', label: 'REAL-ESTATE proposal screen captured from local Vite' },
+    ],
     tags: ['React', 'TypeScript', 'Vite', 'Google GenAI', 'Video generation'],
     summary:
       'A React/Vite AI studio prototype from the public REAL-ESTATE repo, with prompt-driven video generation states and API-key handling.',
@@ -215,6 +233,22 @@ export const projects = [
     accent: 'sky',
     role: 'Android developer',
     status: 'Gradle debug build passed after setting Android SDK environment.',
+    image: '/assets/projects/electricity-estimator-logo.jpg',
+    visualLabel: 'Real Android drawable used in the app',
+    gallery: [
+      { src: '/assets/projects/electricity-estimator-logo.jpg', label: 'Main Electricity Bill Estimator graphic from Android resources' },
+      { src: '/assets/projects/electricity-flash-icon.png', label: 'Lightning drawable asset from the Android project' },
+    ],
+    artifact: {
+      label: 'Android layout proof',
+      source: 'activity_main.xml',
+      lines: [
+        '<Spinner android:id="@+id/spinnerMonth" />',
+        '<EditText android:hint="Electricity Used (kWh)" />',
+        '<RadioGroup android:id="@+id/radioRebateGroup" />',
+        '<Button android:id="@+id/btnCalculate" android:text="Calculate" />',
+      ],
+    },
     tags: ['Java', 'Android Studio', 'SQLite', 'Gradle', 'Material UI'],
     summary:
       'An Android app for calculating electricity bills, applying rebates, saving bill history, and reviewing or editing stored records.',
@@ -246,6 +280,13 @@ export const projects = [
     accent: 'plum',
     role: 'Workflow analyst intern',
     status: 'Resume-backed work project.',
+    image: '/assets/projects/workflow-bpms-logo.png',
+    visualLabel: 'BPMS and Encorp workflow assets',
+    gallery: [
+      { src: '/assets/projects/workflow-bpms-logo.png', label: 'BPMS logo asset from the workflow work folder' },
+      { src: '/assets/projects/workflow-it-dept-logo.png', label: 'IT department logo asset' },
+      { src: '/assets/projects/workflow-encorp-logo.png', label: 'Encorp Berhad logo asset' },
+    ],
     tags: ['BPMS', 'ProcessMaker', 'Requirements', 'Service workflow'],
     summary:
       'A digital service requisition workflow effort for department operations, focused on request structure, process logic, and approvals.',
@@ -272,6 +313,13 @@ export const projects = [
     accent: 'teal',
     role: 'Full-stack developer',
     status: 'SQL dump reviewed.',
+    image: '/assets/projects/healthcare-booking-page.png',
+    visualLabel: 'Real booking page served from the PHP project',
+    gallery: [
+      { src: '/assets/projects/healthcare-booking-page.png', label: 'Book Appointment page served through local PHP' },
+      { src: '/assets/projects/healthcare-doctor-illustration.png', label: 'Healthcare illustration asset from project archive' },
+      { src: '/assets/projects/healthcare-slider.jpg', label: 'Healthcare landing asset from project archive' },
+    ],
     tags: ['PHP', 'MySQL', 'HTML', 'CSS', 'Registration'],
     summary:
       'A database-driven registration module for structured patient/user intake and cleaner record management.',
@@ -298,6 +346,17 @@ export const projects = [
     accent: 'sun',
     role: 'Java developer',
     status: 'Compile checked.',
+    artifact: {
+      label: 'Real Java source proof',
+      source: 'HealthVolunteer.java',
+      lines: [
+        'public class HealthVolunteer extends Volunteer {',
+        'private char typeService;',
+        'public double netAllowance() {',
+        "if(typeService == 'A' || typeService == 'a') {",
+        'return super.getAllowance() + (super.getNumOfSession() * 50);',
+      ],
+    },
     tags: ['Java', 'OOP', 'Inheritance', 'Polymorphism'],
     summary:
       'A Java allowance calculator for RELA volunteers using category-specific allowance formulas.',
@@ -324,6 +383,22 @@ export const projects = [
     accent: 'coral',
     role: 'Java developer',
     status: 'Compile checked.',
+    image: '/assets/projects/cake-queue-bluej.png',
+    visualLabel: 'Real BlueJ queue source screenshot',
+    gallery: [
+      { src: '/assets/projects/cake-queue-bluej.png', label: 'Queue class screenshot from the BlueJ project' },
+    ],
+    artifact: {
+      label: 'Queue implementation proof',
+      source: 'Queue.java',
+      lines: [
+        'public class Queue extends linkedList {',
+        'public void enqueue(Object elem) {',
+        'InsertAtBack(elem);',
+        'public Object dequeue(){',
+        'return removeFromFront();',
+      ],
+    },
     tags: ['Java', 'Queue', 'Linked List', 'File I/O'],
     summary:
       'A cake order processor that reads orders, separates delivery and pickup queues, and summarizes orders by cake type.',
@@ -350,6 +425,17 @@ export const projects = [
     accent: 'sky',
     role: 'Java developer',
     status: 'Compile checked.',
+    artifact: {
+      label: 'Real Java analytics source proof',
+      source: 'mainSales.java',
+      lines: [
+        'int countShirt=0, countHoodie=0, countPants=0, countBag=0, countShoes=0;',
+        'if(si[i].getType().equalsIgnoreCase("Shirt")) countShirt++;',
+        'System.out.println("\\nTotal Shirt: " + countShirt);',
+        'String highest = " ";',
+        'int totalHighest = 0;',
+      ],
+    },
     tags: ['Java', 'Arrays', 'File I/O', 'Search', 'Receipts'],
     summary:
       'A console sales analyzer for apparel records with membership discounts, receipt output, item grouping, and search.',
@@ -376,6 +462,17 @@ export const projects = [
     accent: 'teal',
     role: 'Java developer and fixer',
     status: 'Fixed and compile checked.',
+    artifact: {
+      label: 'Real Java CGPA source proof',
+      source: 'studentApp.java',
+      lines: [
+        'ArrayList<Student> List = new ArrayList<Student>();',
+        'sum = sum + s.cgpa();',
+        'avg = sum / List.size();',
+        'if(s.getCgpa() > avg) {',
+        'Collections.sort(List);',
+      ],
+    },
     tags: ['Java', 'ArrayList', 'Sorting', 'Comparable'],
     summary:
       'A student record analyzer that captures CGPA data, calculates average CGPA, sorts records, and groups results.',
@@ -402,6 +499,23 @@ export const projects = [
     accent: 'sun',
     role: 'Database designer',
     status: 'SQL dump reviewed.',
+    image: '/assets/projects/costume-empire-logo.png',
+    visualLabel: 'Real Costume Empire logo and context diagram',
+    gallery: [
+      { src: '/assets/projects/costume-empire-logo.png', label: 'Costume Empire logo from project files' },
+      { src: '/assets/projects/costume-empire-context.png', label: 'Costume Empire context diagram export' },
+    ],
+    artifact: {
+      label: 'SQL schema proof',
+      source: 'costumesempire.sql',
+      lines: [
+        'CREATE TABLE `customer` (',
+        '`cust_ID` int NOT NULL,',
+        '`cust_Email` varchar(50) NOT NULL,',
+        'CREATE TABLE `orders` (',
+        '`total_amount` decimal(10,2) NOT NULL,',
+      ],
+    },
     tags: ['MySQL', 'Rental system', 'Orders', 'Triggers'],
     summary:
       'A transaction-heavy costume rental database covering admins, customers, products, orders, order items, and returns.',
@@ -428,6 +542,22 @@ export const projects = [
     accent: 'sky',
     role: 'Database designer',
     status: 'SQL files reviewed.',
+    image: '/assets/projects/sports-booking-context.png',
+    visualLabel: 'Real sports booking context diagram',
+    gallery: [
+      { src: '/assets/projects/sports-booking-context.png', label: 'Sports equipment booking context diagram' },
+    ],
+    artifact: {
+      label: 'SQL schema proof',
+      source: 'sport_equipment_booking_student.sql',
+      lines: [
+        'CREATE TABLE `student` (',
+        '`student_id` varchar(10) NOT NULL,',
+        '`STUDENT_FIRST_NAME` varchar(20) NOT NULL,',
+        '`STUDENT_FACULTY` varchar(6) NOT NULL,',
+        'PRIMARY KEY (`student_id`)',
+      ],
+    },
     tags: ['SQL', 'Booking system', 'Reservation', 'ERD'],
     summary:
       'A booking database set for students, equipment, courts, crews, reservations, bookings, and events.',
@@ -454,6 +584,11 @@ export const projects = [
     accent: 'plum',
     role: 'Database application developer',
     status: 'Resume-backed project.',
+    image: '/assets/projects/library-homepage.png',
+    visualLabel: 'Real PTAR library homepage screenshot',
+    gallery: [
+      { src: '/assets/projects/library-homepage.png', label: 'Static PTAR library homepage captured from project archive' },
+    ],
     tags: ['Oracle APEX', 'Database', 'Transactions'],
     summary:
       'Oracle APEX modules for book records, borrowing, returns, and structured library transaction management.',
@@ -480,6 +615,11 @@ export const projects = [
     accent: 'coral',
     role: 'Java developer',
     status: 'Resume-backed project.',
+    image: '/assets/projects/food-ordering-report-title.png',
+    visualLabel: 'Real cafe ordering report title page',
+    gallery: [
+      { src: '/assets/projects/food-ordering-report-title.png', label: 'Cafe Ordering System progress report, cropped to avoid exposing student IDs' },
+    ],
     tags: ['Java', 'OOP', 'Order flow'],
     summary:
       'An ordering application with menu display, order processing, receipt generation, and clear navigation flow.',
@@ -506,6 +646,17 @@ export const projects = [
     accent: 'teal',
     role: 'Java developer',
     status: 'Compile checked.',
+    artifact: {
+      label: 'Real Java Swing source proof',
+      source: 'SweetInApp.java',
+      lines: [
+        'String roomType = JOptionPane.showInputDialog("Enter Room Type");',
+        'String bedType = JOptionPane.showInputDialog("Enter Bed Type");',
+        'int nights = Integer.parseInt(rn);',
+        'double totalPrice = cust.calcRental(nights);',
+        'System.out.println("Total Price:RM " + totalPrice);',
+      ],
+    },
     tags: ['Java', 'Swing', 'Input dialogs', 'Pricing rules'],
     summary:
       'A hotel rental calculator for room type, bed type, nights, and total stay cost using Java dialog input.',
@@ -532,6 +683,17 @@ export const projects = [
     accent: 'sky',
     role: 'Java developer',
     status: 'Compile checked with warning.',
+    artifact: {
+      label: 'Real sorting/search source proof',
+      source: 'myTemperatureTest.java',
+      lines: [
+        'ArrayList alTemp = new ArrayList();',
+        'if(temp1.getTemperature() < temp2.getTemperature()) {',
+        'alTemp.set(j,temp2);',
+        'int low = 0;',
+        'while(low <= high && !found) {',
+      ],
+    },
     tags: ['Java', 'ArrayList', 'Bubble sort', 'Binary search'],
     summary:
       'A temperature record tool that sorts locations by temperature/name and searches for a location using binary search.',
@@ -558,6 +720,13 @@ export const projects = [
     accent: 'sun',
     role: 'Systems documentation creator',
     status: 'Diagram archive reviewed.',
+    image: '/assets/projects/chartflow-export1.jpg',
+    visualLabel: 'Real ChartFlow diagram export',
+    gallery: [
+      { src: '/assets/projects/chartflow-export1.jpg', label: 'Flowchart export from ChartFlow archive' },
+      { src: '/assets/projects/chartflow-class-diagram.jpg', label: 'Class diagram export from ChartFlow archive' },
+      { src: '/assets/projects/chartflow-untitled-diagram.jpg', label: 'Additional diagram export from ChartFlow archive' },
+    ],
     tags: ['Draw.io', 'Flowcharts', 'Class diagrams', 'Planning'],
     summary:
       'A collection of flowcharts, class diagrams, and process visuals used for coursework planning and system explanation.',
@@ -584,6 +753,17 @@ export const projects = [
     accent: 'coral',
     role: 'C++ fundamentals practice',
     status: 'Source reviewed. C++ compiler unavailable in local environment.',
+    artifact: {
+      label: 'Real C++ source proof',
+      source: 'Untitled1.cpp',
+      lines: [
+        '#include <stdio.h>',
+        'for (int i=0;i<10;i++)',
+        'scanf("%d",&num);',
+        'if (num %2==0) sum=sum+num;',
+        'printf("\\nThe sumation of even number is :%d",sum);',
+      ],
+    },
     tags: ['C++', 'Loops', 'Conditionals'],
     summary:
       'A small C++ exercise that accepts ten numbers and calculates the sum of even inputs.',
@@ -610,6 +790,16 @@ export const projects = [
     accent: 'plum',
     role: 'Open-source exploration',
     status: 'Public GitHub fork. Not presented as original work.',
+    artifact: {
+      label: 'GitHub fork evidence',
+      source: 'github.com/kaazhim/pixel-agents',
+      lines: [
+        'Public GitHub fork',
+        'Listed for transparent exploration history',
+        'Not presented as an original build',
+        'Open the GitHub link to inspect source',
+      ],
+    },
     tags: ['GitHub', 'Fork', 'AI agents', 'Exploration'],
     summary:
       'A forked public repository described as Pixel office, kept as a learning and exploration entry rather than an original portfolio build.',
@@ -637,6 +827,16 @@ export const projects = [
     accent: 'teal',
     role: 'Open-source exploration',
     status: 'Public GitHub fork. Not presented as original work.',
+    artifact: {
+      label: 'GitHub fork evidence',
+      source: 'github.com/kaazhim/Clawdmeter',
+      lines: [
+        'Public GitHub fork',
+        'ESP32 dashboard and developer-tooling topic area',
+        'Not presented as an original build',
+        'Open the GitHub link to inspect source',
+      ],
+    },
     tags: ['GitHub', 'Fork', 'ESP32', 'Dashboard'],
     summary:
       'A forked ESP32 desk dashboard repository for Claude Code usage, included as a transparent GitHub activity entry.',
