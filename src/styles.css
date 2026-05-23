@@ -1,7 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+
 :root {
   color-scheme: light;
+  --font-ui: "Space Grotesk", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-code: "JetBrains Mono", "Cascadia Code", "Fira Code", Consolas, "Courier New", monospace;
   font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    var(--font-ui);
   --ink-950: #050814;
   --ink-900: #071a3d;
   --ink-800: #0b2f78;
@@ -39,7 +43,10 @@ body {
   margin: 0;
   background: var(--cream-50);
   color: var(--ink-text);
+  font-family: var(--font-ui);
+  font-feature-settings: "liga" 1, "calt" 1;
   letter-spacing: 0;
+  text-rendering: geometricPrecision;
 }
 
 .app-shell {
@@ -114,6 +121,40 @@ a {
 img {
   display: block;
   max-width: 100%;
+}
+
+.brand-mark,
+.nav-links,
+.button,
+.hero h1,
+.hero-kicker,
+.hero-quote,
+.hero-signal-strip,
+.proof-grid,
+.section-heading > span,
+.section-heading h2,
+.featured-chip,
+.timeline-card,
+.experience-detail h3,
+.clean-art-note,
+.clean-art-card strong,
+.stridez-active-card,
+.stridez-phone figcaption,
+.stridez-dimension-card strong,
+.stridez-screen-rail,
+.infra-now-card,
+.infra-dashboard,
+.project-card,
+.project-detail-top,
+.modal-tabs,
+.modal-actions,
+.source-proof,
+.skill-card strong,
+.audit-card strong,
+.contact-form label,
+.contact-methods,
+.top-button {
+  font-family: var(--font-code);
 }
 
 section {
@@ -4438,12 +4479,7 @@ section {
   }
 
   .hero-cinematic-backdrop {
-    height: 430px;
-    left: 0;
-    opacity: 0.24;
-    right: 0;
-    top: 104px;
-    width: 100%;
+    display: none;
   }
 
   .stripe-strip {
@@ -4451,7 +4487,7 @@ section {
   }
 
   .hero h1 {
-    font-size: 39px;
+    font-size: 37px;
     line-height: 1.04;
   }
 
@@ -4893,7 +4929,7 @@ section {
 
 @media (max-width: 430px) {
   .hero h1 {
-    font-size: 34px;
+    font-size: 32px;
   }
 
   .button {

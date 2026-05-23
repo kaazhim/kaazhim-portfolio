@@ -505,8 +505,6 @@ function App() {
           </div>
         </section>
 
-        <CinematicStoryReel activeInfra={activeInfra} dashboardMode={dashboardMode} onDiagnostic={runDiagnostic} />
-
         <section className="infra-band" id="dashboard">
           <div className="shell section-grid">
             <div className="section-split infra-section-head">
@@ -1237,92 +1235,6 @@ function Clean3DIllustration({ id }) {
         </span>
       )}
     </div>
-  );
-}
-
-function CinematicStoryReel({ activeInfra, dashboardMode, onDiagnostic }) {
-  const current = infraFocus.find((item) => item.id === activeInfra) ?? infraFocus[0];
-  const storySteps = [
-    {
-      id: 'hardware',
-      label: 'Device',
-      title: 'Replace',
-      copy: 'Laptop, printer, scanner, and endpoint checks.',
-    },
-    {
-      id: 'network',
-      label: 'Network',
-      title: 'Route',
-      copy: 'LAN, Wi-Fi, DNS, DHCP, and signal tracing.',
-    },
-    {
-      id: 'firewall',
-      label: 'Firewall',
-      title: 'Protect',
-      copy: 'Policy review, allowed ports, and exposure thinking.',
-    },
-    {
-      id: 'server',
-      label: 'Server',
-      title: 'Operate',
-      copy: 'Services, storage, backup, uptime, and documentation.',
-    },
-    {
-      id: 'cyber',
-      label: 'Cyber',
-      title: 'Harden',
-      copy: 'Patch hygiene, access review, and evidence capture.',
-    },
-  ];
-
-  return (
-    <section className={`cinema-reel-band mode-${dashboardMode}`} aria-label="Cinematic infrastructure illustration">
-      <div className="shell cinema-reel-layout">
-        <div className="cinema-reel-copy">
-          <SectionHeading
-            icon={<Layers3 />}
-            kicker="Cinematic Layer"
-            title="A portfolio scene that feels alive"
-            text="The visual system now moves like an infrastructure command room: device support, network paths, firewall focus, server readiness, and cyber hardening in one live storyboard."
-          />
-          <div className="cinema-reel-actions">
-            <button className="button button-primary" onClick={onDiagnostic} type="button">
-              <Sparkles size={18} />
-              Run cinematic sweep
-            </button>
-            <a className="button button-dark" href="#dashboard">
-              <Gauge size={18} />
-              Open dashboard
-            </a>
-          </div>
-        </div>
-
-        <div className="cinema-storyboard" aria-label={`${current.label} cinematic workflow`}>
-          <div className="storyboard-orbit" aria-hidden="true">
-            <span />
-            <span />
-            <span />
-          </div>
-          {storySteps.map((step, index) => (
-            <article
-              className={`story-node ${activeInfra === step.id ? 'is-active' : ''}`}
-              key={step.id}
-              style={{ '--node-index': index }}
-            >
-              <div>{getInfraIcon(step.id, 24)}</div>
-              <span>{step.label}</span>
-              <strong>{step.title}</strong>
-              <p>{step.copy}</p>
-            </article>
-          ))}
-          <div className="storyboard-core">
-            <Server size={30} />
-            <span>{current.label}</span>
-            <strong>{dashboardMode === 'live' ? 'Live' : dashboardMode === 'diagnostic' ? 'Scanning' : 'Hardening'}</strong>
-          </div>
-        </div>
-      </div>
-    </section>
   );
 }
 
