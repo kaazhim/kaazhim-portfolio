@@ -111,6 +111,38 @@ export const experiences = [
   },
 ];
 
+export const stridezScreens = [
+  { id: 'home-progress', src: '/assets/projects/stridez-ui/stridez-ui-01.jpeg', label: 'Home progress dashboard', stage: 'Home', note: 'Progress metrics, greeting, and run entry point.' },
+  { id: 'profile-glass', src: '/assets/projects/stridez-ui/stridez-ui-02.jpeg', label: 'Profile glass panel', stage: 'Profile', note: 'Runner profile and account actions.' },
+  { id: 'home-actions', src: '/assets/projects/stridez-ui/stridez-ui-03.jpeg', label: 'Start run and quick tips', stage: 'Home', note: 'Run CTA, safety tips, and recent run history.' },
+  { id: 'edit-profile', src: '/assets/projects/stridez-ui/stridez-ui-04.jpeg', label: 'Edit profile', stage: 'Profile', note: 'Photo, display name, and profile guidance.' },
+  { id: 'warmup-intro', src: '/assets/projects/stridez-ui/stridez-ui-05.jpeg', label: 'Warm-up onboarding', stage: 'Onboarding', note: 'Warm-up value proposition and exercise flow.' },
+  { id: 'profile-menu', src: '/assets/projects/stridez-ui/stridez-ui-06.jpeg', label: 'Profile menu', stage: 'Profile', note: 'Edit profile, user manual, settings, and logout.' },
+  { id: 'settings', src: '/assets/projects/stridez-ui/stridez-ui-07.jpeg', label: 'Settings screen', stage: 'Settings', note: 'Notifications, sound, vibration, support, and about.' },
+  { id: 'help-modal', src: '/assets/projects/stridez-ui/stridez-ui-08.jpeg', label: 'Help and feedback modal', stage: 'Support', note: 'Email support and bug report actions.' },
+  { id: 'location-permission', src: '/assets/projects/stridez-ui/stridez-ui-09.jpeg', label: 'Location permission', stage: 'GPS', note: 'Android permission request before park selection.' },
+  { id: 'map-point', src: '/assets/projects/stridez-ui/stridez-ui-10.jpeg', label: 'Google Maps coordinate preview', stage: 'GPS', note: 'Coordinate lookup and map context.' },
+  { id: 'arrival-modal', src: '/assets/projects/stridez-ui/stridez-ui-11.jpeg', label: 'Arrival confirmation', stage: 'GPS', note: 'Arrival prompt before warm-up session.' },
+  { id: 'park-list', src: '/assets/projects/stridez-ui/stridez-ui-12.jpeg', label: 'Park list sorted by distance', stage: 'Park', note: 'Nearby parks with imagery and distance.' },
+  { id: 'navigate-park', src: '/assets/projects/stridez-ui/stridez-ui-13.jpeg', label: 'Navigate to park', stage: 'Park', note: 'Map card for directions and arrival confirmation.' },
+  { id: 'warmup-timer', src: '/assets/projects/stridez-ui/stridez-ui-14.jpeg', label: 'Warm-up timer', stage: 'Warm-up', note: 'Five-minute preparation timer and current exercise.' },
+  { id: 'warmup-list', src: '/assets/projects/stridez-ui/stridez-ui-15.jpeg', label: 'Warm-up exercise list', stage: 'Warm-up', note: 'Step-by-step warm-up checklist.' },
+  { id: 'directions-route', src: '/assets/projects/stridez-ui/stridez-ui-16.jpeg', label: 'Directions route', stage: 'GPS', note: 'External route preview before running.' },
+  { id: 'run-complete', src: '/assets/projects/stridez-ui/stridez-ui-17.jpeg', label: 'Run complete summary', stage: 'Results', note: 'Distance, time, pace, steps, and calories.' },
+  { id: 'analysis-top', src: '/assets/projects/stridez-ui/stridez-ui-18.jpeg', label: 'Run analysis overview', stage: 'Results', note: 'Run date, park, distance ring, and metric cards.' },
+  { id: 'next-run-tips', src: '/assets/projects/stridez-ui/stridez-ui-19.jpeg', label: 'Next-run tips', stage: 'Results', note: 'Map evidence and recovery guidance.' },
+  { id: 'run-tracker-start', src: '/assets/projects/stridez-ui/stridez-ui-20.jpeg', label: 'Live run tracker', stage: 'Tracking', note: 'Map tracking HUD before movement starts.' },
+  { id: 'map-centered', src: '/assets/projects/stridez-ui/stridez-ui-21.jpeg', label: 'Map centered toast', stage: 'Tracking', note: 'User feedback after recenter action.' },
+  { id: 'safety-warning', src: '/assets/projects/stridez-ui/stridez-ui-22.jpeg', label: 'Park boundary warning', stage: 'Tracking', note: 'Safety warning when outside park area.' },
+  { id: 'activity-zone', src: '/assets/projects/stridez-ui/stridez-ui-23.jpeg', label: 'Activity zone analysis', stage: 'Results', note: 'Speed zone classification and feedback.' },
+  { id: 'logout-modal', src: '/assets/projects/stridez-ui/stridez-ui-24.jpeg', label: 'Logout confirmation', stage: 'Account', note: 'Confirmation modal for account exit.' },
+  { id: 'splash-loading', src: '/assets/projects/stridez-ui/stridez-ui-25.jpeg', label: 'Splash loading', stage: 'Auth', note: 'Branded loading state.' },
+  { id: 'onboarding-stats', src: '/assets/projects/stridez-ui/stridez-ui-26.jpeg', label: 'Real-time tracking onboarding', stage: 'Onboarding', note: 'Feature intro for tracking and stats.' },
+  { id: 'landing-auth', src: '/assets/projects/stridez-ui/stridez-ui-27.jpeg', label: 'Stridez landing auth', stage: 'Auth', note: 'Login and sign-up entry screen.' },
+  { id: 'signup-form', src: '/assets/projects/stridez-ui/stridez-ui-28.jpeg', label: 'Create account form', stage: 'Auth', note: 'Sign-up form with validation hints.' },
+  { id: 'login-form', src: '/assets/projects/stridez-ui/stridez-ui-29.jpeg', label: 'Login form', stage: 'Auth', note: 'Returning runner login flow.' },
+];
+
 export const projects = [
   {
     id: 'stridez',
@@ -122,10 +154,11 @@ export const projects = [
     accent: 'teal',
     role: 'Mobile developer and product designer',
     status: 'Source reviewed. Import casing fixed. Flutter analyzer blocked by local toolchain hang.',
-    image: '/assets/projects/stridez-poster.png',
+    image: '/assets/projects/stridez-ui/stridez-ui-01.jpeg',
     logo: '/assets/projects/stridez-logo.png',
-    visualLabel: 'Real Stridez presentation poster',
+    visualLabel: 'Real Stridez mobile app screen',
     gallery: [
+      ...stridezScreens.map(({ src, label }) => ({ src, label })),
       { src: '/assets/projects/stridez-poster.png', label: 'Presentation poster from the Stridez project' },
       { src: '/assets/projects/stridez-usecase.png', label: 'Use-case diagram from the Stridez system design' },
       { src: '/assets/projects/stridez-logo.png', label: 'Stridez app logo asset' },
@@ -149,6 +182,7 @@ export const projects = [
     evidence: [
       'Local source inspected at C:/Users/Admin/AndroidStudioProjects/stridez_new.',
       'Flutter command was available, but `flutter analyze --no-pub` timed out after 3 minutes in this environment.',
+      '29 real UI screenshots added from the FYP2 Stridez testing archive.',
     ],
   },
   {
@@ -287,9 +321,20 @@ export const projects = [
       { src: '/assets/projects/workflow-it-dept-logo.png', label: 'IT department logo asset' },
       { src: '/assets/projects/workflow-encorp-logo.png', label: 'Encorp Berhad logo asset' },
     ],
+    artifact: {
+      label: 'ProcessMaker PMX proof',
+      source: '(USER_TESTING)_P&C_Service_Requisition-1.pmx',
+      lines: [
+        'ProcessMaker-Project version="3.0"',
+        'vendor_version: 3.3.0-community',
+        'name: (USER TESTING)- P&C Service Requisition',
+        'tasks: General Purchase, HOD, Contract, Requestor',
+        'tasks: User Acknowledgement, Declined',
+      ],
+    },
     tags: ['BPMS', 'ProcessMaker', 'Requirements', 'Service workflow'],
     summary:
-      'A digital service requisition workflow effort for department operations, focused on request structure, process logic, and approvals.',
+      'A ProcessMaker service requisition workflow for department operations, backed by a real PMX export and focused on request structure, routing, and approvals.',
     problem:
       'Operational service requests can become scattered when intake, status, approvals, and documentation are handled manually.',
     solution:
@@ -297,11 +342,16 @@ export const projects = [
     impact:
       'Shows ability to understand real business operations and convert them into maintainable workflow systems.',
     highlights: [
-      'Mapped request handling into a structured digital workflow.',
+      'Reviewed a ProcessMaker 3 PMX export dated 2026-05-18.',
+      'Mapped request handling into a structured digital workflow with six task states.',
       'Balanced user needs with approval and documentation requirements.',
       'Connected support experience with process architecture.',
     ],
-    evidence: ['Based on current Technology and Digital internship responsibilities.'],
+    evidence: [
+      'Local PMX inspected at C:/Users/Admin/Downloads/(USER_TESTING)_P&C_Service_Requisition-1.pmx.',
+      'Detected task states: General Purchase, HOD, Contract, Requestor, User Acknowledgement, and Declined.',
+      'Raw PMX was not published directly to avoid exposing internal workflow export data.',
+    ],
   },
   {
     id: 'healthcare-registration',
@@ -865,9 +915,15 @@ export const sourceAudit = [
   },
   {
     item: 'Stridez Flutter app',
-    status: 'Source fix applied',
+    status: 'Screens and source proof expanded',
     note:
-      'Fixed case-sensitive `signup.dart` imports. Flutter analyzer remained blocked because the local Flutter command timed out repeatedly.',
+      'Added 29 real UI testing screenshots across auth, profile, GPS, warm-up, live tracking, safety warnings, and run analysis. Fixed case-sensitive `signup.dart` imports earlier; Flutter analyzer remained blocked by local timeout.',
+  },
+  {
+    item: 'P&C Service Requisition PMX',
+    status: 'ProcessMaker export inspected',
+    note:
+      'Detected ProcessMaker 3.3.0 PMX metadata and six workflow task states. The raw export is referenced as evidence but not published directly to avoid exposing internal workflow data.',
   },
   {
     item: 'GitHub originals',

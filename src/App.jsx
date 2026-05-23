@@ -59,13 +59,15 @@ import {
   proofPoints,
   skillGroups,
   sourceAudit,
+  stridezScreens,
 } from './data.js';
 
 const CinematicInfraScene = React.lazy(() => import('./CinematicInfraScene.jsx'));
 
-const sections = ['home', 'experience', 'dashboard', 'projects', 'skills', 'resume', 'contact'];
+const sections = ['home', 'stridez', 'experience', 'dashboard', 'projects', 'skills', 'resume', 'contact'];
 const sectionLabels = {
   dashboard: 'infra lab',
+  stridez: 'stridez',
 };
 const projectFilters = [
   'All',
@@ -77,6 +79,7 @@ function App() {
   const [activeMode, setActiveMode] = useState(capabilityModes[0].id);
   const [activeExperience, setActiveExperience] = useState(0);
   const [activeInfra, setActiveInfra] = useState(infraFocus[0].id);
+  const [activeStridezScreen, setActiveStridezScreen] = useState(stridezScreens[0].id);
   const [dashboardMode, setDashboardMode] = useState('live');
   const [resolvedTickets, setResolvedTickets] = useState([]);
   const [readiness, setReadiness] = useState(76);
@@ -131,6 +134,17 @@ function App() {
   }, [filteredProjects, selectedProject]);
 
   useEffect(() => {
+    if (!window.location.hash) return undefined;
+
+    const timer = window.setTimeout(() => {
+      const target = document.getElementById(window.location.hash.slice(1));
+      target?.scrollIntoView({ block: 'start' });
+    }, 120);
+
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
     const onScroll = () => {
       const total = document.documentElement.scrollHeight - window.innerHeight;
       setScrollProgress(total > 0 ? (window.scrollY / total) * 100 : 0);
@@ -166,6 +180,9 @@ function App() {
         [
           '.section-heading',
           '.clean-art-card',
+          '.stridez-copy-panel',
+          '.stridez-phone-stage',
+          '.stridez-dimension-card',
           '.wow-panel',
           '.wow-orbit-stage',
           '.timeline-card',
@@ -435,6 +452,13 @@ function App() {
         <WowLayer activeInfra={activeInfra} currentInfra={currentInfra} onDiagnostic={runDiagnostic} onSelectInfra={setActiveInfra} />
 
         <CleanIllustrationLab activeInfra={activeInfra} onSelectInfra={setActiveInfra} />
+
+        <StridezExperienceShowcase
+          activeScreen={activeStridezScreen}
+          onOpenProject={() => openProject(projects.find((project) => project.id === 'stridez') ?? projects[0])}
+          onSelectScreen={setActiveStridezScreen}
+          screens={stridezScreens}
+        />
 
         <section className="cream-band" id="experience">
           <div className="shell section-grid">
@@ -1022,6 +1046,97 @@ function WowLayer({ activeInfra, currentInfra, onDiagnostic, onSelectInfra }) {
   );
 }
 
+function StridezExperienceShowcase({ activeScreen, onOpenProject, onSelectScreen, screens }) {
+  const activeIndex = Math.max(0, screens.findIndex((screen) => screen.id === activeScreen));
+  const current = screens[activeIndex] ?? screens[0];
+  const previous = screens[(activeIndex - 1 + screens.length) % screens.length];
+  const next = screens[(activeIndex + 1) % screens.length];
+  const dimensions = [
+    { icon: <Smartphone size={19} />, title: 'Interface', text: 'Real Flutter screens, auth, profile, settings, and support states.' },
+    { icon: <MapPin size={19} />, title: 'GPS', text: 'Park selection, route preview, arrival check, and location permission flow.' },
+    { icon: <Activity size={19} />, title: 'Motion', text: 'Warm-up, live run HUD, pause/finish controls, and moving-state feedback.' },
+    { icon: <ShieldCheck size={19} />, title: 'Safety', text: 'Park-boundary warning and beginner-friendly guidance built into the run.' },
+    { icon: <Gauge size={19} />, title: 'Analysis', text: 'Distance, pace, calories, steps, activity zone, and next-run tips.' },
+  ];
+
+  const renderPhone = (screen, position) => (
+    <figure className={`stridez-phone stridez-phone-${position}`} key={`${screen.id}-${position}`}>
+      <div className="stridez-phone-shell">
+        <span className="stridez-phone-speaker" />
+        <img src={screen.src} alt={screen.label} loading={position === 'active' ? 'eager' : 'lazy'} />
+      </div>
+      <figcaption>
+        <span>{screen.stage}</span>
+        <strong>{screen.label}</strong>
+      </figcaption>
+    </figure>
+  );
+
+  return (
+    <section className="stridez-showcase-band" id="stridez" aria-label="Stridez mobile app 5D showcase">
+      <div className="shell stridez-showcase-layout">
+        <div className="stridez-copy-panel">
+          <SectionHeading
+            icon={<Smartphone />}
+            kicker="Stridez 5D Showcase"
+            title="Real mobile screens with depth, motion, maps, safety, and analysis"
+            text="The Stridez project now has a cleaner product story built from the actual UI testing screenshots: from onboarding and GPS park selection to warm-up, live tracking, results, and account flows."
+          />
+          <div className="stridez-active-card">
+            <span>{current.stage} screen</span>
+            <strong>{current.label}</strong>
+            <p>{current.note}</p>
+          </div>
+          <div className="stridez-showcase-actions">
+            <button className="button button-primary" onClick={onOpenProject} type="button">
+              <Eye size={18} />
+              Open Stridez Case Study
+            </button>
+            <a className="button button-line" href="#projects">
+              <ArrowUpRight size={18} />
+              View All Proof
+            </a>
+          </div>
+        </div>
+
+        <div className="stridez-phone-stage" aria-label="Interactive Stridez phone screen preview">
+          <div className="stridez-stage-grid" aria-hidden="true" />
+          {renderPhone(previous, 'previous')}
+          {renderPhone(current, 'active')}
+          {renderPhone(next, 'next')}
+        </div>
+
+        <div className="stridez-dimensions" aria-label="Five Stridez experience dimensions">
+          {dimensions.map((item) => (
+            <article className="stridez-dimension-card" key={item.title}>
+              {item.icon}
+              <div>
+                <strong>{item.title}</strong>
+                <p>{item.text}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div className="shell stridez-screen-rail" aria-label="Stridez screen selector">
+        {screens.map((screen, index) => (
+          <button
+            className={screen.id === current.id ? 'is-active' : ''}
+            key={screen.id}
+            onClick={() => onSelectScreen(screen.id)}
+            type="button"
+          >
+            <img src={screen.src} alt="" loading="lazy" />
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <strong>{screen.stage}</strong>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function CleanIllustrationLab({ activeInfra, onSelectInfra }) {
   const artCards = [
     {
@@ -1530,7 +1645,7 @@ function ProjectVisualGallery({ project }) {
         <div className="visual-gallery">
           {gallery.map((item) => (
             <figure key={`${project.id}-${item.src}`}>
-              <img src={item.src} alt={item.label} />
+              <img src={item.src} alt={item.label} loading="lazy" />
               <figcaption>{item.label}</figcaption>
             </figure>
           ))}
