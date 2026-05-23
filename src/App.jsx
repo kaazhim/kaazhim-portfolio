@@ -330,7 +330,13 @@ function App() {
             priority
             variant="hero"
           />
-          <div className="stripe-strip" aria-hidden="true" />
+          <HeroCommandRail
+            activeInfra={activeInfra}
+            currentInfra={currentInfra}
+            dashboardMode={dashboardMode}
+            onDiagnostic={runDiagnostic}
+            onSelectInfra={setActiveInfra}
+          />
           <div className="shell hero-layout">
             <div className="hero-copy">
               <p className="eyebrow">
@@ -815,6 +821,37 @@ function App() {
           project={modalProject}
         />
       )}
+    </div>
+  );
+}
+
+function HeroCommandRail({ activeInfra, currentInfra, dashboardMode, onDiagnostic, onSelectInfra }) {
+  const modeLabel = dashboardMode === 'live' ? 'live-support' : dashboardMode === 'diagnostic' ? 'diagnostic-scan' : 'hardening-review';
+
+  return (
+    <div className="shell hero-command-rail" aria-label="Interactive home infrastructure command rail">
+      <div className="rail-prompt">
+        <Code2 size={16} />
+        <span>kaazhim@portfolio</span>
+        <strong>./scan --focus={currentInfra.id} --mode={modeLabel}</strong>
+      </div>
+      <div className="rail-focus-list" aria-label="Infrastructure focus selector">
+        {infraFocus.map((item) => (
+          <button
+            className={activeInfra === item.id ? 'is-active' : ''}
+            key={item.id}
+            onClick={() => onSelectInfra(item.id)}
+            type="button"
+          >
+            {getInfraIcon(item.id, 15)}
+            {item.label}
+          </button>
+        ))}
+      </div>
+      <button className="rail-run-button" onClick={onDiagnostic} type="button">
+        <RefreshCw size={15} />
+        Run scan
+      </button>
     </div>
   );
 }

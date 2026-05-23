@@ -143,6 +143,7 @@ img {
 .brand-mark span,
 .nav-links,
 .button,
+.hero-command-rail,
 .hero-signal-strip,
 .proof-grid,
 .section-heading > span,
@@ -181,7 +182,7 @@ section {
 }
 
 .fun-mode .scroll-meter,
-.fun-mode .stripe-strip {
+.fun-mode .hero-command-rail::after {
   animation: stripe-dance 2.8s linear infinite;
 }
 
@@ -302,7 +303,7 @@ section {
 
 .hero {
   overflow: hidden;
-  padding: 142px 0 78px;
+  padding: 176px 0 78px;
   position: relative;
 }
 
@@ -475,15 +476,124 @@ section {
   z-index: 0;
 }
 
-.stripe-strip {
+.hero-command-rail {
+  align-items: center;
   background:
-    repeating-linear-gradient(135deg, rgba(255, 250, 240, 0.25) 0 12px, transparent 12px 24px),
-    linear-gradient(90deg, var(--album-blue), var(--sky-300), var(--plum-500), var(--coral-400));
-  height: 28px;
+    linear-gradient(180deg, rgba(255, 250, 240, 0.11), rgba(255, 250, 240, 0.055)),
+    rgba(5, 8, 20, 0.84);
+  border: 1px solid rgba(255, 250, 240, 0.16);
+  border-radius: var(--radius);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 250, 240, 0.12);
+  color: var(--cream-50);
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(300px, 1fr) auto auto;
+  left: 50%;
+  min-height: 54px;
+  overflow: hidden;
+  padding: 8px;
+  position: absolute;
+  top: 105px;
+  transform: translateX(-50%) perspective(900px) rotateX(2deg);
+  transform-origin: center top;
+  z-index: 4;
+  backdrop-filter: blur(18px);
+}
+
+.hero-command-rail::after {
+  background:
+    linear-gradient(90deg, transparent, rgba(114, 190, 248, 0.2), rgba(255, 211, 77, 0.16), transparent);
+  content: "";
+  height: 1px;
   left: 0;
   position: absolute;
   right: 0;
-  top: 104px;
+  top: 0;
+}
+
+.rail-prompt {
+  align-items: center;
+  background: rgba(255, 250, 240, 0.065);
+  border: 1px solid rgba(255, 250, 240, 0.1);
+  border-radius: calc(var(--radius) - 2px);
+  display: flex;
+  gap: 10px;
+  min-height: 38px;
+  min-width: 0;
+  padding: 0 12px;
+}
+
+.rail-prompt svg {
+  color: var(--sky-300);
+  flex: 0 0 auto;
+}
+
+.rail-prompt span {
+  color: var(--sky-300);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.rail-prompt strong {
+  color: rgba(255, 250, 240, 0.86);
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rail-focus-list {
+  display: flex;
+  gap: 6px;
+}
+
+.rail-focus-list button,
+.rail-run-button {
+  align-items: center;
+  border-radius: calc(var(--radius) - 2px);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: var(--font-code);
+  font-size: 11px;
+  font-weight: 700;
+  gap: 6px;
+  min-height: 38px;
+  padding: 0 10px;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+  white-space: nowrap;
+}
+
+.rail-focus-list button {
+  background: rgba(255, 250, 240, 0.07);
+  border: 1px solid rgba(255, 250, 240, 0.12);
+  color: rgba(255, 250, 240, 0.74);
+}
+
+.rail-focus-list button:hover,
+.rail-focus-list button.is-active {
+  background: rgba(114, 190, 248, 0.16);
+  border-color: rgba(114, 190, 248, 0.42);
+  color: var(--cream-50);
+  transform: translateY(-2px);
+}
+
+.rail-run-button {
+  background: var(--sun-400);
+  border: 0;
+  color: var(--ink-950);
+}
+
+.rail-run-button:hover {
+  transform: translateY(-2px);
 }
 
 .hero::after,
@@ -670,6 +780,16 @@ section {
   border-radius: var(--radius);
   min-height: 104px;
   padding: 18px;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.proof-item:hover {
+  background: rgba(255, 250, 240, 0.12);
+  border-color: rgba(114, 190, 248, 0.28);
+  transform: translateY(-4px) perspective(700px) rotateX(3deg);
 }
 
 .proof-item strong {
@@ -688,7 +808,33 @@ section {
 }
 
 .hero-visual {
+  isolation: isolate;
   position: relative;
+}
+
+.hero-visual::before,
+.hero-visual::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+}
+
+.hero-visual::before {
+  background: linear-gradient(135deg, rgba(114, 190, 248, 0.28), rgba(255, 211, 77, 0.12));
+  border-radius: 999px;
+  filter: blur(28px);
+  height: 210px;
+  right: -34px;
+  top: 62px;
+  width: 210px;
+}
+
+.hero-visual::after {
+  border: 1px solid rgba(114, 190, 248, 0.18);
+  border-radius: var(--radius);
+  inset: 70px -18px 42px 28px;
+  transform: perspective(860px) rotateY(-13deg) rotateX(5deg) translateZ(-40px);
 }
 
 .visual-label {
@@ -741,6 +887,18 @@ section {
     repeating-linear-gradient(0deg, rgba(255, 250, 240, 0.08) 0 1px, transparent 1px 18px);
   content: "";
   inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.portrait-stage::after {
+  background:
+    linear-gradient(90deg, transparent, rgba(114, 190, 248, 0.18), transparent),
+    radial-gradient(circle at 76% 18%, rgba(114, 190, 248, 0.18), transparent 20%);
+  content: "";
+  inset: 0;
+  mix-blend-mode: screen;
+  opacity: 0.72;
   pointer-events: none;
   position: absolute;
 }
@@ -894,6 +1052,13 @@ section {
   background: rgba(255, 250, 240, 0.12);
   border: 1px solid var(--line-dark);
   color: var(--cream-50);
+  transition: 180ms ease;
+}
+
+.visual-stack span:hover {
+  background: rgba(114, 190, 248, 0.16);
+  border-color: rgba(114, 190, 248, 0.34);
+  transform: translateY(-2px);
 }
 
 .capability-board {
@@ -4345,6 +4510,23 @@ section {
     font-size: 52px;
   }
 
+  .hero {
+    padding-top: 126px;
+  }
+
+  .hero-command-rail {
+    grid-template-columns: 1fr;
+    left: auto;
+    margin-bottom: 32px;
+    position: relative;
+    top: auto;
+    transform: none;
+  }
+
+  .rail-focus-list {
+    flex-wrap: wrap;
+  }
+
   .hero-visual,
   .project-detail {
     max-width: 760px;
@@ -4485,15 +4667,46 @@ section {
   }
 
   .hero {
-    padding: 112px 0 64px;
+    padding: 96px 0 64px;
   }
 
   .hero-cinematic-backdrop {
     display: none;
   }
 
-  .stripe-strip {
-    top: 82px;
+  .hero-command-rail {
+    gap: 7px;
+    margin-bottom: 22px;
+    padding: 7px;
+  }
+
+  .rail-prompt {
+    display: flex;
+    min-height: 34px;
+    padding: 0 9px;
+  }
+
+  .rail-prompt strong {
+    font-size: 11px;
+  }
+
+  .rail-focus-list {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  .rail-focus-list button {
+    flex: 0 0 auto;
+    min-height: 34px;
+    padding: 0 10px;
+    justify-content: center;
+  }
+
+  .rail-run-button {
+    min-height: 36px;
+    width: 100%;
   }
 
   .hero h1 {
