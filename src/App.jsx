@@ -323,6 +323,7 @@ function App() {
       <Header activeSection={activeSection} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <main>
         <section className="hero ink-band" id="home">
+          <HeroMotionField activeInfra={activeInfra} dashboardMode={dashboardMode} />
           <CinematicScene
             activeFocus={activeInfra}
             className="hero-cinematic-backdrop"
@@ -370,6 +371,12 @@ function App() {
                 <strong>{dashboardMode === 'live' ? 'Live orbit' : dashboardMode === 'diagnostic' ? 'Diagnostic scan' : 'Hardening sweep'}</strong>
                 <small>{currentInfra.label} focus</small>
               </div>
+              <HeroLiveConsole
+                currentInfra={currentInfra}
+                dashboardMode={dashboardMode}
+                onDiagnostic={runDiagnostic}
+                readinessScore={readinessScore}
+              />
             </div>
 
             <div
@@ -389,6 +396,15 @@ function App() {
                     src={profile.photo}
                     alt="Kaazhim presenting the Stridez mobile app project showcase"
                   />
+                  <span className="portrait-scan-sweep" aria-hidden="true" />
+                </div>
+                <div className="portrait-hud portrait-hud-left">
+                  <span>focus</span>
+                  <strong>{currentInfra.label}</strong>
+                </div>
+                <div className="portrait-hud portrait-hud-right">
+                  <span>mode</span>
+                  <strong>{dashboardMode}</strong>
                 </div>
                 <div className="portrait-card portrait-card-top">
                   <span>Showcase Mode</span>
@@ -821,6 +837,85 @@ function App() {
           project={modalProject}
         />
       )}
+    </div>
+  );
+}
+
+function HeroMotionField({ activeInfra, dashboardMode }) {
+  const focusIndex = Math.max(0, infraFocus.findIndex((item) => item.id === activeInfra));
+  const packets = ['server', 'firewall', 'network', 'cyber', 'hardware'];
+  const particles = Array.from({ length: 18 }, (_, index) => index + 1);
+
+  return (
+    <div
+      className={`hero-motion-field motion-${dashboardMode}`}
+      data-focus={activeInfra}
+      style={{ '--focus-index': focusIndex }}
+      aria-hidden="true"
+    >
+      <span className="motion-depth-grid" />
+      <span className="motion-glass-plane plane-a" />
+      <span className="motion-glass-plane plane-b" />
+      <span className="motion-orbit orbit-a" />
+      <span className="motion-orbit orbit-b" />
+      <span className="motion-orbit orbit-c" />
+      <span className="motion-beam beam-a" />
+      <span className="motion-beam beam-b" />
+      <span className="motion-beam beam-c" />
+      {packets.map((item, index) => (
+        <span className={`motion-packet packet-${index + 1}`} key={item} />
+      ))}
+      {particles.map((item) => (
+        <span className={`motion-particle particle-${item}`} key={item} />
+      ))}
+    </div>
+  );
+}
+
+function HeroLiveConsole({ currentInfra, dashboardMode, onDiagnostic, readinessScore }) {
+  const modeLabel = dashboardMode === 'live' ? 'monitor' : dashboardMode === 'diagnostic' ? 'trace' : 'harden';
+  const consoleLines = [
+    `boot ${currentInfra.id}-profile --priority recruiter-view`,
+    `check ${currentInfra.tools.slice(0, 2).join(' + ').toLowerCase()}`,
+    `write evidence-log --status ${currentInfra.risk.toLowerCase()}`,
+  ];
+
+  return (
+    <div className="hero-live-console" aria-label="Animated infrastructure console">
+      <div className="console-terminal">
+        <div className="console-topline">
+          <span />
+          <span />
+          <span />
+          <strong>motion.theme/{modeLabel}</strong>
+        </div>
+        <div className="console-lines">
+          {consoleLines.map((line, index) => (
+            <p key={line} style={{ '--line-delay': `${index * 120}ms` }}>
+              <span>{`0${index + 1}`}</span>
+              <code>{line}</code>
+            </p>
+          ))}
+        </div>
+      </div>
+      <div className="console-readout">
+        <div>
+          <span>readiness</span>
+          <strong>{readinessScore}%</strong>
+        </div>
+        <div className="console-meter" aria-hidden="true">
+          <span style={{ width: `${readinessScore}%` }} />
+        </div>
+        <div className="console-mini-bars" aria-hidden="true">
+          {currentInfra.bars.map((value, index) => (
+            <span key={`${currentInfra.id}-${index}`} style={{ '--bar': `${value}%`, '--bar-delay': `${index * 80}ms` }} />
+          ))}
+        </div>
+        <button onClick={onDiagnostic} type="button">
+          <Activity size={15} />
+          pulse stack
+        </button>
+      </div>
     </div>
   );
 }
