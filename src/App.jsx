@@ -918,8 +918,8 @@ function WelcomePage({ onEnter }) {
   const welcomeLines = useMemo(
     () => [
       'welcome kaazhim --portfolio --cinematic',
-      'spotlight infra focus: server firewall network',
-      'cue daniel-caesar/toronto-2014 --muted background',
+      'full mv mode: daniel-caesar/toronto-2014',
+      'video stays live until you enter',
       'open project stories --recruiter-view',
       'ready --enter-portfolio',
     ],
@@ -948,13 +948,9 @@ function WelcomePage({ onEnter }) {
         return Math.min(100, current + step);
       });
     }, 120);
-    const autoEnterTimer = window.setTimeout(onEnter, 8500);
 
-    return () => {
-      window.clearInterval(progressTimer);
-      window.clearTimeout(autoEnterTimer);
-    };
-  }, [onEnter]);
+    return () => window.clearInterval(progressTimer);
+  }, []);
 
   useEffect(() => {
     const onKeyDown = (event) => {
@@ -1121,8 +1117,17 @@ function WelcomePage({ onEnter }) {
               Skip welcome
               <ArrowUpRight size={16} />
             </button>
+            <a
+              className="boot-skip-button boot-watch-button"
+              href={`https://www.youtube.com/watch?v=${toronto2014VideoId}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Watch with sound
+              <ExternalLink size={16} />
+            </a>
           </div>
-          <small>Daniel Caesar - Toronto 2014 plays muted on desktop. Mobile keeps a lighter cinematic welcome.</small>
+          <small>Full Toronto 2014 MV plays muted on desktop until you enter. Mobile keeps a lighter cinematic welcome.</small>
         </section>
 
         <section className="boot-visual" aria-label="Animated portfolio system status">
