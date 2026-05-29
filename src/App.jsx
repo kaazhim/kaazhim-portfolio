@@ -326,6 +326,7 @@ function App() {
       <main>
         <section className="hero ink-band" id="home">
           <HeroMotionField activeInfra={activeInfra} dashboardMode={dashboardMode} />
+          <SectionMotionBackdrop variant="hero" />
           <CinematicScene
             activeFocus={activeInfra}
             className="hero-cinematic-backdrop"
@@ -478,6 +479,7 @@ function App() {
         />
 
         <section className="cream-band" id="experience">
+          <SectionMotionBackdrop variant="experience" />
           <div className="shell section-grid">
             <SectionHeading
               icon={<Workflow />}
@@ -518,11 +520,13 @@ function App() {
                   ))}
                 </ul>
               </article>
+              <ExperienceFlowPanel experience={experiences[activeExperience]} index={activeExperience} />
             </div>
           </div>
         </section>
 
         <section className="infra-band" id="dashboard">
+          <SectionMotionBackdrop variant="dashboard" />
           <div className="shell section-grid">
             <div className="section-split infra-section-head">
               <SectionHeading
@@ -553,6 +557,7 @@ function App() {
         </section>
 
         <section className="projects-band ink-band" id="projects">
+          <SectionMotionBackdrop variant="projects" />
           <div className="shell">
             <div className="section-split">
               <SectionHeading
@@ -671,6 +676,7 @@ function App() {
         </section>
 
         <section className="cream-band" id="skills">
+          <SectionMotionBackdrop variant="skills" />
           <div className="shell section-grid">
             <SectionHeading
               icon={<Network />}
@@ -690,6 +696,7 @@ function App() {
                 </article>
               ))}
             </div>
+            <SkillMotionConsole groups={skillGroups} />
             <div className="education-layout">
               <div className="education-panel">
                 <div className="mini-heading">
@@ -750,6 +757,7 @@ function App() {
         </section>
 
         <section className="resume-band ink-band" id="resume">
+          <SectionMotionBackdrop variant="resume" />
           <div className="shell resume-layout">
             <div>
               <SectionHeading
@@ -768,6 +776,7 @@ function App() {
                   LinkedIn
                 </a>
               </div>
+              <ResumeMotionConsole />
             </div>
             <div className="resume-preview" aria-label="Resume preview">
               <img src="/assets/resume-page-1.png" alt="Kaazhim resume page one preview" />
@@ -777,6 +786,7 @@ function App() {
         </section>
 
         <section className="contact-band cream-band" id="contact">
+          <SectionMotionBackdrop variant="contact" />
           <div className="shell contact-layout">
             <div>
               <SectionHeading
@@ -801,6 +811,7 @@ function App() {
                   {copied ? 'Copied' : 'Copy Email'}
                 </button>
               </div>
+              <ContactSignalPanel />
               <div className="qr-tile">
                 <img src="/assets/linkedin-qr.png" alt="LinkedIn QR code for Kaazhim" />
                 <span>LinkedIn profile QR</span>
@@ -890,6 +901,32 @@ function HeroMotionField({ activeInfra, dashboardMode }) {
       {particles.map((item) => (
         <span className={`motion-particle particle-${item}`} key={item} />
       ))}
+    </div>
+  );
+}
+
+function SectionMotionBackdrop({ variant = 'sky' }) {
+  return (
+    <div className={`section-kinetic-backdrop kinetic-${variant}`} aria-hidden="true">
+      <span className="kinetic-grid" />
+      <span className="kinetic-rail rail-one" />
+      <span className="kinetic-rail rail-two" />
+      <span className="kinetic-orbit orbit-one" />
+      <span className="kinetic-orbit orbit-two" />
+      <span className="kinetic-pulse pulse-one" />
+      <span className="kinetic-pulse pulse-two" />
+      <span className="kinetic-packet packet-one" />
+      <span className="kinetic-packet packet-two" />
+      <span className="kinetic-cube cube-one">
+        <i />
+        <i />
+        <i />
+      </span>
+      <span className="kinetic-cube cube-two">
+        <i />
+        <i />
+        <i />
+      </span>
     </div>
   );
 }
@@ -1146,6 +1183,7 @@ function WowLayer({ activeInfra, currentInfra, onDiagnostic, onSelectInfra }) {
 
   return (
     <section className="wow-layer-band" aria-label="Premium portfolio impact layer">
+      <SectionMotionBackdrop variant="wow" />
       <div className="shell wow-layer-layout">
         <div className="wow-copy">
           <SectionHeading
@@ -1245,6 +1283,7 @@ function StridezExperienceShowcase({ activeScreen, onOpenProject, onSelectScreen
 
   return (
     <section className="stridez-showcase-band" id="stridez" aria-label="Stridez mobile app 5D showcase">
+      <SectionMotionBackdrop variant="stridez" />
       <div className="shell stridez-showcase-layout">
         <div className="stridez-copy-panel">
           <SectionHeading
@@ -1338,6 +1377,7 @@ function CleanIllustrationLab({ activeInfra, onSelectInfra }) {
 
   return (
     <section className="clean-art-band" id="visual-lab" aria-label="Clean portfolio illustration lab">
+      <SectionMotionBackdrop variant="clean" />
       <div className="shell clean-art-layout">
         <div className="clean-art-copy">
           <SectionHeading
@@ -1407,6 +1447,99 @@ function Clean3DIllustration({ id }) {
           <i />
         </span>
       )}
+    </div>
+  );
+}
+
+function ExperienceFlowPanel({ experience, index }) {
+  const phases = ['ticket', 'triage', 'fix', 'log'];
+
+  return (
+    <article className="experience-flow-panel" aria-label="Animated support workflow visual">
+      <div className="flow-cube-stage" aria-hidden="true">
+        <span className="flow-core">
+          <i />
+          <i />
+          <i />
+        </span>
+        <span className="flow-ring ring-a" />
+        <span className="flow-ring ring-b" />
+        <span className="flow-signal signal-a" />
+        <span className="flow-signal signal-b" />
+      </div>
+      <div>
+        <span className="flow-kicker">experience loop 0{index + 1}</span>
+        <strong>{experience.company}</strong>
+        <p>Support work translated into a clean operational loop: understand the issue, isolate the layer, fix with care, and document the outcome.</p>
+      </div>
+      <div className="flow-steps">
+        {phases.map((phase, phaseIndex) => (
+          <span key={phase} style={{ '--step': phaseIndex }}>
+            {phase}
+          </span>
+        ))}
+      </div>
+    </article>
+  );
+}
+
+function SkillMotionConsole({ groups }) {
+  const orbitItems = groups.slice(0, 5).map((group) => group.name.split(' ')[0]);
+
+  return (
+    <div className="skill-motion-console" aria-label="Animated skill orbit">
+      <div className="skill-orbit-stage" aria-hidden="true">
+        <span className="skill-orbit-ring ring-a" />
+        <span className="skill-orbit-ring ring-b" />
+        <span className="skill-orbit-core">
+          <Code2 size={24} />
+        </span>
+        {orbitItems.map((item, index) => (
+          <span className={`skill-orbit-token token-${index + 1}`} key={item}>
+            {item}
+          </span>
+        ))}
+      </div>
+      <div className="skill-console-copy">
+        <span>motion toolkit</span>
+        <strong>Support + infra + code in one orbit</strong>
+        <p>Animated to show the portfolio’s actual shape: technical support, infrastructure direction, databases, app builds, and workflow tools rotating around practical problem solving.</p>
+      </div>
+    </div>
+  );
+}
+
+function ResumeMotionConsole() {
+  return (
+    <div className="resume-motion-console" aria-label="Animated resume scanner">
+      <div className="resume-scan-device" aria-hidden="true">
+        <span className="resume-scan-page" />
+        <span className="resume-scan-line" />
+        <span className="resume-scan-chip chip-a" />
+        <span className="resume-scan-chip chip-b" />
+      </div>
+      <div>
+        <span>resume scanner</span>
+        <strong>Two pages, recruiter-ready proof trail</strong>
+      </div>
+    </div>
+  );
+}
+
+function ContactSignalPanel() {
+  return (
+    <div className="contact-signal-panel" aria-label="Animated contact signal">
+      <div className="contact-signal-orbit" aria-hidden="true">
+        <RadioTower size={24} />
+        <span className="signal-ring ring-a" />
+        <span className="signal-ring ring-b" />
+        <span className="signal-dot dot-a" />
+        <span className="signal-dot dot-b" />
+      </div>
+      <div>
+        <span>response channel</span>
+        <strong>Email, phone, LinkedIn, and QR path ready</strong>
+      </div>
     </div>
   );
 }
@@ -1975,6 +2108,12 @@ function SectionHeading({ icon, kicker, title, text }) {
   return (
     <div className="section-heading">
       <div className="heading-icon">{icon}</div>
+      <div className="heading-orbit" aria-hidden="true">
+        <span className="heading-ring ring-a" />
+        <span className="heading-ring ring-b" />
+        <span className="heading-dot dot-a" />
+        <span className="heading-dot dot-b" />
+      </div>
       <span>{kicker}</span>
       <h2>{title}</h2>
       <p>{text}</p>
