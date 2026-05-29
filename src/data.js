@@ -186,6 +186,48 @@ export const projects = [
     ],
   },
   {
+    id: 'running-gym-tracker',
+    title: 'Running & Gym Tracker',
+    category: 'Web',
+    type: 'React/Vite + Express',
+    year: '2026',
+    featured: true,
+    accent: 'sky',
+    role: 'Full-stack fitness dashboard developer',
+    status: 'Archive added, TypeScript issue fixed, lint/build verified, and real screenshots captured.',
+    image: '/assets/projects/running-gym-tracker-dashboard.png',
+    visualLabel: 'Real dashboard screenshot captured from the tracker app',
+    gallery: [
+      { src: '/assets/projects/running-gym-tracker-dashboard.png', label: 'Aura Active dashboard overview from the uploaded tracker project' },
+      { src: '/assets/projects/running-gym-tracker-workouts.png', label: 'Workout logging screen with strength sets, rest timer, and pace guide' },
+      { src: '/assets/projects/running-gym-tracker-analytics.png', label: 'Analytics screen with run distance, gym volume, active time, and body-mass trend' },
+    ],
+    tags: ['React', 'TypeScript', 'Vite', 'Express', 'LocalStorage', 'Google Maps', 'Spotify API', 'Gemini API'],
+    summary:
+      'A pastel fitness web app for running, gym workouts, hydration, meals, reminders, analytics, Spotify sync, and AI-assisted training suggestions.',
+    problem:
+      'Fitness progress is hard to communicate when running, strength, meals, hydration, reminders, and music/vibe context live in separate tools.',
+    solution:
+      'The app brings the workflow into one React interface with persisted activity state, dashboard targets, workout forms, rest timing, route/map readiness, charts, and Express API routes for Spotify and Gemini integrations.',
+    impact:
+      'Shows a more complete full-stack product than a static tracker: state persistence, server routes, analytics UI, third-party integration readiness, and recruiter-friendly proof from a clean build.',
+    highlights: [
+      'Dashboard tracks hydration, active minutes, calorie burn, weekly gym sessions, running distance, and daily reminders with localStorage persistence.',
+      'Workout module supports gym-set logging, running pace guidance, rest timer controls, exercise history, and delete/update flows.',
+      'Analytics module renders running distance trends, gym volume, active minutes, calorie totals, body-mass logging, milestones, CSV export, and print/PDF actions.',
+      'Express backend includes health, Spotify OAuth/proxy, playback control, and Gemini vibe-analysis endpoints guarded by environment configuration.',
+      'Fixed the uploaded source by adding missing React type packages so `npm run lint` now passes cleanly.',
+    ],
+    evidence: [
+      'Source archive inspected from C:/Users/Admin/Downloads/running-&-gym-tracker.zip.',
+      'Extracted and repaired at D:/kaazhim-source-extract/running-gym-tracker-20260529.',
+      '`npm run lint` passed after adding `@types/react` and `@types/react-dom`.',
+      '`npm run build` passed; Vite reported only a non-blocking chunk-size warning above 500 kB.',
+      'Screenshots were captured from the locally running app at http://127.0.0.1:3000 with no browser console errors.',
+    ],
+    links: [{ label: 'Fixed source archive', url: '/assets/source/running-gym-tracker-fixed.zip' }],
+  },
+  {
     id: 'attendance-system',
     title: 'Employee Attendance Record System',
     category: 'Web',
@@ -920,6 +962,12 @@ export const sourceAudit = [
       'Added 29 real UI testing screenshots across auth, profile, GPS, warm-up, live tracking, safety warnings, and run analysis. Fixed case-sensitive `signup.dart` imports earlier; Flutter analyzer remained blocked by local timeout.',
   },
   {
+    item: 'Running & Gym Tracker',
+    status: 'Added and repaired',
+    note:
+      'Uploaded zip was extracted, missing React type packages were added, `npm run lint` and `npm run build` passed, and dashboard/workout/analytics screenshots were captured from the running app.',
+  },
+  {
     item: 'P&C Service Requisition PMX',
     status: 'ProcessMaker export inspected',
     note:
@@ -1142,4 +1190,34 @@ export const achievements = [
   'President, Student Sports Committee, UiTM',
   'Participant, Service Learning Malaysia (SULAM) and Braillethon Project 2024',
   'Oracle Academy: Database Design and Database Programming with SQL',
+];
+
+export const certifications = [
+  {
+    title: 'Amalan Keselamatan Siber',
+    issuer: 'ENCORP Berhad',
+    period: '2026',
+    image: '/assets/certifications/amalan-keselamatan-siber-encorp.png',
+    description:
+      'Cybersecurity awareness material focused on personal data protection, safe social sharing, GPS privacy, device locking, public Wi-Fi risk, and incident reporting.',
+    tags: ['Cybersecurity', 'Awareness', 'Data protection'],
+  },
+  {
+    title: 'Oracle Academy SQL Learning',
+    issuer: 'Oracle Academy',
+    period: 'Resume / LinkedIn evidence',
+    image: '/assets/resume-page-2.png',
+    description:
+      'Database design and SQL programming foundation: relational modelling, query logic, tables, constraints, and structured data thinking for application projects.',
+    tags: ['Database Design', 'SQL', 'Oracle Academy'],
+  },
+  {
+    title: 'Python Data Hackathon',
+    issuer: 'Academic / competition participation',
+    period: '2024',
+    image: '/assets/projects/chartflow-class-diagram.jpg',
+    description:
+      'Hands-on data and problem-solving exposure that supports scripting mindset, debugging habits, and faster analysis when handling IT support evidence.',
+    tags: ['Python', 'Data', 'Problem solving'],
+  },
 ];

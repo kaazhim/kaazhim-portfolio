@@ -49,6 +49,7 @@ import {
 import {
   achievements,
   capabilityModes,
+  certifications,
   education,
   experiences,
   hardwareQueue,
@@ -187,6 +188,7 @@ function App() {
           '.wow-orbit-stage',
           '.timeline-card',
           '.experience-detail',
+          '.certification-card',
           '.infra-dashboard',
           '.featured-chip',
           '.project-card',
@@ -371,6 +373,7 @@ function App() {
                 <strong>{dashboardMode === 'live' ? 'Live orbit' : dashboardMode === 'diagnostic' ? 'Diagnostic scan' : 'Hardening sweep'}</strong>
                 <small>{currentInfra.label} focus</small>
               </div>
+              <HeroStatusDock currentInfra={currentInfra} dashboardMode={dashboardMode} readinessScore={readinessScore} />
               <HeroLiveConsole
                 currentInfra={currentInfra}
                 dashboardMode={dashboardMode}
@@ -397,14 +400,6 @@ function App() {
                     alt="Kaazhim presenting the Stridez mobile app project showcase"
                   />
                   <span className="portrait-scan-sweep" aria-hidden="true" />
-                </div>
-                <div className="portrait-hud portrait-hud-left">
-                  <span>focus</span>
-                  <strong>{currentInfra.label}</strong>
-                </div>
-                <div className="portrait-hud portrait-hud-right">
-                  <span>mode</span>
-                  <strong>{dashboardMode}</strong>
                 </div>
                 <div className="portrait-card portrait-card-top">
                   <span>Showcase Mode</span>
@@ -714,14 +709,41 @@ function App() {
               <div className="education-panel">
                 <div className="mini-heading">
                   <Sparkles />
-                  <h3>Awards and Certifications</h3>
+                  <h3>Certifications and Proof</h3>
                 </div>
-                {achievements.map((item) => (
-                  <div className="achievement-row" key={item}>
-                    <CheckCircle2 size={18} />
-                    <span>{item}</span>
-                  </div>
-                ))}
+                <div className="certification-stack">
+                  {certifications.map((item, index) => (
+                    <article className="certification-card" key={item.title}>
+                      <div className="certification-image">
+                        <img
+                          src={item.image}
+                          alt={`${item.title} evidence`}
+                          loading={index === 0 ? 'eager' : 'lazy'}
+                          fetchPriority={index === 0 ? 'high' : 'auto'}
+                        />
+                      </div>
+                      <div>
+                        <span>{item.issuer}</span>
+                        <strong>{item.title}</strong>
+                        <small>{item.period}</small>
+                        <p>{item.description}</p>
+                        <div className="certification-tags">
+                          {item.tags.map((tag) => (
+                            <em key={tag}>{tag}</em>
+                          ))}
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+                <div className="achievement-list">
+                  {achievements.slice(0, 4).map((item) => (
+                    <div className="achievement-row" key={item}>
+                      <CheckCircle2 size={18} />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -920,6 +942,25 @@ function HeroLiveConsole({ currentInfra, dashboardMode, onDiagnostic, readinessS
   );
 }
 
+function HeroStatusDock({ currentInfra, dashboardMode, readinessScore }) {
+  const statusItems = [
+    { label: 'focus', value: currentInfra.label },
+    { label: 'mode', value: dashboardMode },
+    { label: 'readiness', value: `${readinessScore}%` },
+  ];
+
+  return (
+    <div className="hero-status-dock" aria-label="Current portfolio system status">
+      {statusItems.map((item) => (
+        <div key={item.label}>
+          <span>{item.label}</span>
+          <strong>{item.value}</strong>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function HeroCommandRail({ activeInfra, currentInfra, dashboardMode, onDiagnostic, onSelectInfra }) {
   const modeLabel = dashboardMode === 'live' ? 'live-support' : dashboardMode === 'diagnostic' ? 'diagnostic-scan' : 'hardening-review';
 
@@ -1094,7 +1135,7 @@ function WowLayer({ activeInfra, currentInfra, onDiagnostic, onSelectInfra }) {
   const impactStats = [
     { label: 'Recruiter scan path', value: '15 sec', text: 'Hero, infra focus, proof, projects' },
     { label: 'Core identity', value: 'Infra+', text: 'Server, firewall, network, cyber, hardware' },
-    { label: 'Proof density', value: '20', text: 'Projects with real visuals or source evidence' },
+    { label: 'Proof density', value: '21', text: 'Projects with real visuals or source evidence' },
   ];
   const journey = [
     { icon: <Eye size={17} />, label: 'Scan', text: 'Identity first' },
