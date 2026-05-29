@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import React, { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ArrowUpRight,
   Activity,
@@ -75,6 +75,8 @@ const projectFilters = [
   'Featured',
   ...Array.from(new Set(projects.map((project) => project.category))),
 ];
+const bootSessionKey = 'kaazhim_boot_seen_v1';
+const toronto2014VideoId = '-YlFWMXxgtg';
 
 function App() {
   const [activeMode, setActiveMode] = useState(capabilityModes[0].id);
@@ -98,6 +100,15 @@ function App() {
   const [contactStatus, setContactStatus] = useState('');
   const [scrollProgress, setScrollProgress] = useState(0);
   const [revealReady, setRevealReady] = useState(false);
+  const [showBoot, setShowBoot] = useState(() => {
+    if (typeof window === 'undefined') return true;
+
+    try {
+      return window.sessionStorage.getItem(bootSessionKey) !== '1';
+    } catch {
+      return true;
+    }
+  });
   const [contactForm, setContactForm] = useState({
     name: '',
     email: '',
@@ -242,6 +253,13 @@ function App() {
     };
   }, [modalProject]);
 
+  useEffect(() => {
+    if (!showBoot) return undefined;
+
+    document.body.classList.add('boot-lock');
+    return () => document.body.classList.remove('boot-lock');
+  }, [showBoot]);
+
   const copyEmail = async () => {
     await navigator.clipboard.writeText(profile.email);
     setCopied(true);
@@ -317,23 +335,37 @@ function App() {
     });
   };
 
+  const closeBoot = useCallback(() => {
+    try {
+      window.sessionStorage.setItem(bootSessionKey, '1');
+    } catch {
+      // Session storage can be unavailable in strict browser privacy modes.
+    }
+    setShowBoot(false);
+  }, []);
+
   return (
     <div className={`app-shell ${funMode ? 'fun-mode' : ''} ${revealReady ? 'reveal-ready' : ''}`}>
       <Confetti pieces={confetti} />
+      {showBoot && <BootPage onEnter={closeBoot} />}
       <div className="wow-spotlight" aria-hidden="true" />
       <div className="scroll-meter" style={{ width: `${scrollProgress}%` }} />
       <Header activeSection={activeSection} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <main>
         <section className="hero ink-band" id="home">
-          <HeroMotionField activeInfra={activeInfra} dashboardMode={dashboardMode} />
-          <SectionMotionBackdrop variant="hero" />
-          <CinematicScene
-            activeFocus={activeInfra}
-            className="hero-cinematic-backdrop"
-            mode={dashboardMode}
-            priority
-            variant="hero"
-          />
+          {!showBoot && (
+            <>
+              <HeroMotionField activeInfra={activeInfra} dashboardMode={dashboardMode} />
+              <SectionMotionBackdrop variant="hero" />
+              <CinematicScene
+                activeFocus={activeInfra}
+                className="hero-cinematic-backdrop"
+                mode={dashboardMode}
+                priority
+                variant="hero"
+              />
+            </>
+          )}
           <HeroCommandRail
             activeInfra={activeInfra}
             currentInfra={currentInfra}
@@ -870,6 +902,262 @@ function App() {
           project={modalProject}
         />
       )}
+    </div>
+  );
+}
+
+function BootPage({ onEnter }) {
+  const [progress, setProgress] = useState(8);
+  const [canLoadVideo, setCanLoadVideo] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
+  const [videoActive, setVideoActive] = useState(false);
+  const [videoFailed, setVideoFailed] = useState(false);
+  const videoOrigin = typeof window === 'undefined' ? '' : encodeURIComponent(window.location.origin);
+  const videoSrc = `https://www.youtube-nocookie.com/embed/${toronto2014VideoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${toronto2014VideoId}&playsinline=1&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1&enablejsapi=1&origin=${videoOrigin}&widget_referrer=${videoOrigin}`;
+  const bootLines = useMemo(
+    () => [
+      'boot kaazhim-os --portfolio --cinematic',
+      'mount infra-stack: server firewall network',
+      'load bg: daniel-caesar/toronto-2014 --muted',
+      'hydrate case-studies --recruiter-mode',
+      'ready --press-enter',
+    ],
+    [],
+  );
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia('(max-width: 760px)');
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const syncCapability = () => setCanLoadVideo(!mobileQuery.matches && !reducedMotionQuery.matches);
+
+    syncCapability();
+    mobileQuery.addEventListener?.('change', syncCapability);
+    reducedMotionQuery.addEventListener?.('change', syncCapability);
+
+    return () => {
+      mobileQuery.removeEventListener?.('change', syncCapability);
+      reducedMotionQuery.removeEventListener?.('change', syncCapability);
+    };
+  }, []);
+
+  useEffect(() => {
+    const progressTimer = window.setInterval(() => {
+      setProgress((current) => {
+        const step = current < 45 ? 4 : current < 82 ? 2 : 1;
+        return Math.min(100, current + step);
+      });
+    }, 120);
+    const autoEnterTimer = window.setTimeout(onEnter, 8500);
+
+    return () => {
+      window.clearInterval(progressTimer);
+      window.clearTimeout(autoEnterTimer);
+    };
+  }, [onEnter]);
+
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (event.key === 'Enter' || event.key === 'Escape') onEnter();
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [onEnter]);
+
+  useEffect(() => {
+    if (!canLoadVideo) return undefined;
+
+    let cancelled = false;
+    let player;
+    const playerId = 'portfolio-boot-youtube-player';
+    const timeout = window.setTimeout(() => {
+      if (!cancelled) setVideoFailed(true);
+    }, 5200);
+    const previousReady = window.onYouTubeIframeAPIReady;
+
+    const markPlayable = () => {
+      window.clearTimeout(timeout);
+      if (!cancelled) {
+        setVideoActive(true);
+        setVideoFailed(false);
+      }
+    };
+
+    const initializePlayer = () => {
+      if (cancelled || !window.YT?.Player) return;
+
+      player = new window.YT.Player(playerId, {
+        events: {
+          onReady: (event) => {
+            try {
+              event.target.mute();
+              event.target.playVideo();
+            } catch {
+              setVideoFailed(true);
+            }
+          },
+          onStateChange: (event) => {
+            const states = window.YT?.PlayerState;
+            if (event.data === states?.PLAYING || event.data === states?.BUFFERING) markPlayable();
+          },
+          onError: () => {
+            window.clearTimeout(timeout);
+            if (!cancelled) setVideoFailed(true);
+          },
+        },
+      });
+    };
+
+    if (window.YT?.Player) {
+      initializePlayer();
+    } else {
+      window.onYouTubeIframeAPIReady = () => {
+        previousReady?.();
+        initializePlayer();
+      };
+
+      if (!document.querySelector('script[src="https://www.youtube.com/iframe_api"]')) {
+        const script = document.createElement('script');
+        script.src = 'https://www.youtube.com/iframe_api';
+        script.async = true;
+        document.head.append(script);
+      }
+    }
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timeout);
+      if (window.onYouTubeIframeAPIReady !== previousReady) {
+        window.onYouTubeIframeAPIReady = previousReady;
+      }
+      try {
+        player?.destroy?.();
+      } catch {
+        // YouTube iframe cleanup can throw when the iframe was already removed.
+      }
+    };
+  }, [canLoadVideo]);
+
+  return (
+    <div className="boot-page" role="dialog" aria-modal="true" aria-label="Portfolio boot sequence">
+      {canLoadVideo ? (
+        <div
+          className={`boot-video-frame ${videoReady ? 'is-ready' : ''} ${
+            videoActive && !videoFailed ? 'is-playing' : 'has-poster'
+          }`}
+          aria-hidden="true"
+        >
+          <iframe
+            allow="autoplay; encrypted-media; picture-in-picture"
+            id="portfolio-boot-youtube-player"
+            onLoad={() => setVideoReady(true)}
+            referrerPolicy="origin-when-cross-origin"
+            src={videoSrc}
+            title="Daniel Caesar Toronto 2014 official music video background"
+          />
+          <span className="boot-video-poster" />
+        </div>
+      ) : (
+        <div className="boot-fallback" aria-hidden="true">
+          <span className="boot-fallback-glow glow-one" />
+          <span className="boot-fallback-glow glow-two" />
+          <span className="boot-fallback-glow glow-three" />
+        </div>
+      )}
+      <div className="boot-overlay" aria-hidden="true" />
+      <div className="boot-grain" aria-hidden="true" />
+
+      <div className="boot-shell">
+        <section className="boot-copy" aria-labelledby="boot-title">
+          <div className="boot-kicker">
+            <Code2 size={16} />
+            <span>kaazhim.boot</span>
+            <strong>v2026</strong>
+          </div>
+          <h2 id="boot-title">Initializing Portfolio</h2>
+          <p>
+            A cinematic entry layer for the infrastructure, cybersecurity, server, firewall,
+            network, and project evidence inside.
+          </p>
+
+          <div className="boot-terminal" aria-label="Boot log">
+            <div className="boot-terminal-top">
+              <span />
+              <span />
+              <span />
+              <strong>terminal/session</strong>
+            </div>
+            <div className="boot-lines">
+              {bootLines.map((line, index) => (
+                <p key={line} style={{ '--line-delay': `${index * 110}ms` }}>
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <code>{line}</code>
+                </p>
+              ))}
+            </div>
+            <div
+              className="boot-progress"
+              aria-label="Portfolio boot progress"
+              aria-valuemax="100"
+              aria-valuemin="0"
+              aria-valuenow={progress}
+              role="progressbar"
+              style={{ '--boot-progress': `${progress}%` }}
+            >
+              <div className="boot-progress-track">
+                <span />
+              </div>
+              <strong>{progress}%</strong>
+            </div>
+          </div>
+
+          <div className="boot-actions">
+            <button autoFocus className="boot-enter-button" onClick={onEnter} type="button">
+              <Rocket size={18} />
+              Enter portfolio
+            </button>
+            <button className="boot-skip-button" onClick={onEnter} type="button">
+              Skip intro
+              <ArrowUpRight size={16} />
+            </button>
+          </div>
+          <small>Official video embed runs muted on desktop. Mobile keeps a lighter animated boot screen.</small>
+        </section>
+
+        <section className="boot-visual" aria-label="Animated portfolio system status">
+          <div className="boot-visual-stage">
+            <span className="boot-depth-grid" aria-hidden="true" />
+            <span className="boot-orbit orbit-one" aria-hidden="true" />
+            <span className="boot-orbit orbit-two" aria-hidden="true" />
+            <span className="boot-scanline" aria-hidden="true" />
+            <div className="boot-core">
+              <Sparkles size={24} />
+              <strong>KA</strong>
+              <span>{progress}%</span>
+            </div>
+            <div className="boot-stack-card card-server">
+              <Server size={22} />
+              <span>Server</span>
+              <strong>Online</strong>
+            </div>
+            <div className="boot-stack-card card-firewall">
+              <ShieldCheck size={22} />
+              <span>Firewall</span>
+              <strong>Protected</strong>
+            </div>
+            <div className="boot-stack-card card-network">
+              <Router size={22} />
+              <span>Network</span>
+              <strong>Routed</strong>
+            </div>
+            <div className="boot-stack-card card-hardware">
+              <HardDrive size={22} />
+              <span>Hardware</span>
+              <strong>Ready</strong>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
