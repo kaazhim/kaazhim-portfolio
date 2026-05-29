@@ -189,7 +189,12 @@ section {
 }
 
 .section-kinetic-backdrop span {
+  animation-play-state: paused;
   position: absolute;
+}
+
+.section-kinetic-backdrop.is-live span {
+  animation-play-state: running;
 }
 
 .kinetic-grid {
@@ -5904,6 +5909,52 @@ section {
 .resume-motion-console,
 .contact-signal-panel {
   animation: section-card-drift 9s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.section-heading,
+.section-heading *,
+.resume-preview img,
+.stridez-phone-active,
+.certification-card {
+  animation-play-state: paused;
+}
+
+section.is-motion-live .section-heading,
+section.is-motion-live .section-heading *,
+section.is-motion-live .timeline-card,
+section.is-motion-live .project-card,
+section.is-motion-live .skill-card,
+section.is-motion-live .education-panel,
+section.is-motion-live .infra-dashboard,
+section.is-motion-live .contact-form,
+section.is-motion-live .audit-card,
+section.is-motion-live .experience-flow-panel,
+section.is-motion-live .skill-motion-console,
+section.is-motion-live .resume-motion-console,
+section.is-motion-live .contact-signal-panel,
+section.is-motion-live .resume-preview img,
+section.is-motion-live .stridez-phone-active,
+section.is-motion-live .certification-card {
+  animation-play-state: running;
+}
+
+.infra-dashboard::before,
+.project-detail::before,
+.experience-detail::before,
+.education-panel::before,
+.contact-form::before,
+.certification-card::before {
+  animation-play-state: paused;
+}
+
+section.is-motion-live .infra-dashboard::before,
+section.is-motion-live .project-detail::before,
+section.is-motion-live .experience-detail::before,
+section.is-motion-live .education-panel::before,
+section.is-motion-live .contact-form::before,
+section.is-motion-live .certification-card::before {
+  animation-play-state: running;
 }
 
 .timeline-card:nth-child(2n),
@@ -5956,6 +6007,50 @@ section {
   position: absolute;
   top: 0;
   width: 28%;
+}
+
+.section-heading,
+.section-heading *,
+.experience-flow-panel *,
+.skill-motion-console *,
+.resume-motion-console *,
+.contact-signal-panel *,
+.clean-3d-art *,
+.wow-orbit-stage *,
+.stridez-phone-stage *,
+.infra-dashboard *,
+.resume-preview img,
+.stridez-phone-active,
+.certification-card,
+.infra-dashboard::before,
+.project-detail::before,
+.experience-detail::before,
+.education-panel::before,
+.contact-form::before,
+.certification-card::before {
+  animation-play-state: paused;
+}
+
+section.is-motion-live .section-heading,
+section.is-motion-live .section-heading *,
+section.is-motion-live .experience-flow-panel *,
+section.is-motion-live .skill-motion-console *,
+section.is-motion-live .resume-motion-console *,
+section.is-motion-live .contact-signal-panel *,
+section.is-motion-live .clean-3d-art *,
+section.is-motion-live .wow-orbit-stage *,
+section.is-motion-live .stridez-phone-stage *,
+section.is-motion-live .infra-dashboard *,
+section.is-motion-live .resume-preview img,
+section.is-motion-live .stridez-phone-active,
+section.is-motion-live .certification-card,
+section.is-motion-live .infra-dashboard::before,
+section.is-motion-live .project-detail::before,
+section.is-motion-live .experience-detail::before,
+section.is-motion-live .education-panel::before,
+section.is-motion-live .contact-form::before,
+section.is-motion-live .certification-card::before {
+  animation-play-state: running;
 }
 
 @media (max-width: 1080px) {
@@ -6109,6 +6204,29 @@ section {
 }
 
 @media (max-width: 760px) {
+  .section-kinetic-backdrop,
+  .heading-orbit {
+    display: none;
+  }
+
+  .section-heading,
+  .timeline-card,
+  .project-card,
+  .skill-card,
+  .education-panel,
+  .infra-dashboard,
+  .contact-form,
+  .audit-card,
+  .certification-card,
+  .experience-flow-panel,
+  .skill-motion-console,
+  .resume-motion-console,
+  .contact-signal-panel,
+  .resume-preview img,
+  .stridez-phone-active {
+    animation: none !important;
+  }
+
   .shell,
   .nav-shell {
     width: min(calc(100% - 28px), 1200px);

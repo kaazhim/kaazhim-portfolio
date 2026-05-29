@@ -877,7 +877,7 @@ function App() {
 function HeroMotionField({ activeInfra, dashboardMode }) {
   const focusIndex = Math.max(0, infraFocus.findIndex((item) => item.id === activeInfra));
   const packets = ['server', 'firewall', 'network', 'cyber', 'hardware'];
-  const particles = Array.from({ length: 18 }, (_, index) => index + 1);
+  const particles = Array.from({ length: 8 }, (_, index) => index + 1);
 
   return (
     <div
@@ -906,8 +906,36 @@ function HeroMotionField({ activeInfra, dashboardMode }) {
 }
 
 function SectionMotionBackdrop({ variant = 'sky' }) {
+  const backdropRef = useRef(null);
+
+  useEffect(() => {
+    const target = backdropRef.current;
+    const parentSection = target?.closest('section');
+    if (!target || !parentSection) return undefined;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const isLive = entry.isIntersecting;
+        target.classList.toggle('is-live', isLive);
+        parentSection.classList.toggle('is-motion-live', isLive);
+      },
+      { rootMargin: '120px 0px', threshold: 0.01 },
+    );
+
+    observer.observe(parentSection);
+
+    return () => {
+      observer.disconnect();
+      target.classList.remove('is-live');
+      parentSection.classList.remove('is-motion-live');
+    };
+  }, []);
+
   return (
-    <div className={`section-kinetic-backdrop kinetic-${variant}`} aria-hidden="true">
+    <div className={`section-kinetic-backdrop kinetic-${variant}`} ref={backdropRef} aria-hidden="true">
       <span className="kinetic-grid" />
       <span className="kinetic-rail rail-one" />
       <span className="kinetic-rail rail-two" />
