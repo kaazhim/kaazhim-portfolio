@@ -75,7 +75,7 @@ const projectFilters = [
   'Featured',
   ...Array.from(new Set(projects.map((project) => project.category))),
 ];
-const bootSessionKey = 'kaazhim_boot_seen_v1';
+const welcomeSessionKey = 'kaazhim_welcome_seen_v2';
 const toronto2014VideoId = '-YlFWMXxgtg';
 
 function App() {
@@ -100,11 +100,12 @@ function App() {
   const [contactStatus, setContactStatus] = useState('');
   const [scrollProgress, setScrollProgress] = useState(0);
   const [revealReady, setRevealReady] = useState(false);
-  const [showBoot, setShowBoot] = useState(() => {
+  const [showWelcome, setShowWelcome] = useState(() => {
     if (typeof window === 'undefined') return true;
 
     try {
-      return window.sessionStorage.getItem(bootSessionKey) !== '1';
+      const params = new URLSearchParams(window.location.search);
+      return params.has('welcome') || window.sessionStorage.getItem(welcomeSessionKey) !== '1';
     } catch {
       return true;
     }
@@ -254,11 +255,11 @@ function App() {
   }, [modalProject]);
 
   useEffect(() => {
-    if (!showBoot) return undefined;
+    if (!showWelcome) return undefined;
 
     document.body.classList.add('boot-lock');
     return () => document.body.classList.remove('boot-lock');
-  }, [showBoot]);
+  }, [showWelcome]);
 
   const copyEmail = async () => {
     await navigator.clipboard.writeText(profile.email);
@@ -335,25 +336,25 @@ function App() {
     });
   };
 
-  const closeBoot = useCallback(() => {
+  const closeWelcome = useCallback(() => {
     try {
-      window.sessionStorage.setItem(bootSessionKey, '1');
+      window.sessionStorage.setItem(welcomeSessionKey, '1');
     } catch {
       // Session storage can be unavailable in strict browser privacy modes.
     }
-    setShowBoot(false);
+    setShowWelcome(false);
   }, []);
 
   return (
     <div className={`app-shell ${funMode ? 'fun-mode' : ''} ${revealReady ? 'reveal-ready' : ''}`}>
       <Confetti pieces={confetti} />
-      {showBoot && <BootPage onEnter={closeBoot} />}
+      {showWelcome && <WelcomePage onEnter={closeWelcome} />}
       <div className="wow-spotlight" aria-hidden="true" />
       <div className="scroll-meter" style={{ width: `${scrollProgress}%` }} />
       <Header activeSection={activeSection} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <main>
         <section className="hero ink-band" id="home">
-          {!showBoot && (
+          {!showWelcome && (
             <>
               <HeroMotionField activeInfra={activeInfra} dashboardMode={dashboardMode} />
               <SectionMotionBackdrop variant="hero" />
@@ -906,7 +907,7 @@ function App() {
   );
 }
 
-function BootPage({ onEnter }) {
+function WelcomePage({ onEnter }) {
   const [progress, setProgress] = useState(8);
   const [canLoadVideo, setCanLoadVideo] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
@@ -914,13 +915,13 @@ function BootPage({ onEnter }) {
   const [videoFailed, setVideoFailed] = useState(false);
   const videoOrigin = typeof window === 'undefined' ? '' : encodeURIComponent(window.location.origin);
   const videoSrc = `https://www.youtube-nocookie.com/embed/${toronto2014VideoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${toronto2014VideoId}&playsinline=1&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1&enablejsapi=1&origin=${videoOrigin}&widget_referrer=${videoOrigin}`;
-  const bootLines = useMemo(
+  const welcomeLines = useMemo(
     () => [
-      'boot kaazhim-os --portfolio --cinematic',
-      'mount infra-stack: server firewall network',
-      'load bg: daniel-caesar/toronto-2014 --muted',
-      'hydrate case-studies --recruiter-mode',
-      'ready --press-enter',
+      'welcome kaazhim --portfolio --cinematic',
+      'spotlight infra focus: server firewall network',
+      'cue daniel-caesar/toronto-2014 --muted background',
+      'open project stories --recruiter-view',
+      'ready --enter-portfolio',
     ],
     [],
   );
@@ -969,7 +970,7 @@ function BootPage({ onEnter }) {
 
     let cancelled = false;
     let player;
-    const playerId = 'portfolio-boot-youtube-player';
+    const playerId = 'portfolio-welcome-youtube-player';
     const timeout = window.setTimeout(() => {
       if (!cancelled) setVideoFailed(true);
     }, 5200);
@@ -1039,7 +1040,7 @@ function BootPage({ onEnter }) {
   }, [canLoadVideo]);
 
   return (
-    <div className="boot-page" role="dialog" aria-modal="true" aria-label="Portfolio boot sequence">
+    <div className="boot-page" role="dialog" aria-modal="true" aria-label="Portfolio welcome page">
       {canLoadVideo ? (
         <div
           className={`boot-video-frame ${videoReady ? 'is-ready' : ''} ${
@@ -1049,7 +1050,7 @@ function BootPage({ onEnter }) {
         >
           <iframe
             allow="autoplay; encrypted-media; picture-in-picture"
-            id="portfolio-boot-youtube-player"
+            id="portfolio-welcome-youtube-player"
             onLoad={() => setVideoReady(true)}
             referrerPolicy="origin-when-cross-origin"
             src={videoSrc}
@@ -1071,24 +1072,24 @@ function BootPage({ onEnter }) {
         <section className="boot-copy" aria-labelledby="boot-title">
           <div className="boot-kicker">
             <Code2 size={16} />
-            <span>kaazhim.boot</span>
+            <span>kaazhim.welcome</span>
             <strong>v2026</strong>
           </div>
-          <h2 id="boot-title">Initializing Portfolio</h2>
+          <h2 id="boot-title">Welcome to my Portfolio</h2>
           <p>
-            A cinematic entry layer for the infrastructure, cybersecurity, server, firewall,
-            network, and project evidence inside.
+            Come in through a cinematic Daniel Caesar backdrop, then explore my infrastructure,
+            cybersecurity, server, firewall, network, and project work.
           </p>
 
-          <div className="boot-terminal" aria-label="Boot log">
+          <div className="boot-terminal" aria-label="Welcome notes">
             <div className="boot-terminal-top">
               <span />
               <span />
               <span />
-              <strong>terminal/session</strong>
+              <strong>welcome/session</strong>
             </div>
             <div className="boot-lines">
-              {bootLines.map((line, index) => (
+              {welcomeLines.map((line, index) => (
                 <p key={line} style={{ '--line-delay': `${index * 110}ms` }}>
                   <span>{String(index + 1).padStart(2, '0')}</span>
                   <code>{line}</code>
@@ -1097,7 +1098,7 @@ function BootPage({ onEnter }) {
             </div>
             <div
               className="boot-progress"
-              aria-label="Portfolio boot progress"
+              aria-label="Portfolio welcome progress"
               aria-valuemax="100"
               aria-valuemin="0"
               aria-valuenow={progress}
@@ -1117,11 +1118,11 @@ function BootPage({ onEnter }) {
               Enter portfolio
             </button>
             <button className="boot-skip-button" onClick={onEnter} type="button">
-              Skip intro
+              Skip welcome
               <ArrowUpRight size={16} />
             </button>
           </div>
-          <small>Official video embed runs muted on desktop. Mobile keeps a lighter animated boot screen.</small>
+          <small>Daniel Caesar - Toronto 2014 plays muted on desktop. Mobile keeps a lighter cinematic welcome.</small>
         </section>
 
         <section className="boot-visual" aria-label="Animated portfolio system status">
