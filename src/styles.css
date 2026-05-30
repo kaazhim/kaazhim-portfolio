@@ -32,6 +32,18 @@
   --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-ui: cubic-bezier(0.2, 0.8, 0.2, 1);
   --radius: 8px;
+  --scroll-ratio: 0;
+  --scroll-y: 0px;
+  --pointer-x: 50vw;
+  --pointer-y: 45vh;
+  --pointer-soft-x: 0px;
+  --pointer-soft-y: 0px;
+  --pointer-mid-x: 0px;
+  --pointer-mid-y: 0px;
+  --pointer-far-x: 0px;
+  --pointer-far-y: 0px;
+  --pointer-tilt-x: 0deg;
+  --pointer-tilt-y: 0deg;
 }
 
 * {
@@ -722,13 +734,168 @@ img {
 }
 
 section {
+  --section-progress: 0.5;
+  --parallax-far-y: 0px;
+  --parallax-bg-y: 0px;
+  --parallax-mid-y: 0px;
+  --parallax-near-y: 0px;
+  --parallax-invert-y: 0px;
+  --parallax-depth-tilt: 0deg;
+  --parallax-scale: 1;
   position: relative;
   scroll-margin-top: 118px;
+}
+
+.parallax-section {
+  isolation: isolate;
+  transform-style: preserve-3d;
 }
 
 .shell {
   position: relative;
   z-index: 1;
+}
+
+.parallax-live .boot-video-frame,
+.parallax-live .boot-fallback,
+.parallax-live .boot-page::before {
+  translate: var(--pointer-far-x) var(--pointer-far-y);
+}
+
+.parallax-live .boot-overlay,
+.parallax-live .boot-grain {
+  translate: var(--pointer-soft-x) var(--pointer-soft-y);
+}
+
+.parallax-live .boot-copy {
+  translate: var(--pointer-far-x) var(--pointer-soft-y);
+}
+
+.parallax-live .boot-visual {
+  transform: perspective(1000px) rotateX(var(--pointer-tilt-x)) rotateY(var(--pointer-tilt-y));
+  translate: var(--pointer-mid-x) var(--pointer-mid-y);
+}
+
+.parallax-live .section-kinetic-backdrop {
+  translate: var(--pointer-far-x) var(--parallax-bg-y);
+}
+
+.parallax-live .section-kinetic-backdrop .kinetic-grid {
+  translate: var(--pointer-soft-x) var(--parallax-far-y);
+}
+
+.parallax-live .section-kinetic-backdrop .kinetic-orbit,
+.parallax-live .section-kinetic-backdrop .kinetic-pulse {
+  translate: var(--pointer-mid-x) var(--parallax-mid-y);
+}
+
+.parallax-live .section-kinetic-backdrop .kinetic-packet,
+.parallax-live .section-kinetic-backdrop .kinetic-cube {
+  translate: var(--pointer-soft-x) var(--parallax-near-y);
+}
+
+.parallax-live .hero-motion-field {
+  scale: var(--parallax-scale);
+  translate: var(--pointer-far-x) var(--parallax-far-y);
+}
+
+.parallax-live .hero-cinematic-backdrop,
+.parallax-live .motion-depth-grid {
+  translate: var(--pointer-far-x) var(--parallax-far-y);
+}
+
+.parallax-live .motion-glass-plane,
+.parallax-live .motion-orbit {
+  translate: var(--pointer-mid-x) var(--parallax-bg-y);
+}
+
+.parallax-live .hero-copy,
+.parallax-live .stridez-copy-panel,
+.parallax-live .wow-copy,
+.parallax-live .clean-art-copy {
+  translate: var(--pointer-soft-x) var(--parallax-near-y);
+}
+
+.parallax-live .hero-visual,
+.parallax-live .wow-orbit-stage,
+.parallax-live .stridez-phone-stage,
+.parallax-live .clean-3d-art,
+.parallax-live .clean-art-card,
+.parallax-live .infra-now-card,
+.parallax-live .resume-preview,
+.parallax-live .contact-signal-panel {
+  translate: var(--pointer-mid-x) var(--parallax-invert-y);
+}
+
+.parallax-live .portrait-stage {
+  translate: var(--pointer-mid-x) var(--parallax-near-y);
+}
+
+.parallax-live .portrait-card-top,
+.parallax-live .portrait-card-bottom,
+.parallax-live .portrait-ribbon,
+.parallax-live .hero-live-console,
+.parallax-live .hero-status-dock div,
+.parallax-live .proof-item,
+.parallax-live .mode-detail,
+.parallax-live .timeline-card,
+.parallax-live .experience-detail,
+.parallax-live .experience-flow-panel,
+.parallax-live .infra-dashboard,
+.parallax-live .project-card,
+.parallax-live .project-detail,
+.parallax-live .featured-chip,
+.parallax-live .audit-card,
+.parallax-live .skill-card,
+.parallax-live .skill-motion-console,
+.parallax-live .education-panel,
+.parallax-live .certification-card,
+.parallax-live .resume-motion-console,
+.parallax-live .contact-form {
+  translate: var(--pointer-soft-x) var(--parallax-near-y);
+}
+
+.parallax-live .section-heading {
+  translate: var(--pointer-far-x) var(--parallax-mid-y);
+}
+
+.parallax-live .hero-signal-strip,
+.parallax-live .project-tools,
+.parallax-live .source-audit,
+.parallax-live .qr-tile {
+  translate: var(--pointer-soft-x) var(--parallax-mid-y);
+}
+
+.parallax-live .project-visual,
+.parallax-live .stridez-phone-active,
+.parallax-live .certification-image,
+.parallax-live .resume-preview img {
+  translate: var(--pointer-mid-x) var(--parallax-invert-y);
+}
+
+.parallax-live .hero-copy,
+.parallax-live .hero-visual,
+.parallax-live .section-heading,
+.parallax-live .section-kinetic-backdrop,
+.parallax-live .hero-motion-field,
+.parallax-live .hero-cinematic-backdrop,
+.parallax-live .timeline-card,
+.parallax-live .project-card,
+.parallax-live .skill-card,
+.parallax-live .certification-card,
+.parallax-live .infra-dashboard,
+.parallax-live .contact-form,
+.parallax-live .resume-preview,
+.parallax-live .wow-orbit-stage,
+.parallax-live .stridez-phone-stage,
+.parallax-live .clean-3d-art,
+.parallax-live .boot-copy,
+.parallax-live .boot-visual {
+  transition:
+    scale 140ms linear,
+    transform 140ms linear,
+    translate 140ms linear;
+  will-change: transform, translate, scale;
 }
 
 .section-kinetic-backdrop {
@@ -749,6 +916,48 @@ section {
 
 .section-kinetic-backdrop.is-live span {
   animation-play-state: running;
+}
+
+.kinetic-depth-glow {
+  border-radius: 999px;
+  filter: blur(18px);
+  opacity: 0.22;
+}
+
+.kinetic-depth-glow.glow-one {
+  background: color-mix(in srgb, var(--kinetic-accent), transparent 42%);
+  height: clamp(180px, 22vw, 360px);
+  right: 8%;
+  top: 12%;
+  width: clamp(180px, 22vw, 360px);
+}
+
+.kinetic-depth-glow.glow-two {
+  background: color-mix(in srgb, var(--kinetic-warm), transparent 48%);
+  bottom: 10%;
+  height: clamp(140px, 18vw, 280px);
+  left: 9%;
+  width: clamp(140px, 18vw, 280px);
+}
+
+.kinetic-depth-line {
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--kinetic-accent), transparent 40%), transparent);
+  height: 1px;
+  opacity: 0.2;
+  transform-origin: center;
+  width: 70%;
+}
+
+.kinetic-depth-line.line-one {
+  left: -10%;
+  top: 28%;
+  transform: rotate(-9deg);
+}
+
+.kinetic-depth-line.line-two {
+  bottom: 24%;
+  right: -12%;
+  transform: rotate(7deg);
 }
 
 .kinetic-grid {
@@ -2142,7 +2351,7 @@ section {
   overflow: hidden;
   padding: 16px;
   position: relative;
-  transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+  transform: perspective(900px) rotateX(calc(var(--tilt-x) + var(--pointer-tilt-x))) rotateY(calc(var(--tilt-y) + var(--pointer-tilt-y)));
   transition:
     box-shadow 260ms var(--ease-ui),
     transform 260ms var(--ease-ui);
@@ -7579,12 +7788,46 @@ section.is-motion-live .certification-card::before {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  :root {
+    --pointer-soft-x: 0px;
+    --pointer-soft-y: 0px;
+    --pointer-mid-x: 0px;
+    --pointer-mid-y: 0px;
+    --pointer-far-x: 0px;
+    --pointer-far-y: 0px;
+    --pointer-tilt-x: 0deg;
+    --pointer-tilt-y: 0deg;
+  }
+
   *,
   *::before,
   *::after {
     animation: none !important;
     scroll-behavior: auto !important;
     transition: none !important;
+  }
+
+  .parallax-live .boot-copy,
+  .parallax-live .boot-visual,
+  .parallax-live .hero-copy,
+  .parallax-live .hero-visual,
+  .parallax-live .section-heading,
+  .parallax-live .section-kinetic-backdrop,
+  .parallax-live .hero-motion-field,
+  .parallax-live .hero-cinematic-backdrop,
+  .parallax-live .timeline-card,
+  .parallax-live .project-card,
+  .parallax-live .skill-card,
+  .parallax-live .certification-card,
+  .parallax-live .infra-dashboard,
+  .parallax-live .contact-form,
+  .parallax-live .resume-preview,
+  .parallax-live .wow-orbit-stage,
+  .parallax-live .stridez-phone-stage,
+  .parallax-live .clean-3d-art {
+    scale: 1 !important;
+    transform: none !important;
+    translate: 0 0 !important;
   }
 }
 

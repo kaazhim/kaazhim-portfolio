@@ -178,13 +178,133 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const onPointerMove = (event) => {
-      document.documentElement.style.setProperty('--pointer-x', `${event.clientX}px`);
-      document.documentElement.style.setProperty('--pointer-y', `${event.clientY}px`);
+    const root = document.documentElement;
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let frame = 0;
+
+    const resetSectionDepth = () => {
+      root.classList.remove('parallax-live');
+      root.style.setProperty('--scroll-ratio', '0');
+      root.style.setProperty('--scroll-y', '0px');
+      document.querySelectorAll('[data-parallax-section]').forEach((section) => {
+        section.style.setProperty('--section-progress', '0.5');
+        section.style.setProperty('--parallax-far-y', '0px');
+        section.style.setProperty('--parallax-bg-y', '0px');
+        section.style.setProperty('--parallax-mid-y', '0px');
+        section.style.setProperty('--parallax-near-y', '0px');
+        section.style.setProperty('--parallax-invert-y', '0px');
+        section.style.setProperty('--parallax-depth-tilt', '0deg');
+        section.style.setProperty('--parallax-scale', '1');
+      });
     };
 
+    const updateSectionDepth = () => {
+      frame = 0;
+
+      if (reducedMotionQuery.matches) {
+        resetSectionDepth();
+        return;
+      }
+
+      root.classList.add('parallax-live');
+      const viewportHeight = Math.max(window.innerHeight, 1);
+      const total = Math.max(document.documentElement.scrollHeight - viewportHeight, 1);
+      const scrollRatio = Math.min(1, Math.max(0, window.scrollY / total));
+      root.style.setProperty('--scroll-ratio', scrollRatio.toFixed(4));
+      root.style.setProperty('--scroll-y', `${window.scrollY.toFixed(1)}px`);
+
+      document.querySelectorAll('[data-parallax-section]').forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        const progress = Math.min(1, Math.max(0, (viewportHeight - rect.top) / (viewportHeight + rect.height)));
+        const local = (progress - 0.5) * 2;
+        const centerOffset = (rect.top + rect.height / 2 - viewportHeight / 2) / Math.max(viewportHeight, rect.height);
+        const clampedCenter = Math.min(1, Math.max(-1, centerOffset));
+        const depth = Math.max(-1, Math.min(1, local));
+
+        section.style.setProperty('--section-progress', progress.toFixed(4));
+        section.style.setProperty('--parallax-far-y', `${(-depth * 58).toFixed(2)}px`);
+        section.style.setProperty('--parallax-bg-y', `${(-depth * 38).toFixed(2)}px`);
+        section.style.setProperty('--parallax-mid-y', `${(-depth * 24).toFixed(2)}px`);
+        section.style.setProperty('--parallax-near-y', `${(-depth * 13).toFixed(2)}px`);
+        section.style.setProperty('--parallax-invert-y', `${(depth * 20).toFixed(2)}px`);
+        section.style.setProperty('--parallax-depth-tilt', `${(-clampedCenter * 1.35).toFixed(2)}deg`);
+        section.style.setProperty('--parallax-scale', `${(1 + Math.abs(depth) * 0.01).toFixed(4)}`);
+      });
+    };
+
+    const requestDepthUpdate = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(updateSectionDepth);
+    };
+
+    requestDepthUpdate();
+    window.addEventListener('scroll', requestDepthUpdate, { passive: true });
+    window.addEventListener('resize', requestDepthUpdate);
+    reducedMotionQuery.addEventListener?.('change', requestDepthUpdate);
+
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', requestDepthUpdate);
+      window.removeEventListener('resize', requestDepthUpdate);
+      reducedMotionQuery.removeEventListener?.('change', requestDepthUpdate);
+      resetSectionDepth();
+    };
+  }, [showWelcome]);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let frame = 0;
+    let pointer = {
+      x: typeof window === 'undefined' ? 0 : window.innerWidth / 2,
+      y: typeof window === 'undefined' ? 0 : window.innerHeight / 2,
+    };
+
+    const writePointerDepth = () => {
+      frame = 0;
+      const width = Math.max(window.innerWidth, 1);
+      const height = Math.max(window.innerHeight, 1);
+      const normalX = (pointer.x / width - 0.5) * 2;
+      const normalY = (pointer.y / height - 0.5) * 2;
+      const canMove = !reducedMotionQuery.matches;
+
+      root.style.setProperty('--pointer-x', `${pointer.x.toFixed(1)}px`);
+      root.style.setProperty('--pointer-y', `${pointer.y.toFixed(1)}px`);
+      root.style.setProperty('--pointer-normal-x', normalX.toFixed(4));
+      root.style.setProperty('--pointer-normal-y', normalY.toFixed(4));
+      root.style.setProperty('--pointer-soft-x', `${(canMove ? normalX * 7 : 0).toFixed(2)}px`);
+      root.style.setProperty('--pointer-soft-y', `${(canMove ? normalY * 7 : 0).toFixed(2)}px`);
+      root.style.setProperty('--pointer-mid-x', `${(canMove ? normalX * 15 : 0).toFixed(2)}px`);
+      root.style.setProperty('--pointer-mid-y', `${(canMove ? normalY * 15 : 0).toFixed(2)}px`);
+      root.style.setProperty('--pointer-far-x', `${(canMove ? normalX * -18 : 0).toFixed(2)}px`);
+      root.style.setProperty('--pointer-far-y', `${(canMove ? normalY * -18 : 0).toFixed(2)}px`);
+      root.style.setProperty('--pointer-tilt-x', `${(canMove ? -normalY * 1.6 : 0).toFixed(2)}deg`);
+      root.style.setProperty('--pointer-tilt-y', `${(canMove ? normalX * 2.2 : 0).toFixed(2)}deg`);
+    };
+
+    const onPointerMove = (event) => {
+      pointer = { x: event.clientX, y: event.clientY };
+      if (!frame) frame = window.requestAnimationFrame(writePointerDepth);
+    };
+
+    const onPointerLeave = () => {
+      pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+      if (!frame) frame = window.requestAnimationFrame(writePointerDepth);
+    };
+
+    writePointerDepth();
     window.addEventListener('pointermove', onPointerMove, { passive: true });
-    return () => window.removeEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerleave', onPointerLeave, { passive: true });
+    window.addEventListener('resize', onPointerLeave);
+    reducedMotionQuery.addEventListener?.('change', writePointerDepth);
+
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerleave', onPointerLeave);
+      window.removeEventListener('resize', onPointerLeave);
+      reducedMotionQuery.removeEventListener?.('change', writePointerDepth);
+    };
   }, []);
 
   useEffect(() => {
@@ -353,7 +473,7 @@ function App() {
       <div className="scroll-meter" style={{ width: `${scrollProgress}%` }} />
       <Header activeSection={activeSection} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <main>
-        <section className="hero ink-band" id="home">
+        <section className="hero ink-band parallax-section parallax-hero" id="home" data-parallax-section>
           {!showWelcome && (
             <>
               <HeroMotionField activeInfra={activeInfra} dashboardMode={dashboardMode} />
@@ -511,7 +631,7 @@ function App() {
           screens={stridezScreens}
         />
 
-        <section className="cream-band" id="experience">
+        <section className="cream-band parallax-section" id="experience" data-parallax-section>
           <SectionMotionBackdrop variant="experience" />
           <div className="shell section-grid">
             <SectionHeading
@@ -558,7 +678,7 @@ function App() {
           </div>
         </section>
 
-        <section className="infra-band" id="dashboard">
+        <section className="infra-band parallax-section" id="dashboard" data-parallax-section>
           <SectionMotionBackdrop variant="dashboard" />
           <div className="shell section-grid">
             <div className="section-split infra-section-head">
@@ -589,7 +709,7 @@ function App() {
           </div>
         </section>
 
-        <section className="projects-band ink-band" id="projects">
+        <section className="projects-band ink-band parallax-section" id="projects" data-parallax-section>
           <SectionMotionBackdrop variant="projects" />
           <div className="shell">
             <div className="section-split">
@@ -708,7 +828,7 @@ function App() {
           </div>
         </section>
 
-        <section className="cream-band" id="skills">
+        <section className="cream-band parallax-section" id="skills" data-parallax-section>
           <SectionMotionBackdrop variant="skills" />
           <div className="shell section-grid">
             <SectionHeading
@@ -789,7 +909,7 @@ function App() {
           </div>
         </section>
 
-        <section className="resume-band ink-band" id="resume">
+        <section className="resume-band ink-band parallax-section" id="resume" data-parallax-section>
           <SectionMotionBackdrop variant="resume" />
           <div className="shell resume-layout">
             <div>
@@ -818,7 +938,7 @@ function App() {
           </div>
         </section>
 
-        <section className="contact-band cream-band" id="contact">
+        <section className="contact-band cream-band parallax-section" id="contact" data-parallax-section>
           <SectionMotionBackdrop variant="contact" />
           <div className="shell contact-layout">
             <div>
@@ -1230,6 +1350,10 @@ function SectionMotionBackdrop({ variant = 'sky' }) {
 
   return (
     <div className={`section-kinetic-backdrop kinetic-${variant}`} ref={backdropRef} aria-hidden="true">
+      <span className="kinetic-depth-glow glow-one" />
+      <span className="kinetic-depth-glow glow-two" />
+      <span className="kinetic-depth-line line-one" />
+      <span className="kinetic-depth-line line-two" />
       <span className="kinetic-grid" />
       <span className="kinetic-rail rail-one" />
       <span className="kinetic-rail rail-two" />
@@ -1504,7 +1628,11 @@ function WowLayer({ activeInfra, currentInfra, onDiagnostic, onSelectInfra }) {
   ];
 
   return (
-    <section className="wow-layer-band" aria-label="Premium portfolio impact layer">
+    <section
+      className="wow-layer-band parallax-section"
+      data-parallax-section
+      aria-label="Premium portfolio impact layer"
+    >
       <SectionMotionBackdrop variant="wow" />
       <div className="shell wow-layer-layout">
         <div className="wow-copy">
@@ -1604,7 +1732,12 @@ function StridezExperienceShowcase({ activeScreen, onOpenProject, onSelectScreen
   );
 
   return (
-    <section className="stridez-showcase-band" id="stridez" aria-label="Stridez mobile app 5D showcase">
+    <section
+      className="stridez-showcase-band parallax-section"
+      id="stridez"
+      data-parallax-section
+      aria-label="Stridez mobile app 5D showcase"
+    >
       <SectionMotionBackdrop variant="stridez" />
       <div className="shell stridez-showcase-layout">
         <div className="stridez-copy-panel">
@@ -1698,7 +1831,12 @@ function CleanIllustrationLab({ activeInfra, onSelectInfra }) {
   ];
 
   return (
-    <section className="clean-art-band" id="visual-lab" aria-label="Clean portfolio illustration lab">
+    <section
+      className="clean-art-band parallax-section"
+      id="visual-lab"
+      data-parallax-section
+      aria-label="Clean portfolio illustration lab"
+    >
       <SectionMotionBackdrop variant="clean" />
       <div className="shell clean-art-layout">
         <div className="clean-art-copy">
