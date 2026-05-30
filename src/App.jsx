@@ -76,7 +76,35 @@ const projectFilters = [
   ...Array.from(new Set(projects.map((project) => project.category))),
 ];
 const welcomeSessionKey = 'kaazhim_welcome_seen_v2';
+const motionModeKey = 'kaazhim_motion_mode_v1';
 const toronto2014VideoId = '-YlFWMXxgtg';
+const motionModeOptions = [
+  {
+    id: 'smooth',
+    label: 'Smooth',
+    caption: 'Soft depth',
+    intensity: 0.72,
+    pointer: 0.7,
+    ease: 0.11,
+  },
+  {
+    id: 'deep',
+    label: 'Deep',
+    caption: 'Layered depth',
+    intensity: 1,
+    pointer: 0.95,
+    ease: 0.095,
+  },
+  {
+    id: 'cinematic',
+    label: 'Cinema',
+    caption: 'Big sweep',
+    intensity: 1.24,
+    pointer: 1.12,
+    ease: 0.08,
+  },
+];
+const motionModeProfiles = Object.fromEntries(motionModeOptions.map((mode) => [mode.id, mode]));
 
 function App() {
   const [activeMode, setActiveMode] = useState(capabilityModes[0].id);
@@ -100,6 +128,18 @@ function App() {
   const [contactStatus, setContactStatus] = useState('');
   const [scrollProgress, setScrollProgress] = useState(0);
   const [revealReady, setRevealReady] = useState(false);
+  const [motionDockOpen, setMotionDockOpen] = useState(false);
+  const [motionMode, setMotionMode] = useState(() => {
+    if (typeof window === 'undefined') return 'smooth';
+
+    try {
+      const storedMode = window.localStorage.getItem(motionModeKey);
+      return motionModeProfiles[storedMode] ? storedMode : 'smooth';
+    } catch {
+      return 'smooth';
+    }
+  });
+  const [motionPaused, setMotionPaused] = useState(false);
   const [showWelcome, setShowWelcome] = useState(() => {
     if (typeof window === 'undefined') return true;
 
@@ -117,6 +157,7 @@ function App() {
   });
 
   const mode = capabilityModes.find((item) => item.id === activeMode) ?? capabilityModes[0];
+  const motionProfile = motionModeProfiles[motionMode] ?? motionModeProfiles.smooth;
   const currentInfra = infraFocus.find((item) => item.id === activeInfra) ?? infraFocus[0];
   const readinessScore = Math.min(99, Math.round((currentInfra.score * 0.62) + (readiness * 0.28) + resolvedTickets.length * 2.4));
   const featuredProjects = useMemo(() => projects.filter((project) => project.featured), []);
@@ -145,6 +186,14 @@ function App() {
       setSelectedProject(filteredProjects[0] ?? projects[0]);
     }
   }, [filteredProjects, selectedProject]);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(motionModeKey, motionMode);
+    } catch {
+      // Motion preference is optional; private browsing can block storage.
+    }
+  }, [motionMode]);
 
   useEffect(() => {
     if (!window.location.hash) return undefined;
@@ -180,10 +229,23 @@ function App() {
   useEffect(() => {
     const root = document.documentElement;
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const profile = motionModeProfiles[motionMode] ?? motionModeProfiles.smooth;
+    const intensity = profile.intensity;
+    const ease = profile.ease;
     let frame = 0;
+    const targetRoot = { scrollRatio: 0, scrollY: 0 };
+    const currentRoot = { scrollRatio: 0, scrollY: 0 };
+    const targetSections = new Map();
+    const currentSections = new Map();
+
+    const isDisabled = () => reducedMotionQuery.matches || motionPaused;
+    const lerp = (current, target, amount) => current + (target - current) * amount;
 
     const resetSectionDepth = () => {
       root.classList.remove('parallax-live');
+      root.classList.toggle('motion-paused', motionPaused);
+      root.dataset.motionMode = motionMode;
+      root.style.setProperty('--parallax-intensity', '0');
       root.style.setProperty('--scroll-ratio', '0');
       root.style.setProperty('--scroll-y', '0px');
       document.querySelectorAll('[data-parallax-section]').forEach((section) => {
@@ -198,21 +260,23 @@ function App() {
       });
     };
 
-    const updateSectionDepth = () => {
-      frame = 0;
+    const measureTargets = () => {
+      root.dataset.motionMode = motionMode;
+      root.classList.toggle('motion-paused', motionPaused);
 
-      if (reducedMotionQuery.matches) {
+      if (isDisabled()) {
         resetSectionDepth();
         return;
       }
 
       root.classList.add('parallax-live');
+      root.style.setProperty('--parallax-intensity', intensity.toFixed(2));
       const viewportHeight = Math.max(window.innerHeight, 1);
       const total = Math.max(document.documentElement.scrollHeight - viewportHeight, 1);
-      const scrollRatio = Math.min(1, Math.max(0, window.scrollY / total));
-      root.style.setProperty('--scroll-ratio', scrollRatio.toFixed(4));
-      root.style.setProperty('--scroll-y', `${window.scrollY.toFixed(1)}px`);
+      targetRoot.scrollRatio = Math.min(1, Math.max(0, window.scrollY / total));
+      targetRoot.scrollY = window.scrollY;
 
+      targetSections.clear();
       document.querySelectorAll('[data-parallax-section]').forEach((section) => {
         const rect = section.getBoundingClientRect();
         const progress = Math.min(1, Math.max(0, (viewportHeight - rect.top) / (viewportHeight + rect.height)));
@@ -221,20 +285,82 @@ function App() {
         const clampedCenter = Math.min(1, Math.max(-1, centerOffset));
         const depth = Math.max(-1, Math.min(1, local));
 
-        section.style.setProperty('--section-progress', progress.toFixed(4));
-        section.style.setProperty('--parallax-far-y', `${(-depth * 58).toFixed(2)}px`);
-        section.style.setProperty('--parallax-bg-y', `${(-depth * 38).toFixed(2)}px`);
-        section.style.setProperty('--parallax-mid-y', `${(-depth * 24).toFixed(2)}px`);
-        section.style.setProperty('--parallax-near-y', `${(-depth * 13).toFixed(2)}px`);
-        section.style.setProperty('--parallax-invert-y', `${(depth * 20).toFixed(2)}px`);
-        section.style.setProperty('--parallax-depth-tilt', `${(-clampedCenter * 1.35).toFixed(2)}deg`);
-        section.style.setProperty('--parallax-scale', `${(1 + Math.abs(depth) * 0.01).toFixed(4)}`);
+        targetSections.set(section, {
+          progress,
+          farY: -depth * 62 * intensity,
+          bgY: -depth * 42 * intensity,
+          midY: -depth * 27 * intensity,
+          nearY: -depth * 15 * intensity,
+          invertY: depth * 22 * intensity,
+          tilt: -clampedCenter * 1.45 * intensity,
+          scale: 1 + Math.abs(depth) * 0.012 * intensity,
+        });
       });
     };
 
+    const writeSection = (section, values) => {
+      section.style.setProperty('--section-progress', values.progress.toFixed(4));
+      section.style.setProperty('--parallax-far-y', `${values.farY.toFixed(2)}px`);
+      section.style.setProperty('--parallax-bg-y', `${values.bgY.toFixed(2)}px`);
+      section.style.setProperty('--parallax-mid-y', `${values.midY.toFixed(2)}px`);
+      section.style.setProperty('--parallax-near-y', `${values.nearY.toFixed(2)}px`);
+      section.style.setProperty('--parallax-invert-y', `${values.invertY.toFixed(2)}px`);
+      section.style.setProperty('--parallax-depth-tilt', `${values.tilt.toFixed(2)}deg`);
+      section.style.setProperty('--parallax-scale', values.scale.toFixed(4));
+    };
+
+    const animateDepth = () => {
+      frame = 0;
+
+      if (isDisabled()) {
+        resetSectionDepth();
+        return;
+      }
+
+      let isSettled = true;
+      currentRoot.scrollRatio = lerp(currentRoot.scrollRatio, targetRoot.scrollRatio, ease);
+      currentRoot.scrollY = lerp(currentRoot.scrollY, targetRoot.scrollY, ease);
+
+      if (Math.abs(currentRoot.scrollRatio - targetRoot.scrollRatio) > 0.0004) isSettled = false;
+      root.style.setProperty('--scroll-ratio', currentRoot.scrollRatio.toFixed(4));
+      root.style.setProperty('--scroll-y', `${currentRoot.scrollY.toFixed(1)}px`);
+
+      targetSections.forEach((target, section) => {
+        const current = currentSections.get(section) ?? { ...target };
+        const next = {
+          progress: lerp(current.progress, target.progress, ease),
+          farY: lerp(current.farY, target.farY, ease),
+          bgY: lerp(current.bgY, target.bgY, ease),
+          midY: lerp(current.midY, target.midY, ease),
+          nearY: lerp(current.nearY, target.nearY, ease),
+          invertY: lerp(current.invertY, target.invertY, ease),
+          tilt: lerp(current.tilt, target.tilt, ease),
+          scale: lerp(current.scale, target.scale, ease),
+        };
+
+        if (
+          Math.abs(next.nearY - target.nearY) > 0.08 ||
+          Math.abs(next.farY - target.farY) > 0.08 ||
+          Math.abs(next.progress - target.progress) > 0.0006
+        ) {
+          isSettled = false;
+        }
+
+        currentSections.set(section, next);
+        writeSection(section, next);
+      });
+
+      currentSections.forEach((_, section) => {
+        if (!targetSections.has(section)) currentSections.delete(section);
+      });
+
+      if (!isSettled) frame = window.requestAnimationFrame(animateDepth);
+    };
+
     const requestDepthUpdate = () => {
+      measureTargets();
       if (frame) return;
-      frame = window.requestAnimationFrame(updateSectionDepth);
+      frame = window.requestAnimationFrame(animateDepth);
     };
 
     requestDepthUpdate();
@@ -249,46 +375,81 @@ function App() {
       reducedMotionQuery.removeEventListener?.('change', requestDepthUpdate);
       resetSectionDepth();
     };
-  }, [showWelcome]);
+  }, [motionMode, motionPaused, showWelcome]);
 
   useEffect(() => {
     const root = document.documentElement;
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const profile = motionModeProfiles[motionMode] ?? motionModeProfiles.smooth;
+    const pointerIntensity = profile.pointer;
+    const ease = Math.min(profile.ease + 0.045, 0.18);
     let frame = 0;
-    let pointer = {
+    const targetPointer = {
       x: typeof window === 'undefined' ? 0 : window.innerWidth / 2,
       y: typeof window === 'undefined' ? 0 : window.innerHeight / 2,
+      normalX: 0,
+      normalY: 0,
     };
+    const currentPointer = {
+      ...targetPointer,
+    };
+    const lerp = (current, target, amount) => current + (target - current) * amount;
 
     const writePointerDepth = () => {
       frame = 0;
-      const width = Math.max(window.innerWidth, 1);
-      const height = Math.max(window.innerHeight, 1);
-      const normalX = (pointer.x / width - 0.5) * 2;
-      const normalY = (pointer.y / height - 0.5) * 2;
-      const canMove = !reducedMotionQuery.matches;
+      const canMove = !reducedMotionQuery.matches && !motionPaused;
+      const targetX = canMove ? targetPointer.normalX : 0;
+      const targetY = canMove ? targetPointer.normalY : 0;
 
-      root.style.setProperty('--pointer-x', `${pointer.x.toFixed(1)}px`);
-      root.style.setProperty('--pointer-y', `${pointer.y.toFixed(1)}px`);
-      root.style.setProperty('--pointer-normal-x', normalX.toFixed(4));
-      root.style.setProperty('--pointer-normal-y', normalY.toFixed(4));
-      root.style.setProperty('--pointer-soft-x', `${(canMove ? normalX * 7 : 0).toFixed(2)}px`);
-      root.style.setProperty('--pointer-soft-y', `${(canMove ? normalY * 7 : 0).toFixed(2)}px`);
-      root.style.setProperty('--pointer-mid-x', `${(canMove ? normalX * 15 : 0).toFixed(2)}px`);
-      root.style.setProperty('--pointer-mid-y', `${(canMove ? normalY * 15 : 0).toFixed(2)}px`);
-      root.style.setProperty('--pointer-far-x', `${(canMove ? normalX * -18 : 0).toFixed(2)}px`);
-      root.style.setProperty('--pointer-far-y', `${(canMove ? normalY * -18 : 0).toFixed(2)}px`);
-      root.style.setProperty('--pointer-tilt-x', `${(canMove ? -normalY * 1.6 : 0).toFixed(2)}deg`);
-      root.style.setProperty('--pointer-tilt-y', `${(canMove ? normalX * 2.2 : 0).toFixed(2)}deg`);
+      currentPointer.x = lerp(currentPointer.x, targetPointer.x, ease);
+      currentPointer.y = lerp(currentPointer.y, targetPointer.y, ease);
+      currentPointer.normalX = lerp(currentPointer.normalX, targetX, ease);
+      currentPointer.normalY = lerp(currentPointer.normalY, targetY, ease);
+
+      const soft = 8 * pointerIntensity;
+      const mid = 17 * pointerIntensity;
+      const far = -21 * pointerIntensity;
+      const tiltX = -currentPointer.normalY * 1.85 * pointerIntensity;
+      const tiltY = currentPointer.normalX * 2.35 * pointerIntensity;
+
+      root.style.setProperty('--pointer-x', `${currentPointer.x.toFixed(1)}px`);
+      root.style.setProperty('--pointer-y', `${currentPointer.y.toFixed(1)}px`);
+      root.style.setProperty('--pointer-normal-x', currentPointer.normalX.toFixed(4));
+      root.style.setProperty('--pointer-normal-y', currentPointer.normalY.toFixed(4));
+      root.style.setProperty('--pointer-soft-x', `${(currentPointer.normalX * soft).toFixed(2)}px`);
+      root.style.setProperty('--pointer-soft-y', `${(currentPointer.normalY * soft).toFixed(2)}px`);
+      root.style.setProperty('--pointer-mid-x', `${(currentPointer.normalX * mid).toFixed(2)}px`);
+      root.style.setProperty('--pointer-mid-y', `${(currentPointer.normalY * mid).toFixed(2)}px`);
+      root.style.setProperty('--pointer-far-x', `${(currentPointer.normalX * far).toFixed(2)}px`);
+      root.style.setProperty('--pointer-far-y', `${(currentPointer.normalY * far).toFixed(2)}px`);
+      root.style.setProperty('--pointer-tilt-x', `${tiltX.toFixed(2)}deg`);
+      root.style.setProperty('--pointer-tilt-y', `${tiltY.toFixed(2)}deg`);
+
+      if (
+        Math.abs(currentPointer.normalX - targetX) > 0.002 ||
+        Math.abs(currentPointer.normalY - targetY) > 0.002 ||
+        Math.abs(currentPointer.x - targetPointer.x) > 0.5 ||
+        Math.abs(currentPointer.y - targetPointer.y) > 0.5
+      ) {
+        frame = window.requestAnimationFrame(writePointerDepth);
+      }
     };
 
     const onPointerMove = (event) => {
-      pointer = { x: event.clientX, y: event.clientY };
+      const width = Math.max(window.innerWidth, 1);
+      const height = Math.max(window.innerHeight, 1);
+      targetPointer.x = event.clientX;
+      targetPointer.y = event.clientY;
+      targetPointer.normalX = (event.clientX / width - 0.5) * 2;
+      targetPointer.normalY = (event.clientY / height - 0.5) * 2;
       if (!frame) frame = window.requestAnimationFrame(writePointerDepth);
     };
 
     const onPointerLeave = () => {
-      pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+      targetPointer.x = window.innerWidth / 2;
+      targetPointer.y = window.innerHeight / 2;
+      targetPointer.normalX = 0;
+      targetPointer.normalY = 0;
       if (!frame) frame = window.requestAnimationFrame(writePointerDepth);
     };
 
@@ -305,7 +466,7 @@ function App() {
       window.removeEventListener('resize', onPointerLeave);
       reducedMotionQuery.removeEventListener?.('change', writePointerDepth);
     };
-  }, []);
+  }, [motionMode, motionPaused]);
 
   useEffect(() => {
     const targets = Array.from(
@@ -1007,6 +1168,19 @@ function App() {
         </section>
       </main>
       <Footer />
+      {!showWelcome && (
+        <MotionControlDock
+          activeSection={activeSection}
+          motionMode={motionMode}
+          motionPaused={motionPaused}
+          motionProfile={motionProfile}
+          isOpen={motionDockOpen}
+          onModeChange={setMotionMode}
+          onToggleOpen={() => setMotionDockOpen((current) => !current)}
+          onTogglePause={() => setMotionPaused((current) => !current)}
+          scrollProgress={scrollProgress}
+        />
+      )}
       <button
         aria-label="Back to top"
         className={`top-button ${scrollProgress > 8 ? 'is-visible' : ''}`}
@@ -1024,6 +1198,82 @@ function App() {
         />
       )}
     </div>
+  );
+}
+
+function MotionControlDock({
+  activeSection,
+  motionMode,
+  motionPaused,
+  motionProfile,
+  isOpen,
+  onModeChange,
+  onToggleOpen,
+  onTogglePause,
+  scrollProgress,
+}) {
+  const activeLabel = sectionLabels[activeSection] ?? activeSection;
+
+  return (
+    <aside
+      className={`motion-control-dock ${motionPaused ? 'is-paused' : ''} ${isOpen ? 'is-open' : ''}`}
+      aria-label="Parallax motion controls"
+    >
+      <button
+        aria-label={isOpen ? 'Close parallax controls' : 'Open parallax controls'}
+        aria-expanded={isOpen}
+        className="motion-dock-head"
+        onClick={onToggleOpen}
+        type="button"
+      >
+        <Activity size={18} />
+        <div>
+          <span>parallax.engine</span>
+          <strong>{motionPaused ? 'Paused' : `${motionProfile.label} mode`}</strong>
+        </div>
+        <small>{Math.round(scrollProgress)}%</small>
+        <ChevronRight className="motion-dock-chevron" size={16} />
+      </button>
+      <div
+        className="motion-progress"
+        aria-label="Page scroll progress"
+        aria-valuemax="100"
+        aria-valuemin="0"
+        aria-valuenow={Math.round(scrollProgress)}
+        role="progressbar"
+      >
+        <span style={{ width: `${scrollProgress}%` }} />
+      </div>
+      <div className="motion-mode-grid" aria-label="Parallax intensity">
+        {motionModeOptions.map((mode) => {
+          const Icon = mode.id === 'cinematic' ? Sparkles : mode.id === 'deep' ? Activity : Gauge;
+
+          return (
+            <button
+              aria-pressed={motionMode === mode.id}
+              className={motionMode === mode.id ? 'is-active' : ''}
+              key={mode.id}
+              onClick={() => onModeChange(mode.id)}
+              type="button"
+            >
+              <Icon size={15} />
+              <span>{mode.label}</span>
+              <small>{mode.caption}</small>
+            </button>
+          );
+        })}
+      </div>
+      <div className="motion-dock-actions">
+        <button className={motionPaused ? 'is-active' : ''} onClick={onTogglePause} type="button">
+          <RefreshCw size={15} />
+          {motionPaused ? 'Resume motion' : 'Pause motion'}
+        </button>
+        <a href={`#${activeSection}`}>
+          <ArrowUpRight size={15} />
+          {activeLabel}
+        </a>
+      </div>
+    </aside>
   );
 }
 
