@@ -77,7 +77,6 @@ const projectFilters = [
 ];
 const welcomeSessionKey = 'kaazhim_welcome_seen_v2';
 const motionModeKey = 'kaazhim_motion_mode_v1';
-const toronto2014VideoId = '-YlFWMXxgtg';
 const motionModeOptions = [
   {
     id: 'smooth',
@@ -1279,12 +1278,6 @@ function MotionControlDock({
 
 function WelcomePage({ onEnter }) {
   const [progress, setProgress] = useState(8);
-  const [canLoadVideo, setCanLoadVideo] = useState(false);
-  const [videoReady, setVideoReady] = useState(false);
-  const [videoActive, setVideoActive] = useState(false);
-  const [videoFailed, setVideoFailed] = useState(false);
-  const videoOrigin = typeof window === 'undefined' ? '' : encodeURIComponent(window.location.origin);
-  const videoSrc = `https://www.youtube-nocookie.com/embed/${toronto2014VideoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${toronto2014VideoId}&playsinline=1&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1&enablejsapi=1&origin=${videoOrigin}&widget_referrer=${videoOrigin}`;
   const welcomeLines = useMemo(
     () => [
       'init kaazhim.dev',
@@ -1295,21 +1288,6 @@ function WelcomePage({ onEnter }) {
     ],
     [],
   );
-
-  useEffect(() => {
-    const mobileQuery = window.matchMedia('(max-width: 760px)');
-    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const syncCapability = () => setCanLoadVideo(!mobileQuery.matches && !reducedMotionQuery.matches);
-
-    syncCapability();
-    mobileQuery.addEventListener?.('change', syncCapability);
-    reducedMotionQuery.addEventListener?.('change', syncCapability);
-
-    return () => {
-      mobileQuery.removeEventListener?.('change', syncCapability);
-      reducedMotionQuery.removeEventListener?.('change', syncCapability);
-    };
-  }, []);
 
   useEffect(() => {
     const progressTimer = window.setInterval(() => {
@@ -1331,106 +1309,13 @@ function WelcomePage({ onEnter }) {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [onEnter]);
 
-  useEffect(() => {
-    if (!canLoadVideo) return undefined;
-
-    let cancelled = false;
-    let player;
-    const playerId = 'portfolio-welcome-youtube-player';
-    const timeout = window.setTimeout(() => {
-      if (!cancelled) setVideoFailed(true);
-    }, 5200);
-    const previousReady = window.onYouTubeIframeAPIReady;
-
-    const markPlayable = () => {
-      window.clearTimeout(timeout);
-      if (!cancelled) {
-        setVideoActive(true);
-        setVideoFailed(false);
-      }
-    };
-
-    const initializePlayer = () => {
-      if (cancelled || !window.YT?.Player) return;
-
-      player = new window.YT.Player(playerId, {
-        events: {
-          onReady: (event) => {
-            try {
-              event.target.mute();
-              event.target.playVideo();
-            } catch {
-              setVideoFailed(true);
-            }
-          },
-          onStateChange: (event) => {
-            const states = window.YT?.PlayerState;
-            if (event.data === states?.PLAYING || event.data === states?.BUFFERING) markPlayable();
-          },
-          onError: () => {
-            window.clearTimeout(timeout);
-            if (!cancelled) setVideoFailed(true);
-          },
-        },
-      });
-    };
-
-    if (window.YT?.Player) {
-      initializePlayer();
-    } else {
-      window.onYouTubeIframeAPIReady = () => {
-        previousReady?.();
-        initializePlayer();
-      };
-
-      if (!document.querySelector('script[src="https://www.youtube.com/iframe_api"]')) {
-        const script = document.createElement('script');
-        script.src = 'https://www.youtube.com/iframe_api';
-        script.async = true;
-        document.head.append(script);
-      }
-    }
-
-    return () => {
-      cancelled = true;
-      window.clearTimeout(timeout);
-      if (window.onYouTubeIframeAPIReady !== previousReady) {
-        window.onYouTubeIframeAPIReady = previousReady;
-      }
-      try {
-        player?.destroy?.();
-      } catch {
-        // YouTube iframe cleanup can throw when the iframe was already removed.
-      }
-    };
-  }, [canLoadVideo]);
-
   return (
     <div className="boot-page" role="dialog" aria-modal="true" aria-label="Portfolio welcome page">
-      {canLoadVideo ? (
-        <div
-          className={`boot-video-frame ${videoReady ? 'is-ready' : ''} ${
-            videoActive && !videoFailed ? 'is-playing' : 'has-poster'
-          }`}
-          aria-hidden="true"
-        >
-          <iframe
-            allow="autoplay; encrypted-media; picture-in-picture"
-            id="portfolio-welcome-youtube-player"
-            onLoad={() => setVideoReady(true)}
-            referrerPolicy="origin-when-cross-origin"
-            src={videoSrc}
-            title="Daniel Caesar Toronto 2014 official music video background"
-          />
-          <span className="boot-video-poster" />
-        </div>
-      ) : (
-        <div className="boot-fallback" aria-hidden="true">
-          <span className="boot-fallback-glow glow-one" />
-          <span className="boot-fallback-glow glow-two" />
-          <span className="boot-fallback-glow glow-three" />
-        </div>
-      )}
+      <div className="boot-fallback" aria-hidden="true">
+        <span className="boot-fallback-glow glow-one" />
+        <span className="boot-fallback-glow glow-two" />
+        <span className="boot-fallback-glow glow-three" />
+      </div>
       <div className="boot-overlay" aria-hidden="true" />
       <div className="boot-grain" aria-hidden="true" />
 
@@ -1487,17 +1372,7 @@ function WelcomePage({ onEnter }) {
               Skip intro
               <ArrowUpRight size={16} />
             </button>
-            <a
-              className="boot-skip-button boot-watch-button"
-              href={`https://www.youtube.com/watch?v=${toronto2014VideoId}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Watch with sound
-              <ExternalLink size={16} />
-            </a>
           </div>
-          <small>Toronto 2014 plays muted on desktop when the browser allows it. Mobile keeps the intro lighter.</small>
         </section>
 
         <section className="boot-visual" aria-label="Animated portfolio system status">

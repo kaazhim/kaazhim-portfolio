@@ -145,70 +145,12 @@ body.boot-lock .app-shell > :not(.boot-page) *::after {
   transform: rotate(-2deg);
 }
 
-.boot-video-frame,
 .boot-fallback,
 .boot-overlay,
 .boot-grain {
   inset: 0;
   pointer-events: none;
   position: absolute;
-}
-
-.boot-video-frame {
-  filter: saturate(1.06) contrast(1.03) brightness(1.05);
-  opacity: 0;
-  overflow: hidden;
-  transform: scale(1.05);
-  transition: opacity 1100ms var(--ease-smooth);
-}
-
-.boot-video-frame::after {
-  background:
-    radial-gradient(circle at 50% 50%, rgba(6, 17, 31, 0.66) 0 15%, rgba(6, 17, 31, 0.3) 29%, transparent 52%),
-    linear-gradient(90deg, transparent 0 43%, rgba(6, 17, 31, 0.26) 43% 61%, transparent 61% 100%);
-  content: "";
-  inset: 0;
-  pointer-events: none;
-  position: absolute;
-}
-
-.boot-video-frame.is-ready {
-  opacity: 1;
-}
-
-.boot-video-frame iframe {
-  border: 0;
-  height: max(100vh, 56.25vw);
-  left: 50%;
-  min-height: 100%;
-  min-width: 100%;
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%) scale(1.08);
-  transition: opacity 900ms var(--ease-smooth);
-  width: max(100vw, 177.78vh);
-}
-
-.boot-video-frame.is-playing iframe {
-  opacity: 0.78;
-}
-
-.boot-video-poster {
-  animation: boot-video-drift 18s ease-in-out infinite;
-  background:
-    linear-gradient(135deg, rgba(6, 17, 31, 0), rgba(6, 17, 31, 0.18)),
-    url("https://i.ytimg.com/vi/-YlFWMXxgtg/maxresdefault.jpg") center / cover;
-  filter: blur(0.25px) saturate(1);
-  inset: -4%;
-  opacity: 1;
-  position: absolute;
-  transform: scale(1.04);
-  transition: opacity 500ms ease;
-}
-
-.boot-video-frame.is-playing .boot-video-poster {
-  opacity: 0.68;
 }
 
 .boot-fallback {
@@ -797,7 +739,6 @@ html[data-motion-mode="cinematic"] {
   z-index: 1;
 }
 
-.parallax-live .boot-video-frame,
 .parallax-live .boot-fallback,
 .parallax-live .boot-page::before {
   translate: var(--pointer-far-x) var(--pointer-far-y);
@@ -8365,17 +8306,6 @@ section.is-motion-live .certification-card::before {
 
   50% {
     transform: translate3d(14px, -10px, 0) scale(1.04);
-  }
-}
-
-@keyframes boot-video-drift {
-  0%,
-  100% {
-    transform: scale(1.04) translate3d(0, 0, 0);
-  }
-
-  50% {
-    transform: scale(1.07) translate3d(-0.8%, 0.7%, 0);
   }
 }
 
