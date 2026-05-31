@@ -98,7 +98,7 @@ const motionModeOptions = [
   {
     id: 'cinematic',
     label: 'Cinema',
-    caption: 'Big sweep',
+    caption: 'Full motion',
     intensity: 1.24,
     pointer: 1.12,
     ease: 0.08,
@@ -668,7 +668,7 @@ function App() {
               <div className="hero-actions">
                 <a className="button button-primary" href="#projects">
                   <BriefcaseBusiness size={18} />
-                  View Case Studies
+                  Open My Work
                 </a>
                 <a className="button button-light" href={profile.resume} download>
                   <Download size={18} />
@@ -680,13 +680,13 @@ function App() {
                 </a>
                 <a className="button button-cinema" href="#dashboard">
                   <Rocket size={18} />
-                  Launch 3D Lab
+                  Open Infra Lab
                 </a>
               </div>
-              <div className="hero-signal-strip" aria-label="Cinematic infrastructure signal">
-                <span>3D infra core online</span>
-                <strong>{dashboardMode === 'live' ? 'Live orbit' : dashboardMode === 'diagnostic' ? 'Diagnostic scan' : 'Hardening sweep'}</strong>
-                <small>{currentInfra.label} focus</small>
+              <div className="hero-signal-strip" aria-label="Live infrastructure signal">
+                <span>portfolio is live</span>
+                <strong>{dashboardMode === 'live' ? 'Support view' : dashboardMode === 'diagnostic' ? 'Checking stack' : 'Security notes'}</strong>
+                <small>{currentInfra.label} lane</small>
               </div>
               <HeroStatusDock currentInfra={currentInfra} dashboardMode={dashboardMode} readinessScore={readinessScore} />
               <HeroLiveConsole
@@ -705,7 +705,7 @@ function App() {
             >
               <div className="visual-label">
                 <BadgeCheck size={18} />
-                Real photo. Real projects.
+                Real photo. Real work.
               </div>
               <div className="portrait-stage" style={portraitStyle}>
                 <div className="portrait-frame">
@@ -717,14 +717,14 @@ function App() {
                   <span className="portrait-scan-sweep" aria-hidden="true" />
                 </div>
                 <div className="portrait-card portrait-card-top">
-                  <span>Showcase Mode</span>
+                  <span>Final year work</span>
                   <strong>Stridez pitch, app demo, and poster proof</strong>
                 </div>
                 <div className="portrait-card portrait-card-bottom">
-                  <span>Verified</span>
-                  <strong>PHP lint + Vite build + Android build</strong>
+                  <span>Checked locally</span>
+                  <strong>PHP lint, Vite build, and Android build notes</strong>
                 </div>
-                <div className="portrait-ribbon">Support to Build to Present</div>
+                <div className="portrait-ribbon">Support, build, present</div>
               </div>
               <div className="visual-stack">
                 {['Server', 'Firewall', 'Network', 'Cyber', 'Hardware', 'React', 'SQL'].map((item) => (
@@ -760,7 +760,7 @@ function App() {
             </div>
             <div className={`mode-detail accent-${mode.accent}`}>
               <div>
-                <span>Active strength</span>
+                <span>Current lane</span>
                 <h2>{mode.title}</h2>
                 <p>{mode.summary}</p>
               </div>
@@ -798,8 +798,8 @@ function App() {
             <SectionHeading
               icon={<Workflow />}
               kicker="Experience"
-              title="Support mindset with builder habits"
-              text="The work history connects hands-on user support, application support, workflow digitization, project execution, and customer-facing operations."
+              title="The work that shaped my IT habits"
+              text="My experience is a mix of user support, application support, workflow digitization, project follow-up, and customer-facing operations."
             />
             <div className="timeline-layout">
               <div className="timeline-list" aria-label="Experience timeline">
@@ -846,8 +846,8 @@ function App() {
               <SectionHeading
                 icon={<Gauge />}
                 kicker="Infra Lab"
-                title="A live-feeling infrastructure dashboard"
-                text="Built to show my current direction clearly: servers, firewall rules, network support, cybersecurity hygiene, and hardware replacement."
+                title="The dashboard for what I am learning now"
+                text="This is my current direction in one interactive view: servers, firewall rules, network checks, cybersecurity hygiene, and hardware replacement."
               />
               <div className="infra-now-card">
                 <span>Current focus</span>
@@ -877,8 +877,8 @@ function App() {
               <SectionHeading
                 icon={<Code2 />}
                 kicker="Projects"
-                title="Detailed case studies, not just titles"
-                text="Each project is written for recruiter scanning: what problem it solves, how it works, why it matters, and what was verified locally."
+                title="Projects with the proof beside them"
+                text="I rewrote these so they sound like me: what I built, what I fixed, what I checked, and what I can explain in an interview."
               />
               <div className="project-tools" aria-label="Project controls">
                 <label className="project-search">
@@ -892,11 +892,11 @@ function App() {
                 <div className="project-tool-actions">
                   <button className="tool-button" onClick={shuffleProject} type="button">
                     <Shuffle size={16} />
-                    Surprise me
+                    Pick one
                   </button>
                   <button className={`tool-button ${funMode ? 'is-active' : ''}`} onClick={toggleFunMode} type="button">
                     <Palette size={16} />
-                    Never Enough mode
+                    Never Enough
                   </button>
                 </div>
                 <div className="filter-bar" aria-label="Project filters">
@@ -930,7 +930,7 @@ function App() {
                 >
                   <span>{project.category}</span>
                   <strong>{project.title}</strong>
-                  <small>Tap to focus</small>
+                    <small>Click to focus</small>
                 </button>
               ))}
             </div>
@@ -956,15 +956,15 @@ function App() {
                     </button>
                     <button className="project-view-link" onClick={() => openProject(project)} type="button">
                       <Eye size={16} />
-                      View Project
+                      Open Project
                     </button>
                   </article>
                 ))}
                 {filteredProjects.length === 0 && (
                   <div className="empty-results">
                     <Search size={24} />
-                    <strong>No project found</strong>
-                    <p>Try another stack, category, or project name.</p>
+                    <strong>I could not find that project</strong>
+                    <p>Try a stack, category, or project name.</p>
                   </div>
                 )}
               </div>
@@ -974,7 +974,7 @@ function App() {
             <div className="source-audit">
               <div className="mini-heading">
                 <Clipboard />
-                <h3>Source Audit</h3>
+                <h3>What I Checked</h3>
               </div>
               <div className="audit-grid">
                 {sourceAudit.map((item) => (
@@ -995,8 +995,8 @@ function App() {
             <SectionHeading
               icon={<Network />}
               kicker="Skills"
-              title="A practical full-stack support toolkit"
-              text="The skill mix is intentionally broad: support, databases, mobile apps, web prototypes, reporting, and workflow tools."
+              title="The tools I keep reaching for"
+              text="My skill set is practical on purpose: support work, databases, mobile apps, web prototypes, reporting, and workflow tools."
             />
             <div className="skills-grid">
               {skillGroups.map((group) => (
@@ -1078,7 +1078,7 @@ function App() {
                 icon={<FileText />}
                 kicker="Resume"
                 title="Two-page resume preview"
-                text="A compact record of support experience, project work, education, certifications, and contact details."
+                text="A quick view of my support experience, project work, education, certifications, and contact details."
               />
               <div className="resume-actions">
                 <a className="button button-primary" href={profile.resume} download>
@@ -1106,8 +1106,8 @@ function App() {
               <SectionHeading
                 icon={<Mail />}
                 kicker="Contact"
-                title="Ready for support, app, and junior developer roles"
-                text="Available for IT support, application support, junior software development, digital operations, and workflow-focused opportunities."
+                title="Open to IT support, infra, and junior dev roles"
+                text="I am aiming for roles where I can grow through support, infrastructure work, application support, digital operations, and workflow tools."
               />
               <div className="contact-methods">
                 <a href={`mailto:${profile.email}`}>
@@ -1122,7 +1122,7 @@ function App() {
                 ))}
                 <button onClick={copyEmail} type="button">
                   <Clipboard size={18} />
-                  {copied ? 'Copied' : 'Copy Email'}
+                  {copied ? 'Copied' : 'Copy email'}
                 </button>
               </div>
               <ContactSignalPanel />
@@ -1151,10 +1151,10 @@ function App() {
               </label>
               <label>
                 Message
-                <textarea
+                  <textarea
                   value={contactForm.message}
                   onChange={(event) => setContactForm({ ...contactForm, message: event.target.value })}
-                  placeholder="Tell me about the opportunity"
+                  placeholder="Tell me about the role or project"
                   rows="5"
                 />
               </label>
@@ -1228,7 +1228,7 @@ function MotionControlDock({
       >
         <Activity size={18} />
         <div>
-          <span>parallax.engine</span>
+          <span>motion controls</span>
           <strong>{motionPaused ? 'Paused' : `${motionProfile.label} mode`}</strong>
         </div>
         <small>{Math.round(scrollProgress)}%</small>
@@ -1266,7 +1266,7 @@ function MotionControlDock({
       <div className="motion-dock-actions">
         <button className={motionPaused ? 'is-active' : ''} onClick={onTogglePause} type="button">
           <RefreshCw size={15} />
-          {motionPaused ? 'Resume motion' : 'Pause motion'}
+          {motionPaused ? 'Resume' : 'Pause'}
         </button>
         <a href={`#${activeSection}`}>
           <ArrowUpRight size={15} />
@@ -1287,11 +1287,11 @@ function WelcomePage({ onEnter }) {
   const videoSrc = `https://www.youtube-nocookie.com/embed/${toronto2014VideoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${toronto2014VideoId}&playsinline=1&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1&enablejsapi=1&origin=${videoOrigin}&widget_referrer=${videoOrigin}`;
   const welcomeLines = useMemo(
     () => [
-      'welcome kaazhim --portfolio --cinematic',
-      'full mv mode: daniel-caesar/toronto-2014',
-      'video stays live until you enter',
-      'open project stories --recruiter-view',
-      'ready --enter-portfolio',
+      'init kaazhim.dev',
+      'load blue/yellow motion',
+      'keep the wording honest',
+      'open real project proof',
+      'ready to enter',
     ],
     [],
   );
@@ -1438,13 +1438,13 @@ function WelcomePage({ onEnter }) {
         <section className="boot-copy" aria-labelledby="boot-title">
           <div className="boot-kicker">
             <Code2 size={16} />
-            <span>kaazhim.welcome</span>
+            <span>kaazhim.dev</span>
             <strong>v2026</strong>
           </div>
-          <h2 id="boot-title">Welcome to my Portfolio</h2>
+          <h2 id="boot-title">Hey, I am Kaazhim.</h2>
           <p>
-            Come in through a cinematic Daniel Caesar backdrop, then explore my infrastructure,
-            cybersecurity, server, firewall, network, and project work.
+            This portfolio is built like a small interactive desk: my IT infrastructure focus,
+            my real project proof, and the work I can actually talk through.
           </p>
 
           <div className="boot-terminal" aria-label="Welcome notes">
@@ -1484,7 +1484,7 @@ function WelcomePage({ onEnter }) {
               Enter portfolio
             </button>
             <button className="boot-skip-button" onClick={onEnter} type="button">
-              Skip welcome
+              Skip intro
               <ArrowUpRight size={16} />
             </button>
             <a
@@ -1497,7 +1497,7 @@ function WelcomePage({ onEnter }) {
               <ExternalLink size={16} />
             </a>
           </div>
-          <small>Full Toronto 2014 MV plays muted on desktop until you enter. Mobile keeps a lighter cinematic welcome.</small>
+          <small>Toronto 2014 plays muted on desktop when the browser allows it. Mobile keeps the intro lighter.</small>
         </section>
 
         <section className="boot-visual" aria-label="Animated portfolio system status">
@@ -1514,17 +1514,17 @@ function WelcomePage({ onEnter }) {
             <div className="boot-stack-card card-server">
               <Server size={22} />
               <span>Server</span>
-              <strong>Online</strong>
+              <strong>Ready</strong>
             </div>
             <div className="boot-stack-card card-firewall">
               <ShieldCheck size={22} />
               <span>Firewall</span>
-              <strong>Protected</strong>
+              <strong>Checked</strong>
             </div>
             <div className="boot-stack-card card-network">
               <Router size={22} />
               <span>Network</span>
-              <strong>Routed</strong>
+              <strong>Stable</strong>
             </div>
             <div className="boot-stack-card card-hardware">
               <HardDrive size={22} />
@@ -1541,7 +1541,7 @@ function WelcomePage({ onEnter }) {
 function HeroMotionField({ activeInfra, dashboardMode }) {
   const focusIndex = Math.max(0, infraFocus.findIndex((item) => item.id === activeInfra));
   const packets = ['server', 'firewall', 'network', 'cyber', 'hardware'];
-  const particles = Array.from({ length: 8 }, (_, index) => index + 1);
+  const particles = Array.from({ length: 18 }, (_, index) => index + 1);
 
   return (
     <div
@@ -1613,6 +1613,8 @@ function SectionMotionBackdrop({ variant = 'sky' }) {
       <span className="kinetic-pulse pulse-two" />
       <span className="kinetic-packet packet-one" />
       <span className="kinetic-packet packet-two" />
+      <span className="kinetic-wave wave-one" />
+      <span className="kinetic-wave wave-two" />
       <span className="kinetic-cube cube-one">
         <i />
         <i />
@@ -1628,11 +1630,11 @@ function SectionMotionBackdrop({ variant = 'sky' }) {
 }
 
 function HeroLiveConsole({ currentInfra, dashboardMode, onDiagnostic, readinessScore }) {
-  const modeLabel = dashboardMode === 'live' ? 'monitor' : dashboardMode === 'diagnostic' ? 'trace' : 'harden';
+  const modeLabel = dashboardMode === 'live' ? 'notes' : dashboardMode === 'diagnostic' ? 'check' : 'secure';
   const consoleLines = [
-    `boot ${currentInfra.id}-profile --priority recruiter-view`,
+    `open ${currentInfra.id}-notes`,
     `check ${currentInfra.tools.slice(0, 2).join(' + ').toLowerCase()}`,
-    `write evidence-log --status ${currentInfra.risk.toLowerCase()}`,
+    `save handover --risk ${currentInfra.risk.toLowerCase()}`,
   ];
 
   return (
@@ -1642,7 +1644,7 @@ function HeroLiveConsole({ currentInfra, dashboardMode, onDiagnostic, readinessS
           <span />
           <span />
           <span />
-          <strong>motion.theme/{modeLabel}</strong>
+          <strong>kaazhim.dev/{modeLabel}</strong>
         </div>
         <div className="console-lines">
           {consoleLines.map((line, index) => (
@@ -1668,7 +1670,7 @@ function HeroLiveConsole({ currentInfra, dashboardMode, onDiagnostic, readinessS
         </div>
         <button onClick={onDiagnostic} type="button">
           <Activity size={15} />
-          pulse stack
+          cycle stack
         </button>
       </div>
     </div>
@@ -1695,14 +1697,14 @@ function HeroStatusDock({ currentInfra, dashboardMode, readinessScore }) {
 }
 
 function HeroCommandRail({ activeInfra, currentInfra, dashboardMode, onDiagnostic, onSelectInfra }) {
-  const modeLabel = dashboardMode === 'live' ? 'live-support' : dashboardMode === 'diagnostic' ? 'diagnostic-scan' : 'hardening-review';
+  const modeLabel = dashboardMode === 'live' ? 'support' : dashboardMode === 'diagnostic' ? 'checking' : 'secure-notes';
 
   return (
-    <div className="shell hero-command-rail" aria-label="Interactive home infrastructure command rail">
+    <div className="shell hero-command-rail" aria-label="Interactive home infrastructure rail">
       <div className="rail-prompt">
         <Code2 size={16} />
-        <span>kaazhim@portfolio</span>
-        <strong>./scan --focus={currentInfra.id} --mode={modeLabel}</strong>
+        <span>kaazhim@desk</span>
+        <strong>focus={currentInfra.id} / mode={modeLabel}</strong>
       </div>
       <div className="rail-focus-list" aria-label="Infrastructure focus selector">
         {infraFocus.map((item) => (
@@ -1719,7 +1721,7 @@ function HeroCommandRail({ activeInfra, currentInfra, dashboardMode, onDiagnosti
       </div>
       <button className="rail-run-button" onClick={onDiagnostic} type="button">
         <RefreshCw size={15} />
-        Run scan
+        Cycle focus
       </button>
     </div>
   );
@@ -1866,33 +1868,34 @@ function CinematicFallback({
 
 function WowLayer({ activeInfra, currentInfra, onDiagnostic, onSelectInfra }) {
   const impactStats = [
-    { label: 'Recruiter scan path', value: '15 sec', text: 'Hero, infra focus, proof, projects' },
-    { label: 'Core identity', value: 'Infra+', text: 'Server, firewall, network, cyber, hardware' },
-    { label: 'Proof density', value: '21', text: 'Projects with real visuals or source evidence' },
+    { label: 'First impression', value: '10 sec', text: 'Who I am, what I focus on, where the proof is' },
+    { label: 'Current lane', value: 'Infra+', text: 'Server, firewall, network, cyber, hardware' },
+    { label: 'Project proof', value: '21', text: 'Screenshots, source notes, builds, and fixes' },
   ];
   const journey = [
-    { icon: <Eye size={17} />, label: 'Scan', text: 'Identity first' },
-    { icon: <ShieldCheck size={17} />, label: 'Trust', text: 'Proof visible' },
+    { icon: <Eye size={17} />, label: 'Meet', text: 'Name and direction' },
+    { icon: <ShieldCheck size={17} />, label: 'Check', text: 'Real evidence' },
     { icon: <Network size={17} />, label: 'Route', text: 'Infra focus' },
-    { icon: <Rocket size={17} />, label: 'Act', text: 'Projects open' },
+    { icon: <Rocket size={17} />, label: 'Open', text: 'Project viewer' },
   ];
+  const cameraSteps = ['intro', 'desk', 'infra', 'projects', 'contact'];
 
   return (
     <section
       className="wow-layer-band parallax-section"
       data-parallax-section
-      aria-label="Premium portfolio impact layer"
+      aria-label="Interactive portfolio flow layer"
     >
       <SectionMotionBackdrop variant="wow" />
       <div className="shell wow-layer-layout">
         <div className="wow-copy">
           <SectionHeading
             icon={<Rocket />}
-            kicker="WOW Layer"
-            title="A sharper first impression for recruiters"
-            text="This layer turns the portfolio into a guided product experience: fast identity, clear infrastructure direction, real project evidence, and a premium visual rhythm."
+            kicker="Portfolio Flow"
+            title="I made the page feel closer to my working desk"
+            text="The goal is simple: land here, understand my IT infrastructure direction, and open real project proof without guessing."
           />
-          <div className="wow-journey" aria-label="Recruiter journey preview">
+          <div className="wow-journey" aria-label="Portfolio journey preview">
             {journey.map((item) => (
               <div key={item.label}>
                 {item.icon}
@@ -1904,19 +1907,32 @@ function WowLayer({ activeInfra, currentInfra, onDiagnostic, onSelectInfra }) {
           <div className="wow-actions">
             <button className="button button-primary" onClick={onDiagnostic} type="button">
               <Sparkles size={18} />
-              Run wow sweep
+              Cycle the scene
             </button>
             <a className="button button-dark" href="#projects">
               <ArrowUpRight size={18} />
-              Jump to proof
+              Open proof
             </a>
           </div>
         </div>
 
         <div className="wow-orbit-stage" aria-label={`${currentInfra.label} visual focus selector`}>
-          <span className="wow-stage-label">Recruiter command orbit</span>
+          <span className="wow-stage-label">scroll scene / click nodes</span>
           <span className="wow-beam beam-one" aria-hidden="true" />
           <span className="wow-beam beam-two" aria-hidden="true" />
+          <div className="scene-code-panel" aria-hidden="true">
+            <span>localhost:portfolio</span>
+            <code>focus="{currentInfra.id}"</code>
+            <small>smooth scroll camera</small>
+          </div>
+          <div className="scene-camera-path" aria-hidden="true">
+            {cameraSteps.map((step, index) => (
+              <span key={step} style={{ '--step': index }}>
+                <i />
+                {step}
+              </span>
+            ))}
+          </div>
           <div className="wow-orbit-core">
             {getInfraIcon(activeInfra, 30)}
             <span>{currentInfra.label}</span>
@@ -1986,16 +2002,16 @@ function StridezExperienceShowcase({ activeScreen, onOpenProject, onSelectScreen
       className="stridez-showcase-band parallax-section"
       id="stridez"
       data-parallax-section
-      aria-label="Stridez mobile app 5D showcase"
+      aria-label="Stridez mobile app project showcase"
     >
       <SectionMotionBackdrop variant="stridez" />
       <div className="shell stridez-showcase-layout">
         <div className="stridez-copy-panel">
           <SectionHeading
             icon={<Smartphone />}
-            kicker="Stridez 5D Showcase"
-            title="Real mobile screens with depth, motion, maps, safety, and analysis"
-            text="The Stridez project now has a cleaner product story built from the actual UI testing screenshots: from onboarding and GPS park selection to warm-up, live tracking, results, and account flows."
+            kicker="Stridez Project Tour"
+            title="A real app flow I can walk you through"
+            text="These are the actual testing screenshots from my Stridez project: onboarding, GPS park selection, warm-up, live tracking, safety warning, results, and account screens."
           />
           <div className="stridez-active-card">
             <span>{current.stage} screen</span>
@@ -2005,11 +2021,11 @@ function StridezExperienceShowcase({ activeScreen, onOpenProject, onSelectScreen
           <div className="stridez-showcase-actions">
             <button className="button button-primary" onClick={onOpenProject} type="button">
               <Eye size={18} />
-              Open Stridez Case Study
+              Open Stridez Details
             </button>
             <a className="button button-line" href="#projects">
               <ArrowUpRight size={18} />
-              View All Proof
+              View all projects
             </a>
           </div>
         </div>
@@ -2092,13 +2108,13 @@ function CleanIllustrationLab({ activeInfra, onSelectInfra }) {
         <div className="clean-art-copy">
           <SectionHeading
             icon={<Sparkles />}
-            kicker="Illustration System"
-            title="More 3D character, less visual noise"
-            text="A set of clean interactive illustrations now supports the portfolio story without covering the real projects, resume, or recruiter-facing details."
+            kicker="Visual Lab"
+            title="Clean 3D pieces for the infra side"
+            text="I kept the illustrations tied to the skills I am focusing on: server, firewall, network, and hardware. They are there to support the story, not hide the work."
           />
           <div className="clean-art-note">
             <span>Design rule</span>
-            <strong>Every visual points back to infrastructure: server, firewall, network, and hardware.</strong>
+            <strong>If it moves, it should still point back to the work.</strong>
           </div>
         </div>
         <div className="clean-art-grid">
@@ -2178,9 +2194,9 @@ function ExperienceFlowPanel({ experience, index }) {
         <span className="flow-signal signal-b" />
       </div>
       <div>
-        <span className="flow-kicker">experience loop 0{index + 1}</span>
+        <span className="flow-kicker">work loop 0{index + 1}</span>
         <strong>{experience.company}</strong>
-        <p>Support work translated into a clean operational loop: understand the issue, isolate the layer, fix with care, and document the outcome.</p>
+        <p>My support rhythm is simple: understand the issue, isolate the layer, fix carefully, and leave notes that are useful later.</p>
       </div>
       <div className="flow-steps">
         {phases.map((phase, phaseIndex) => (
@@ -2211,9 +2227,9 @@ function SkillMotionConsole({ groups }) {
         ))}
       </div>
       <div className="skill-console-copy">
-        <span>motion toolkit</span>
-        <strong>Support + infra + code in one orbit</strong>
-        <p>Animated to show the portfolio’s actual shape: technical support, infrastructure direction, databases, app builds, and workflow tools rotating around practical problem solving.</p>
+        <span>skill map</span>
+        <strong>Support, infra, and code in one orbit</strong>
+        <p className="human-copy">This is how the portfolio is really shaped: support work, infrastructure direction, databases, app builds, and workflow tools around practical problem solving.</p>
       </div>
     </div>
   );
@@ -2221,7 +2237,7 @@ function SkillMotionConsole({ groups }) {
 
 function ResumeMotionConsole() {
   return (
-    <div className="resume-motion-console" aria-label="Animated resume scanner">
+    <div className="resume-motion-console" aria-label="Animated resume preview">
       <div className="resume-scan-device" aria-hidden="true">
         <span className="resume-scan-page" />
         <span className="resume-scan-line" />
@@ -2229,8 +2245,8 @@ function ResumeMotionConsole() {
         <span className="resume-scan-chip chip-b" />
       </div>
       <div>
-        <span>resume scanner</span>
-        <strong>Two pages, recruiter-ready proof trail</strong>
+        <span>resume preview</span>
+        <strong>Two pages with the key proof in one place</strong>
       </div>
     </div>
   );
@@ -2247,8 +2263,8 @@ function ContactSignalPanel() {
         <span className="signal-dot dot-b" />
       </div>
       <div>
-        <span>response channel</span>
-        <strong>Email, phone, LinkedIn, and QR path ready</strong>
+        <span>contact path</span>
+        <strong>Email, phone, LinkedIn, and QR are ready</strong>
       </div>
     </div>
   );
@@ -2279,12 +2295,12 @@ function InfraDashboard({
     <div className={`infra-dashboard mode-${dashboardMode}`}>
       <div className="infra-control-strip">
         <div>
-          <span>Command mode</span>
-          <strong>{dashboardMode === 'live' ? 'Live support' : dashboardMode === 'diagnostic' ? 'Diagnostic sweep' : 'Hardening review'}</strong>
+          <span>Mode</span>
+          <strong>{dashboardMode === 'live' ? 'Support view' : dashboardMode === 'diagnostic' ? 'Stack check' : 'Security notes'}</strong>
         </div>
         <button className="infra-run-button" onClick={onDiagnostic} type="button">
           <RefreshCw size={17} />
-          Run diagnostic
+          Cycle check
         </button>
         <label className="readiness-slider">
           <span>Readiness</span>
@@ -2314,7 +2330,7 @@ function InfraDashboard({
           <strong>{openTickets}</strong>
         </div>
         <div>
-          <span>Risk lens</span>
+          <span>Risk note</span>
           <strong>{currentInfra.risk}</strong>
         </div>
       </div>
@@ -2363,19 +2379,19 @@ function InfraDashboard({
           <div className="infra-panel-head compact cinema-panel-head">
             <Layers3 size={25} />
             <div>
-              <span>Blender-style WebGL</span>
+              <span>3D infra view</span>
               <h3>{currentInfra.label} orbit</h3>
             </div>
             <button className="cinema-scan-button" onClick={onDiagnostic} type="button">
               <Sparkles size={16} />
-              Scan
+              Check
             </button>
           </div>
           <div className="cinema-stage-shell">
             <CinematicScene activeFocus={activeInfra} mode={dashboardMode} variant="dashboard" />
             <div className="cinema-hud cinema-hud-top">
               <span>Firewall</span>
-              <strong>{dashboardMode === 'hardening' ? 'Policy sweep' : 'Guarding edge'}</strong>
+              <strong>{dashboardMode === 'hardening' ? 'Rule review' : 'Watching edge'}</strong>
             </div>
             <div className="cinema-hud cinema-hud-bottom">
               <span>Server core</span>
@@ -2402,7 +2418,7 @@ function InfraDashboard({
             <Activity size={25} />
             <div>
               <span>Signal pattern</span>
-              <h3>Maintenance rhythm</h3>
+              <h3>How ready it feels</h3>
             </div>
           </div>
           <div className="wave-bars" aria-label={`${currentInfra.label} readiness chart`}>
@@ -2426,7 +2442,7 @@ function InfraDashboard({
             <RadioTower size={25} />
             <div>
               <span>Topology</span>
-              <h3>Click a node</h3>
+              <h3>Click any node</h3>
             </div>
           </div>
           <div className="topology-map" aria-label="Clickable infrastructure topology">
@@ -2451,7 +2467,7 @@ function InfraDashboard({
             <Clipboard size={25} />
             <div>
               <span>Ticket queue</span>
-              <h3>Practical triage</h3>
+              <h3>Practice triage</h3>
             </div>
           </div>
           <div className="ticket-list">
@@ -2478,7 +2494,7 @@ function InfraDashboard({
             <HardDrive size={25} />
             <div>
               <span>Replacement board</span>
-              <h3>Asset readiness</h3>
+              <h3>Device readiness</h3>
             </div>
           </div>
           {hardwareQueue.map((item) => {
@@ -2583,8 +2599,8 @@ function ProjectVisualGallery({ project }) {
       {gallery.length === 0 && !project.artifact && (
         <div className="visual-empty-state">
           <ImageIcon />
-          <strong>No visual artifact yet</strong>
-          <p>This project is still listed with written source evidence only.</p>
+          <strong>No screenshot yet</strong>
+          <p>I only have source notes for this one right now.</p>
         </div>
       )}
     </div>
@@ -2617,21 +2633,21 @@ function ProjectDetail({ project, onView }) {
 
       <div className="case-grid">
         <div>
-          <h4>Problem</h4>
+          <h4>Why I Built It</h4>
           <p>{project.problem}</p>
         </div>
         <div>
-          <h4>Solution</h4>
+          <h4>What I Made</h4>
           <p>{project.solution}</p>
         </div>
         <div>
-          <h4>Impact</h4>
+          <h4>Why It Matters</h4>
           <p>{project.impact}</p>
         </div>
       </div>
 
       <div className="detail-section">
-        <h4>Recruiter Notes</h4>
+        <h4>What I Worked On</h4>
         <ul className="feature-list">
           {project.highlights.map((item) => (
             <li key={item}>
@@ -2649,7 +2665,7 @@ function ProjectDetail({ project, onView }) {
       </div>
 
       <div className="evidence-list">
-        <h4>Verification</h4>
+        <h4>How I Checked It</h4>
         {project.evidence.map((item) => (
           <p key={item}>{item}</p>
         ))}
@@ -2658,7 +2674,7 @@ function ProjectDetail({ project, onView }) {
       <div className="project-links">
         <button className="project-open-button" onClick={() => onView(project)} type="button">
           <Eye size={16} />
-          View Project
+          Open Project
         </button>
         {project.links?.map((link) => (
           <a href={link.url} target="_blank" rel="noreferrer" key={link.url}>
@@ -2674,7 +2690,7 @@ function ProjectDetail({ project, onView }) {
 function ProjectModal({ activeTab, onClose, onTabChange, project }) {
   const tabs = [
     { id: 'visuals', label: 'Visuals' },
-    { id: 'story', label: 'Story' },
+    { id: 'story', label: 'Notes' },
     { id: 'stack', label: 'Stack' },
     { id: 'proof', label: 'Proof' },
   ];
@@ -2718,15 +2734,15 @@ function ProjectModal({ activeTab, onClose, onTabChange, project }) {
           {activeTab === 'story' && (
             <div className="modal-story">
               <div>
-                <h4>Problem</h4>
+                <h4>Why I Built It</h4>
                 <p>{project.problem}</p>
               </div>
               <div>
-                <h4>Solution</h4>
+                <h4>What I Made</h4>
                 <p>{project.solution}</p>
               </div>
               <div>
-                <h4>Impact</h4>
+                <h4>Why It Matters</h4>
                 <p>{project.impact}</p>
               </div>
             </div>
@@ -2765,7 +2781,7 @@ function ProjectModal({ activeTab, onClose, onTabChange, project }) {
             </a>
           ))}
           <button onClick={onClose} type="button">
-            Close Viewer
+            Close
           </button>
         </div>
       </article>

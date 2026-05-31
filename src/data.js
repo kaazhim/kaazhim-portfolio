@@ -10,25 +10,25 @@ export const profile = {
   resume: '/kaazhim-resume.pdf',
   photo: '/assets/profile/kaazhim-real-photo.png',
   summary:
-    'Information Technology undergraduate building toward IT infrastructure: server operations, firewall awareness, network support, cybersecurity hygiene, hardware replacement, and practical app development.',
+    'I am an Information Technology student who is now leaning hard into IT infrastructure: servers, firewall rules, network troubleshooting, cybersecurity basics, hardware replacement, and the support work that keeps users moving.',
   pitch:
-    'I am strongest where users, devices, networks, and systems meet: diagnosing issues, documenting fixes, replacing hardware confidently, and turning messy operations into maintainable workflows.',
+    'I like the practical side of IT. Give me a device issue, a network symptom, a messy workflow, or a system that needs clearer notes, and I will trace it properly, fix what I can, and document the next step.',
 };
 
 export const proofPoints = [
   { value: '3.55', label: 'Bachelor of IT CGPA' },
-  { value: 'Infra', label: 'Server, firewall, network, cyber focus' },
-  { value: '4', label: 'Public GitHub repos checked' },
-  { value: '2026', label: 'Technology and Digital internship' },
+  { value: 'Infra', label: 'Server, firewall, network, cyber' },
+  { value: 'Proof', label: 'Projects checked with real files' },
+  { value: '2026', label: 'Technology & Digital internship' },
 ];
 
 export const capabilityModes = [
   {
     id: 'infra',
     label: 'Infra',
-    title: 'Growing into infrastructure operations',
+    title: 'The lane I am focusing on now',
     summary:
-      'Currently focused on server fundamentals, firewall policy thinking, network troubleshooting, cybersecurity hygiene, device lifecycle care, and hardware replacement.',
+      'Right now I am putting more time into server basics, firewall thinking, network checks, cybersecurity hygiene, endpoint care, and hardware replacement.',
     stack: ['Server basics', 'Firewall rules', 'Network support', 'Cyber hygiene', 'Hardware replacement'],
     flow: ['Inspect', 'Secure', 'Replace', 'Document'],
     accent: 'sky',
@@ -36,9 +36,9 @@ export const capabilityModes = [
   {
     id: 'support',
     label: 'Support',
-    title: 'Calm issue resolution for real users',
+    title: 'Support work that stays calm',
     summary:
-      'Handles first-level support, access issues, laptops, printers, meeting equipment, boot errors, and application questions with documentation discipline.',
+      'I am comfortable helping users with access issues, laptops, printers, scanners, meeting-room equipment, boot problems, and application questions.',
     stack: ['Troubleshooting', 'User support', 'Issue tracking', 'Documentation'],
     flow: ['Listen', 'Replicate', 'Resolve', 'Record'],
     accent: 'teal',
@@ -46,9 +46,9 @@ export const capabilityModes = [
   {
     id: 'workflow',
     label: 'Workflow',
-    title: 'Turns operations into repeatable systems',
+    title: 'Turning messy requests into a flow',
     summary:
-      'Maps operational requests into BPMS and ProcessMaker-style flows, with attention to approvals, data fields, status states, and maintainability.',
+      'I enjoy mapping manual requests into BPMS or ProcessMaker-style workflows, especially approvals, fields, status movement, and handover notes.',
     stack: ['BPMS', 'ProcessMaker', 'Requirements', 'Process mapping'],
     flow: ['Discover', 'Model', 'Validate', 'Improve'],
     accent: 'sun',
@@ -56,9 +56,9 @@ export const capabilityModes = [
   {
     id: 'data',
     label: 'Data',
-    title: 'Builds clearer database-backed records',
+    title: 'Making records easier to trust',
     summary:
-      'Works with SQL, MySQL, Oracle APEX, Power BI assistance, and validation tasks to make records easier to search, report, and trust.',
+      'SQL, MySQL, Oracle APEX, Power BI support, and data validation helped me understand why clean records matter in real operations.',
     stack: ['SQL', 'MySQL', 'Oracle APEX', 'Power BI'],
     flow: ['Collect', 'Clean', 'Model', 'Explain'],
     accent: 'sky',
@@ -66,9 +66,9 @@ export const capabilityModes = [
   {
     id: 'build',
     label: 'Build',
-    title: 'Ships practical prototypes across stacks',
+    title: 'Building useful prototypes, not just screens',
     summary:
-      'Builds coursework and portfolio systems in PHP, Java, Flutter, Android, React, HTML, CSS, and JavaScript, with a bias for useful workflow tools.',
+      'Most of my builds are practical coursework or portfolio tools using PHP, Java, Flutter, Android, React, HTML, CSS, and JavaScript.',
     stack: ['PHP', 'Java', 'Flutter', 'React', 'JavaScript'],
     flow: ['Design', 'Develop', 'Test', 'Present'],
     accent: 'coral',
@@ -82,10 +82,10 @@ export const experiences = [
     place: 'Kota Damansara',
     period: 'Mar 2026 - Present',
     points: [
-      'Delivered first-level IT and application support across devices, systems, access, printing, scanners, and meeting-room equipment.',
-      'Supported issue tracking, system monitoring, documentation, Power BI reporting assistance, and data validation work.',
-      'Developed and refined PCAD/P&C Service Requisition System workflows using BPMS and ProcessMaker concepts.',
-      'Translated department operational needs into structured workflow architecture for digitalization planning.',
+      'Helped with first-level IT and application support for devices, access, printing, scanners, and meeting-room equipment.',
+      'Worked on issue tracking, system monitoring, documentation, Power BI support, and data validation tasks.',
+      'Built and refined PCAD/P&C Service Requisition workflows using BPMS and ProcessMaker concepts.',
+      'Turned department requirements into clearer workflow structure for digitalization planning.',
     ],
   },
   {
@@ -94,9 +94,9 @@ export const experiences = [
     place: 'Petaling Jaya',
     period: 'Sep 2023 - Mar 2024',
     points: [
-      'Supported IT project delivery through task coordination, business-process flows, and internal/external requirement follow-up.',
-      'Collected client issue details, clarified requirements, and supported smoother project execution during daily operations.',
-      'Contributed website components, user journey ideas, interaction improvements, and UI/UX observations.',
+      'Supported project delivery by helping with task coordination, process flows, and requirement follow-up.',
+      'Collected issue details from clients and helped clarify what needed to be fixed or improved.',
+      'Contributed website components, user journey ideas, interaction improvements, and UI/UX notes.',
     ],
   },
   {
@@ -105,8 +105,8 @@ export const experiences = [
     place: 'Malaysia',
     period: '2021 - 2025',
     points: [
-      'Built customer-service, payment handling, stock control, product knowledge, and workplace reliability before entering IT roles.',
-      'Practiced communication, quality checking, and operational discipline in fast-paced environments.',
+      'Built my customer-service habits through payment handling, stock control, product knowledge, and fast-paced floor work.',
+      'Learned how to communicate clearly, check quality, and stay reliable before moving deeper into IT.',
     ],
   },
 ];
@@ -166,13 +166,13 @@ export const projects = [
     ],
     tags: ['Flutter', 'Firebase', 'GPS', 'Firestore', 'Pedometer', 'Voice cues'],
     summary:
-      'A GPS-enabled running app for novice runners, built around park discovery, run tracking, feedback, and beginner-friendly guidance.',
+      'My FYP mobile app for beginner runners. It helps users choose a park, warm up, track a run, and review the session after finishing.',
     problem:
-      'New runners can struggle with route confidence, pacing, activity feedback, and remembering progress across sessions.',
+      'Beginner runners may not know where to run, how to warm up, or how to understand their progress after a session.',
     solution:
-      'The app combines Firebase authentication, profile management, run history, GPS distance/pace tracking, park media, sound cues, and local fallback storage.',
+      'I built the flow around login, profile, nearby parks, GPS tracking, warm-up guidance, run history, sound cues, and fallback storage.',
     impact:
-      'Shows product thinking beyond a basic tracker: onboarding, motion feedback, run history, media assets, and accessible guidance for beginners.',
+      'This is the project I can explain the deepest because it covers UI, maps, Firebase, tracking logic, safety prompts, and real testing screens.',
     highlights: [
       'Firebase Auth, Firestore run records, Firebase Storage profile photos, and shared preferences fallback.',
       'Run metrics for distance, duration, pace, calories, steps, and activity category analysis.',
@@ -204,13 +204,13 @@ export const projects = [
     ],
     tags: ['React', 'TypeScript', 'Vite', 'Express', 'LocalStorage', 'Google Maps', 'Spotify API', 'Gemini API'],
     summary:
-      'A pastel fitness web app for running, gym workouts, hydration, meals, reminders, analytics, Spotify sync, and AI-assisted training suggestions.',
+      'A fitness web dashboard that keeps running, gym workouts, hydration, meals, reminders, analytics, music, and training ideas in one place.',
     problem:
-      'Fitness progress is hard to communicate when running, strength, meals, hydration, reminders, and music/vibe context live in separate tools.',
+      'Fitness tracking gets messy when running, strength training, meals, hydration, reminders, and music mood are split across different tools.',
     solution:
-      'The app brings the workflow into one React interface with persisted activity state, dashboard targets, workout forms, rest timing, route/map readiness, charts, and Express API routes for Spotify and Gemini integrations.',
+      'The React interface keeps the activity state, dashboard goals, workout forms, rest timer, route/map area, charts, and Express API routes together.',
     impact:
-      'Shows a more complete full-stack product than a static tracker: state persistence, server routes, analytics UI, third-party integration readiness, and recruiter-friendly proof from a clean build.',
+      'It gives me a stronger full-stack example because it has real state, server routes, analytics screens, API readiness, and a build I verified.',
     highlights: [
       'Dashboard tracks hydration, active minutes, calorie burn, weekly gym sessions, running distance, and daily reminders with localStorage persistence.',
       'Workout module supports gym-set logging, running pace guidance, rest timer controls, exercise history, and delete/update flows.',
@@ -245,13 +245,13 @@ export const projects = [
     ],
     tags: ['PHP', 'MySQL', 'Bootstrap', 'Admin dashboard', 'CRUD'],
     summary:
-      'A staff attendance system with employee time-in/time-out capture, admin login, employee management, user management, and attendance logs.',
+      'A PHP/MySQL attendance system for employee time-in/time-out records, admin login, employee management, user management, and attendance logs.',
     problem:
-      'Manual attendance records are slow to capture, hard to audit, and easy to lose when staff and admin data live separately.',
+      'Manual attendance records are easy to lose and hard to check when staff data, users, and daily logs are not connected.',
     solution:
-      'The system stores employees, users, and attendance events in MySQL, with public check-in/out actions and an admin dashboard for record control.',
+      'The system connects employees, users, and attendance events in MySQL, with check-in/out actions and an admin dashboard.',
     impact:
-      'Demonstrates practical workplace-system thinking: authentication, relational tables, CRUD screens, and operational record keeping.',
+      'This is a practical workplace project: login, relational tables, CRUD pages, and record keeping that an admin can actually use.',
     highlights: [
       'Patched admin login typo from `msqli_error()` to `mysqli_error($conn)`.',
       'Fixed employee name generation in time logs so first, middle, and last names are combined correctly.',
@@ -280,13 +280,13 @@ export const projects = [
     ],
     tags: ['React', 'TypeScript', 'Vite', 'Google GenAI', 'Video generation'],
     summary:
-      'A React/Vite AI studio prototype from the public REAL-ESTATE repo, with prompt-driven video generation states and API-key handling.',
+      'A React/Vite studio-style prototype from my REAL-ESTATE repo, built around prompt input, API-key checks, loading states, and generated video output.',
     problem:
-      'AI generation tools need a clear interface for prompt input, API-key readiness, loading, error recovery, generated output, and retry/extend flows.',
+      'A generation tool can feel confusing if the prompt, API key, loading, errors, output, and retry flow are not clear.',
     solution:
-      'The app structures generation around a studio view, history/project content views, a prompt form, API key dialog, loading state, video result view, and Gemini/Veo service layer.',
+      'The app uses a studio view, project/history sections, prompt form, API-key dialog, loading state, result view, and Gemini/Veo service layer.',
     impact:
-      'Shows modern frontend composition, async state handling, generated-media UX, and production build awareness.',
+      'It shows how I handle modern frontend state, async flows, generated-media UI, and production build checks.',
     highlights: [
       'Uses React 19, TypeScript, Vite, `@google/genai`, and reusable components.',
       'Handles API-key selection checks before generation.',
@@ -327,13 +327,13 @@ export const projects = [
     },
     tags: ['Java', 'Android Studio', 'SQLite', 'Gradle', 'Material UI'],
     summary:
-      'An Android app for calculating electricity bills, applying rebates, saving bill history, and reviewing or editing stored records.',
+      'An Android app that calculates electricity bills, applies rebates, saves bill history, and lets users review or edit stored records.',
     problem:
-      'Users need a simple way to estimate electricity charges, compare final costs after rebates, and keep historical records.',
+      'Users need a simple way to estimate charges, see the rebate effect, and keep old bills instead of recalculating every time.',
     solution:
-      'The app provides month selection, kWh input, rebate controls, SQLite storage, bill list/detail screens, update/delete actions, splash/about screens, and local assets.',
+      'I used month selection, kWh input, rebate controls, SQLite storage, list/detail screens, update/delete actions, and local app assets.',
     impact:
-      'Demonstrates a complete Android coursework app with UI, persistence, navigation, and CRUD behavior.',
+      'This is a complete Android coursework app with UI flow, persistence, navigation, and CRUD behavior.',
     highlights: [
       'SQLite helper manages bill insert, fetch, update, and delete operations.',
       'Main calculator separates total charge and final cost after rebate.',
@@ -376,13 +376,13 @@ export const projects = [
     },
     tags: ['BPMS', 'ProcessMaker', 'Requirements', 'Service workflow'],
     summary:
-      'A ProcessMaker service requisition workflow for department operations, backed by a real PMX export and focused on request structure, routing, and approvals.',
+      'A department service requisition workflow I worked on during internship, backed by a real PMX export and focused on request flow, routing, and approvals.',
     problem:
-      'Operational service requests can become scattered when intake, status, approvals, and documentation are handled manually.',
+      'Service requests can become hard to follow when intake, status, approval, and documentation are handled manually.',
     solution:
-      'Translated process needs into workflow structure, status movement, data fields, and BPMS/ProcessMaker-style implementation planning.',
+      'I helped translate the process into workflow structure, status movement, data fields, and BPMS/ProcessMaker planning.',
     impact:
-      'Shows ability to understand real business operations and convert them into maintainable workflow systems.',
+      'This shows the business side of my IT work: listening to a process, then turning it into something easier to track.',
     highlights: [
       'Reviewed a ProcessMaker 3 PMX export dated 2026-05-18.',
       'Mapped request handling into a structured digital workflow with six task states.',
@@ -414,13 +414,13 @@ export const projects = [
     ],
     tags: ['PHP', 'MySQL', 'HTML', 'CSS', 'Registration'],
     summary:
-      'A database-driven registration module for structured patient/user intake and cleaner record management.',
+      'A PHP/MySQL registration module for structured patient or user intake and cleaner record handling.',
     problem:
-      'Healthcare registration needs consistent fields, validation thinking, and database-backed storage to reduce manual record errors.',
+      'Registration forms need consistent fields and database storage so records are not scattered or repeated manually.',
     solution:
-      'Designed structured forms and MySQL-backed storage so registration data can be entered, stored, and reviewed more consistently.',
+      'I designed the form flow with MySQL storage so the data can be entered, saved, and reviewed more consistently.',
     impact:
-      'Highlights full-stack fundamentals, database design, form logic, and user-centered workflow thinking.',
+      'It is a straightforward full-stack example covering form logic, database thinking, and workflow basics.',
     highlights: [
       'Registration-focused data model.',
       'Form flow aimed at reducing repeated manual entry.',
@@ -451,13 +451,13 @@ export const projects = [
     },
     tags: ['Java', 'OOP', 'Inheritance', 'Polymorphism'],
     summary:
-      'A Java allowance calculator for RELA volunteers using category-specific allowance formulas.',
+      'A Java OOP allowance calculator for RELA volunteers with different rules for different volunteer types.',
     problem:
-      'Different volunteer categories need different allowance rules while sharing common identity and attendance data.',
+      'Volunteer categories share some data, but their allowance calculations are not exactly the same.',
     solution:
-      'Used an abstract Volunteer superclass with HealthVolunteer and CommonVolunteer subclasses to calculate session-based net allowance.',
+      'I used an abstract Volunteer class with HealthVolunteer and CommonVolunteer subclasses to calculate session-based allowance.',
     impact:
-      'Demonstrates inheritance, method overriding, object arrays, runtime type checks, and reporting logic.',
+      'This is where I practiced inheritance, method overriding, object arrays, type checks, and basic reporting.',
     highlights: [
       'Abstract base class for shared volunteer behavior.',
       'Subclass-specific allowance formulas.',
@@ -493,13 +493,13 @@ export const projects = [
     },
     tags: ['Java', 'Queue', 'Linked List', 'File I/O'],
     summary:
-      'A cake order processor that reads orders, separates delivery and pickup queues, and summarizes orders by cake type.',
+      'A Java data-structure project that reads cake orders, separates delivery and pickup queues, and summarizes orders by cake type.',
     problem:
-      'Order records need to be separated by fulfillment method while preserving queue order and generating useful summaries.',
+      'Orders need to stay in order, but delivery and pickup records also need to be handled separately.',
     solution:
-      'Implemented custom linked-list queue logic, file input/output, delivery/pickup classification, and sales summary calculations.',
+      'I implemented a linked-list queue, file input/output, delivery/pickup classification, and sales summary calculations.',
     impact:
-      'Shows data-structure use in a business workflow rather than a purely abstract exercise.',
+      'It connects data structures to a small business workflow, which made the queue concept easier to explain.',
     highlights: [
       'Custom node/list structures.',
       'Delivery and pickup queue separation.',
@@ -530,13 +530,13 @@ export const projects = [
     },
     tags: ['Java', 'Arrays', 'File I/O', 'Search', 'Receipts'],
     summary:
-      'A console sales analyzer for apparel records with membership discounts, receipt output, item grouping, and search.',
+      'A console sales analyzer for apparel records with membership discounts, receipt output, product grouping, and search.',
     problem:
-      'Small business sales data needs product summaries, averages, category counts, and receipt output from raw item records.',
+      'Raw sales records are not useful until they are grouped, counted, averaged, searched, and printed in a readable way.',
     solution:
-      'Reads item/customer records, calculates discounts and averages, groups highest-selling item types, searches records, and writes receipts.',
+      'The program reads item and customer records, calculates discounts and averages, finds strong categories, searches records, and writes receipts.',
     impact:
-      'Shows business-rule calculation, array processing, inheritance, file handling, and reporting.',
+      'This helped me practice business rules, arrays, inheritance, file handling, and reporting output.',
     highlights: [
       'Membership discount logic.',
       'Average sales and highest-selling group calculations.',
@@ -567,13 +567,13 @@ export const projects = [
     },
     tags: ['Java', 'ArrayList', 'Sorting', 'Comparable'],
     summary:
-      'A student record analyzer that captures CGPA data, calculates average CGPA, sorts records, and groups results.',
+      'A Java student record analyzer that stores CGPA data, calculates the average, sorts records, and groups results.',
     problem:
-      'Academic records need consistent object structure, average calculation, and sorted reporting for review.',
+      'Academic records need a consistent object structure before they can be averaged, sorted, and reviewed properly.',
     solution:
-      'Used Student objects, ArrayList storage, Comparable sorting by ID, average calculation, and above/below-average grouping.',
+      'I used Student objects, ArrayList storage, Comparable sorting by ID, average calculation, and above/below-average grouping.',
     impact:
-      'Shows debugging and Java collection fundamentals, not only first-pass implementation.',
+      'This one matters because I fixed it and compiled it, so it shows debugging as well as Java collections.',
     highlights: [
       'Fixed extra braces, missing accessor, generic ArrayList usage, and sort call issues.',
       'Average CGPA grouping for performance categories.',
@@ -610,13 +610,13 @@ export const projects = [
     },
     tags: ['MySQL', 'Rental system', 'Orders', 'Triggers'],
     summary:
-      'A transaction-heavy costume rental database covering admins, customers, products, orders, order items, and returns.',
+      'A MySQL costume rental database covering admins, customers, products, orders, order items, payments, pickup, and returns.',
     problem:
-      'Rental workflows need product availability, customer records, payment details, pickup/return dates, and order status tracking.',
+      'Rental work needs product availability, customer details, payments, pickup dates, return dates, and order status in one structure.',
     solution:
-      'Modeled relational tables for rental transactions and included trigger logic that derives return dates from pickup dates.',
+      'I modeled the rental tables and added trigger logic so return dates can be derived from pickup dates.',
     impact:
-      'Demonstrates database modeling for a workflow with real lifecycle states and operational constraints.',
+      'It shows database modeling for a workflow that has real lifecycle states, not just simple sample tables.',
     highlights: [
       'Order and order-item tables.',
       'Customer, admin, product, payment, pickup, and return fields.',
@@ -652,13 +652,13 @@ export const projects = [
     },
     tags: ['SQL', 'Booking system', 'Reservation', 'ERD'],
     summary:
-      'A booking database set for students, equipment, courts, crews, reservations, bookings, and events.',
+      'A sports booking database for students, equipment, courts, crews, reservations, bookings, and events.',
     problem:
-      'Sports facilities need structured booking and equipment records across students, events, courts, and crew assignments.',
+      'Sports facilities need a clear way to connect students, equipment, courts, events, and crew assignments.',
     solution:
-      'Organized the booking domain into relational tables that can support reservation details and equipment/court usage.',
+      'I organized the booking domain into relational tables that support reservations and equipment/court usage.',
     impact:
-      'Adds database-backed operations experience in scheduling and reservation management.',
+      'It adds another database-backed operations example, this time around scheduling and reservations.',
     highlights: [
       'Multiple related booking-domain entities.',
       'Reservation and event data support.',
@@ -683,13 +683,13 @@ export const projects = [
     ],
     tags: ['Oracle APEX', 'Database', 'Transactions'],
     summary:
-      'Oracle APEX modules for book records, borrowing, returns, and structured library transaction management.',
+      'Oracle APEX coursework for book records, borrowing, returns, and library transaction management.',
     problem:
-      'Library teams need cleaner record control across books, borrowers, borrowing transactions, and returns.',
+      'Library records need to connect books, borrowers, borrow transactions, and returns clearly.',
     solution:
-      'Built database-backed modules for record entry, transaction flow, and return handling.',
+      'I built database-backed modules for record entry, transaction flow, and return handling.',
     impact:
-      'Shows Oracle APEX and database fundamentals in a familiar operational domain.',
+      'It shows Oracle APEX and database fundamentals in a familiar operational setting.',
     highlights: [
       'Book and transaction records.',
       'Borrow and return workflow thinking.',
@@ -714,13 +714,13 @@ export const projects = [
     ],
     tags: ['Java', 'OOP', 'Order flow'],
     summary:
-      'An ordering application with menu display, order processing, receipt generation, and clear navigation flow.',
+      'A Java ordering app with menu display, order processing, receipt generation, and simple navigation.',
     problem:
-      'Food ordering needs simple menu navigation, correct transaction capture, and readable receipt output.',
+      'Food ordering needs a clear menu, correct transaction capture, and a receipt users can understand.',
     solution:
-      'Structured the order flow around menu choices, processing logic, and receipt-style output.',
+      'I structured the order flow around menu choices, processing logic, and receipt-style output.',
     impact:
-      'Demonstrates object-oriented programming and basic transaction workflow design.',
+      'This is a clean OOP example for transaction flow and basic app structure.',
     highlights: [
       'Menu-driven interaction.',
       'Order processing logic.',
@@ -751,13 +751,13 @@ export const projects = [
     },
     tags: ['Java', 'Swing', 'Input dialogs', 'Pricing rules'],
     summary:
-      'A hotel rental calculator for room type, bed type, nights, and total stay cost using Java dialog input.',
+      'A Java hotel rental calculator for room type, bed type, number of nights, and total stay cost.',
     problem:
-      'A simple booking calculator needs clear pricing rules and dependable total-cost output.',
+      'A booking calculator needs clear pricing rules so the total cost is not guessed manually.',
     solution:
-      'Applied room-rate rules for standard and family rooms, calculated total rental, and printed customer rental details.',
+      'I applied room-rate rules for standard and family rooms, calculated total rental, and printed the rental details.',
     impact:
-      'Shows compact Java GUI-input practice and rule-based calculation.',
+      'It is a small but useful Java Swing practice project with rule-based calculation.',
     highlights: [
       'Dialog-based input flow.',
       'Room and bed type pricing rules.',
@@ -788,13 +788,13 @@ export const projects = [
     },
     tags: ['Java', 'ArrayList', 'Bubble sort', 'Binary search'],
     summary:
-      'A temperature record tool that sorts locations by temperature/name and searches for a location using binary search.',
+      'A Java temperature record tool that sorts location data and searches for a location using binary search.',
     problem:
-      'Location-temperature records need sorted display and fast lookup from console input.',
+      'Location-temperature records are easier to read when they can be sorted and searched quickly.',
     solution:
-      'Stored location-temperature pairs, performed manual sorting passes, and searched sorted location data.',
+      'I stored location-temperature pairs, wrote manual sorting passes, and searched the sorted data.',
     impact:
-      'Shows algorithm fundamentals and the tradeoff of raw collection usage.',
+      'This shows the algorithm fundamentals I practiced early on, including the parts I would improve now.',
     highlights: [
       'Manual sort implementation.',
       'Binary search flow.',
@@ -821,13 +821,13 @@ export const projects = [
     ],
     tags: ['Draw.io', 'Flowcharts', 'Class diagrams', 'Planning'],
     summary:
-      'A collection of flowcharts, class diagrams, and process visuals used for coursework planning and system explanation.',
+      'A collection of flowcharts, class diagrams, and process visuals I used to explain coursework systems before coding.',
     problem:
-      'Software projects are easier to explain when system flow and object structure are visible before implementation.',
+      'Software is easier to explain when the flow and class structure are visible before the code gets too big.',
     solution:
-      'Created and kept Draw.io diagrams plus exported visuals for process and class-level documentation.',
+      'I kept Draw.io diagrams and exported visuals for process and class-level documentation.',
     impact:
-      'Highlights communication, planning, and documentation ability alongside coding.',
+      'This supports the documentation side of my work, which matters a lot in support and infrastructure.',
     highlights: [
       'Flowchart source files and exported visuals.',
       'Class-diagram documentation.',
@@ -858,13 +858,13 @@ export const projects = [
     },
     tags: ['C++', 'Loops', 'Conditionals'],
     summary:
-      'A small C++ exercise that accepts ten numbers and calculates the sum of even inputs.',
+      'A small C++ exercise that accepts ten numbers and calculates the sum of the even inputs.',
     problem:
-      'Core programming practice needs clear loop control, conditions, input, and formatted output.',
+      'Early programming practice needs loops, conditions, input handling, and formatted output.',
     solution:
-      'Used loop control, modulo checking, input scanning, and console output.',
+      'I used loop control, modulo checking, input scanning, and console output.',
     impact:
-      'A compact fundamentals exercise that rounds out the early programming archive.',
+      'It is a fundamentals entry, included to show where my programming practice started.',
     highlights: [
       'Even-number detection with modulo logic.',
       'Ten-input loop structure.',
@@ -894,13 +894,13 @@ export const projects = [
     },
     tags: ['GitHub', 'Fork', 'AI agents', 'Exploration'],
     summary:
-      'A forked public repository described as Pixel office, kept as a learning and exploration entry rather than an original portfolio build.',
+      'A public fork I keep as a learning/exploration entry, clearly separated from my original and build-checked work.',
     problem:
-      'Recruiters should be able to distinguish original projects from forked exploration work.',
+      'Forks can be useful for learning, but they should not be presented like original projects.',
     solution:
-      'The portfolio labels this clearly as a fork and keeps it separate from build-verified original projects.',
+      'I label it as a fork and keep it separate from the projects I built, fixed, or verified myself.',
     impact:
-      'Shows GitHub activity while preserving honesty and source clarity.',
+      'It keeps my GitHub section honest while still showing the areas I explored.',
     highlights: [
       'Fork status confirmed from the GitHub API.',
       'Included for transparency, not inflated as original development.',
@@ -931,13 +931,13 @@ export const projects = [
     },
     tags: ['GitHub', 'Fork', 'ESP32', 'Dashboard'],
     summary:
-      'A forked ESP32 desk dashboard repository for Claude Code usage, included as a transparent GitHub activity entry.',
+      'A public ESP32/dashboard fork, included only as transparent GitHub activity and not claimed as my original build.',
     problem:
-      'Hardware/dashboard repositories can be interesting, but fork status should be clear in a professional portfolio.',
+      'Hardware and dashboard repos are interesting, but fork status needs to be obvious.',
     solution:
-      'The project card identifies it as a fork and links back to the public repo.',
+      'The project card says it is a fork and links back to the public repo.',
     impact:
-      'Keeps the GitHub section complete without overstating ownership.',
+      'It keeps the GitHub scan complete without overstating what I personally built.',
     highlights: [
       'Fork status confirmed from the GitHub API.',
       'Topic area touches embedded dashboards and developer tooling.',
@@ -953,49 +953,49 @@ export const sourceAudit = [
     item: 'System_Attendance',
     status: 'Fixed and syntax checked',
     note:
-      'Patched PHP login error handling, employee-name assembly, employee-number duplicate validation, and stale root entry pages. All PHP files passed `php -l`.',
+      'I fixed the PHP login error handling, employee-name output, duplicate employee-number check, and old root pages. Then I ran `php -l` across the PHP files.',
   },
   {
     item: 'Stridez Flutter app',
-    status: 'Screens and source proof expanded',
+    status: 'Screens and source proof added',
     note:
-      'Added 29 real UI testing screenshots across auth, profile, GPS, warm-up, live tracking, safety warnings, and run analysis. Fixed case-sensitive `signup.dart` imports earlier; Flutter analyzer remained blocked by local timeout.',
+      'I added 29 real testing screenshots across auth, profile, GPS, warm-up, live tracking, safety warnings, and run analysis. The `signup.dart` import casing was fixed earlier; analyzer still timed out locally.',
   },
   {
     item: 'Running & Gym Tracker',
     status: 'Added and repaired',
     note:
-      'Uploaded zip was extracted, missing React type packages were added, `npm run lint` and `npm run build` passed, and dashboard/workout/analytics screenshots were captured from the running app.',
+      'I extracted the uploaded zip, added the missing React type packages, ran lint/build, and captured dashboard, workout, and analytics screenshots from the running app.',
   },
   {
     item: 'P&C Service Requisition PMX',
     status: 'ProcessMaker export inspected',
     note:
-      'Detected ProcessMaker 3.3.0 PMX metadata and six workflow task states. The raw export is referenced as evidence but not published directly to avoid exposing internal workflow data.',
+      'I checked the ProcessMaker 3.3.0 PMX metadata and six task states. The raw export is referenced as evidence but not published directly because it can expose internal workflow details.',
   },
   {
     item: 'GitHub originals',
     status: 'Build checked',
     note:
-      'REAL-ESTATE passed Vite build. ElectricityBillEstimator passed Gradle debug build after setting Android SDK variables.',
+      'REAL-ESTATE passed a Vite build. ElectricityBillEstimator passed a Gradle debug build after the Android SDK variables were set.',
   },
   {
     item: 'GitHub forks',
     status: 'Labeled clearly',
     note:
-      'pixel-agents and Clawdmeter are included as fork exploration entries, not original build claims. Repos containing afifah were excluded.',
+      'pixel-agents and Clawdmeter are marked as fork exploration entries, not original builds. Repos containing afifah were excluded.',
   },
   {
     item: 'VirtualBox VMs / denji',
     status: 'Infrastructure archive',
     note:
-      'VirtualBox VM configuration and disk image. Useful environment exposure, but not listed as an application project.',
+      'VirtualBox VM configuration and disk image. I treat it as infrastructure exposure, not as an app project.',
   },
   {
     item: 'anaconda3.2',
     status: 'Tooling archive',
     note:
-      'Python/Anaconda environment folder. Treated as development tooling rather than a portfolio project.',
+      'Python/Anaconda environment folder. It stays as tooling history, not a portfolio project.',
   },
 ];
 
@@ -1003,16 +1003,16 @@ export const infraFocus = [
   {
     id: 'server',
     label: 'Server',
-    title: 'Server operations and uptime discipline',
+    title: 'Server basics and uptime habits',
     score: 88,
     risk: 'Low-medium',
-    status: 'Learning and practicing core administration patterns',
+    status: 'Practicing the admin basics step by step',
     summary:
-      'Focusing on server health checks, access control, storage awareness, backup thinking, service monitoring, and clean incident documentation.',
+      'I am focusing on health checks, access control, storage awareness, backup thinking, service checks, and incident notes that someone else can continue from.',
     tools: ['Windows Server concepts', 'Linux CLI basics', 'Service checks', 'Backup discipline'],
     signals: [
-      'Review CPU, memory, storage, service state, and update readiness before escalating.',
-      'Document symptoms, user impact, attempted fixes, and final resolution clearly.',
+      'Check CPU, memory, storage, service state, and update readiness before escalating.',
+      'Write symptoms, user impact, attempted fixes, and final resolution clearly.',
       'Treat access and server changes as controlled actions, not casual clicks.',
     ],
     bars: [78, 84, 72, 89, 81],
@@ -1020,68 +1020,68 @@ export const infraFocus = [
   {
     id: 'firewall',
     label: 'Firewall',
-    title: 'Firewall rules, exposure, and policy thinking',
+    title: 'Firewall rules and access thinking',
     score: 82,
     risk: 'Medium',
-    status: 'Building confidence in rule review and secure access logic',
+    status: 'Building confidence with access rules',
     summary:
-      'Learning how traffic rules, source/destination logic, ports, allow/deny decisions, and change notes protect business systems.',
+      'I am learning how source, destination, ports, allow/deny decisions, and change notes protect business systems.',
     tools: ['Allow/deny policy', 'Port awareness', 'Rule documentation', 'Change review'],
     signals: [
       'Check what access is required, who needs it, and whether the rule is too broad.',
-      'Prefer least-privilege notes that explain purpose, owner, and expiry expectation.',
-      'Connect firewall changes to cybersecurity impact and business continuity.',
+      'Keep rule notes specific: purpose, owner, and expected expiry when possible.',
+      'Connect firewall changes to security impact and business continuity.',
     ],
     bars: [68, 76, 83, 71, 86],
   },
   {
     id: 'network',
     label: 'Network',
-    title: 'Network troubleshooting from user symptom to root cause',
+    title: 'Network troubleshooting from symptom to cause',
     score: 86,
     risk: 'Low-medium',
-    status: 'Practicing structured triage across device, cable, Wi-Fi, IP, and DNS layers',
+    status: 'Practicing a more structured triage path',
     summary:
-      'Focusing on repeatable troubleshooting: physical checks, connectivity tests, IP/DNS awareness, printer/network setup, and escalation-ready notes.',
+      'I am focusing on physical checks, connectivity tests, IP/DNS awareness, printer/network setup, and notes that make escalation easier.',
     tools: ['IP basics', 'DNS/DHCP awareness', 'Ping/traceroute', 'Printer and endpoint setup'],
     signals: [
       'Start with physical layer and user scope before assuming an application problem.',
       'Separate one-device issues from wider network, Wi-Fi, switch, or service impact.',
-      'Record the exact test path so the next technician can continue quickly.',
+      'Record the exact test path so the next person can continue quickly.',
     ],
     bars: [82, 87, 74, 79, 90],
   },
   {
     id: 'cyber',
     label: 'Cybersecurity',
-    title: 'Security hygiene for everyday infrastructure work',
+    title: 'Security hygiene in everyday IT work',
     score: 80,
     risk: 'Medium',
-    status: 'Strengthening habits around endpoint, account, and data protection',
+    status: 'Strengthening endpoint and account habits',
     summary:
-      'Developing practical security instincts around access control, phishing awareness, patching, endpoint hygiene, backup readiness, and clean evidence handling.',
+      'I am building practical habits around access control, phishing awareness, patching, endpoint hygiene, backup readiness, and clean evidence handling.',
     tools: ['Patch awareness', 'Account safety', 'Endpoint hygiene', 'Incident notes'],
     signals: [
       'Look for unusual access, stale accounts, risky files, and missing patch discipline.',
       'Explain security issues in language business users can act on calmly.',
-      'Keep evidence, timestamps, and change notes clear for audit and escalation.',
+      'Keep evidence, timestamps, and change notes clear for audit or escalation.',
     ],
     bars: [70, 79, 84, 73, 82],
   },
   {
     id: 'hardware',
     label: 'Hardware',
-    title: 'Hardware replacement and endpoint lifecycle care',
+    title: 'Hardware replacement and endpoint care',
     score: 91,
     risk: 'Low',
-    status: 'Comfortable with practical device support and replacement workflows',
+    status: 'Comfortable with practical device support',
     summary:
-      'Focused on diagnosing laptops, peripherals, printers, scanners, meeting equipment, replacement readiness, handover notes, and user-friendly support.',
+      'I am comfortable checking laptops, peripherals, printers, scanners, meeting equipment, replacement readiness, handover notes, and user setup.',
     tools: ['Laptop triage', 'Peripheral setup', 'Asset handover', 'Replacement checklist'],
     signals: [
-      'Confirm symptoms, warranty/asset details, user urgency, and replacement readiness.',
+      'Confirm symptoms, asset details, user urgency, and replacement readiness.',
       'Protect user data and account access before moving or replacing hardware.',
-      'Close the loop with setup confirmation and documented handover.',
+      'Close the loop with setup confirmation and a short handover note.',
     ],
     bars: [89, 92, 86, 94, 88],
   },
@@ -1091,30 +1091,30 @@ export const infraTickets = [
   {
     id: 'srv-patch',
     area: 'Server',
-    title: 'Patch readiness review',
+    title: 'Patch window check',
     priority: 'High',
-    detail: 'Confirm server update window, rollback note, storage headroom, and service owner.',
+    detail: 'Confirm update window, rollback note, storage headroom, and service owner.',
   },
   {
     id: 'fw-rule',
     area: 'Firewall',
-    title: 'Narrow inbound access',
+    title: 'Tighten inbound access',
     priority: 'High',
-    detail: 'Replace broad access request with source-specific rule and documented business purpose.',
+    detail: 'Replace a broad access request with a source-specific rule and clear business purpose.',
   },
   {
     id: 'net-printer',
     area: 'Network',
-    title: 'Printer reachability triage',
+    title: 'Printer reachability check',
     priority: 'Medium',
-    detail: 'Check cable, IP address, ping response, driver state, and user queue behavior.',
+    detail: 'Check cable, IP address, ping response, driver state, and print queue behavior.',
   },
   {
     id: 'cyber-phish',
     area: 'Cybersecurity',
-    title: 'Suspicious email handling',
+    title: 'Suspicious email check',
     priority: 'Medium',
-    detail: 'Preserve evidence, warn user, check link/domain indicators, and escalate if needed.',
+    detail: 'Preserve evidence, warn the user, check link/domain indicators, and escalate if needed.',
   },
   {
     id: 'hw-refresh',
@@ -1199,7 +1199,7 @@ export const certifications = [
     period: '2026',
     image: '/assets/certifications/amalan-keselamatan-siber-encorp.png',
     description:
-      'Cybersecurity awareness material focused on personal data protection, safe social sharing, GPS privacy, device locking, public Wi-Fi risk, and incident reporting.',
+      'Cybersecurity awareness material I added as proof of my current direction: personal data protection, safe sharing, GPS privacy, device locking, public Wi-Fi risk, and incident reporting.',
     tags: ['Cybersecurity', 'Awareness', 'Data protection'],
   },
   {
@@ -1208,7 +1208,7 @@ export const certifications = [
     period: 'Resume / LinkedIn evidence',
     image: '/assets/resume-page-2.png',
     description:
-      'Database design and SQL programming foundation: relational modelling, query logic, tables, constraints, and structured data thinking for application projects.',
+      'My database foundation: relational modelling, query logic, tables, constraints, and the habit of thinking about data before building screens.',
     tags: ['Database Design', 'SQL', 'Oracle Academy'],
   },
   {
@@ -1217,7 +1217,7 @@ export const certifications = [
     period: '2024',
     image: '/assets/projects/chartflow-class-diagram.jpg',
     description:
-      'Hands-on data and problem-solving exposure that supports scripting mindset, debugging habits, and faster analysis when handling IT support evidence.',
+      'A hands-on data/problem-solving entry that supports the way I debug, script small tasks, and read support evidence faster.',
     tags: ['Python', 'Data', 'Problem solving'],
   },
 ];

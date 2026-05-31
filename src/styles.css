@@ -1,10 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap");
 
 :root {
   color-scheme: light;
-  --font-ui: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-code: "JetBrains Mono", "Cascadia Code", "Fira Code", Consolas, "Courier New", monospace;
+  --font-ui: "Geist", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Space Grotesk", "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-code: "Geist Mono", "Cascadia Code", "Fira Code", Consolas, "Courier New", monospace;
   font-family:
     var(--font-ui);
   --ink-950: #06111f;
@@ -55,6 +55,10 @@ html {
   scroll-behavior: smooth;
 }
 
+section[id] {
+  scroll-margin-top: 112px;
+}
+
 body {
   margin: 0;
   background: var(--cream-50);
@@ -82,6 +86,33 @@ body.boot-lock .app-shell > :not(.boot-page) *::after {
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
+}
+
+.app-shell::before,
+.app-shell::after {
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: fixed;
+  z-index: 1;
+}
+
+.app-shell::before {
+  background:
+    radial-gradient(circle at var(--pointer-x, 50vw) var(--pointer-y, 45vh), rgba(189, 232, 255, 0.2), transparent 26%),
+    radial-gradient(circle at calc(100% - var(--pointer-x, 50vw)) 72%, rgba(255, 230, 129, 0.13), transparent 28%);
+  mix-blend-mode: screen;
+  opacity: 0.8;
+  transform: translate3d(var(--pointer-soft-x), var(--pointer-soft-y), 0);
+}
+
+.app-shell::after {
+  animation: ambient-raster-drift 28s linear infinite;
+  background:
+    linear-gradient(90deg, transparent 0 18%, rgba(189, 232, 255, 0.08) 18.4%, transparent 19% 62%, rgba(255, 230, 129, 0.08) 62.4%, transparent 63%),
+    repeating-linear-gradient(115deg, transparent 0 18px, rgba(189, 232, 255, 0.04) 18px 19px, transparent 19px 38px);
+  mask-image: linear-gradient(180deg, transparent, black 12%, black 86%, transparent);
+  opacity: 0.32;
 }
 
 .boot-page {
@@ -861,7 +892,6 @@ html[data-motion-mode="cinematic"] {
 .parallax-live .experience-detail,
 .parallax-live .experience-flow-panel,
 .parallax-live .infra-dashboard,
-.parallax-live .project-card,
 .parallax-live .project-detail,
 .parallax-live .featured-chip,
 .parallax-live .audit-card,
@@ -899,7 +929,6 @@ html[data-motion-mode="cinematic"] {
 .parallax-live .hero-motion-field,
 .parallax-live .hero-cinematic-backdrop,
 .parallax-live .timeline-card,
-.parallax-live .project-card,
 .parallax-live .skill-card,
 .parallax-live .certification-card,
 .parallax-live .infra-dashboard,
@@ -1107,6 +1136,31 @@ html.motion-paused .stridez-phone-active {
 .kinetic-packet.packet-two {
   animation-delay: -4.2s;
   top: 74%;
+}
+
+.kinetic-wave {
+  animation: kinetic-wave-pan 18s ease-in-out infinite;
+  border: 1px solid color-mix(in srgb, var(--kinetic-accent), transparent 62%);
+  border-left: 0;
+  border-radius: 50%;
+  filter: blur(0.2px);
+  height: clamp(180px, 28vw, 460px);
+  opacity: 0.13;
+  right: -8%;
+  top: 18%;
+  transform: rotate(-18deg);
+  width: clamp(240px, 42vw, 720px);
+}
+
+.kinetic-wave.wave-two {
+  animation-delay: -7s;
+  animation-direction: reverse;
+  border-color: color-mix(in srgb, var(--kinetic-warm), transparent 58%);
+  bottom: 8%;
+  left: -12%;
+  right: auto;
+  top: auto;
+  transform: rotate(16deg);
 }
 
 .kinetic-cube {
@@ -3024,6 +3078,95 @@ html.motion-paused .stridez-phone-active {
   position: absolute;
   top: 18px;
   z-index: 4;
+}
+
+.scene-code-panel {
+  animation: scene-panel-float 7s ease-in-out infinite;
+  background:
+    linear-gradient(135deg, rgba(255, 250, 240, 0.12), rgba(255, 250, 240, 0.04)),
+    rgba(5, 8, 20, 0.72);
+  border: 1px solid rgba(189, 232, 255, 0.2);
+  border-radius: var(--radius);
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 250, 240, 0.1);
+  color: var(--cream-50);
+  display: grid;
+  gap: 6px;
+  min-width: 174px;
+  padding: 14px;
+  position: absolute;
+  right: 24px;
+  top: 18px;
+  z-index: 4;
+}
+
+.scene-code-panel span,
+.scene-code-panel small {
+  color: rgba(189, 232, 255, 0.68);
+  font-family: var(--font-code);
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.scene-code-panel code {
+  color: var(--sun-400);
+  font-family: var(--font-code);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.scene-camera-path {
+  align-items: center;
+  background: rgba(5, 8, 20, 0.5);
+  border: 1px solid rgba(255, 250, 240, 0.12);
+  border-radius: var(--radius);
+  bottom: 20px;
+  display: flex;
+  gap: 8px;
+  left: 22px;
+  padding: 10px;
+  position: absolute;
+  right: 22px;
+  z-index: 4;
+}
+
+.scene-camera-path::before {
+  background: linear-gradient(90deg, var(--sky-300), var(--sun-400));
+  content: "";
+  height: 2px;
+  left: 28px;
+  opacity: 0.45;
+  position: absolute;
+  right: 28px;
+  top: 22px;
+}
+
+.scene-camera-path span {
+  align-items: center;
+  color: rgba(255, 250, 240, 0.68);
+  display: grid;
+  flex: 1 1 0;
+  font-family: var(--font-code);
+  font-size: 10px;
+  font-weight: 850;
+  gap: 7px;
+  justify-items: center;
+  min-width: 0;
+  position: relative;
+  text-align: center;
+}
+
+.scene-camera-path i {
+  animation: camera-node-pulse 3.2s ease-in-out infinite;
+  animation-delay: calc(var(--step) * -0.42s);
+  background: var(--cream-50);
+  border: 2px solid var(--sky-300);
+  border-radius: 50%;
+  box-shadow: 0 0 18px rgba(189, 232, 255, 0.5);
+  height: 12px;
+  width: 12px;
+  z-index: 1;
 }
 
 .wow-beam {
@@ -6144,6 +6287,10 @@ html.motion-paused .stridez-phone-active {
   max-width: 620px;
 }
 
+.skill-console-copy > p:not(.human-copy) {
+  display: none;
+}
+
 .education-layout {
   display: grid;
   gap: 18px;
@@ -6924,7 +7071,6 @@ html.motion-paused .stridez-phone-active {
 }
 
 .timeline-card,
-.project-card,
 .skill-card,
 .education-panel,
 .infra-dashboard,
@@ -6949,7 +7095,6 @@ html.motion-paused .stridez-phone-active {
 section.is-motion-live .section-heading,
 section.is-motion-live .section-heading *,
 section.is-motion-live .timeline-card,
-section.is-motion-live .project-card,
 section.is-motion-live .skill-card,
 section.is-motion-live .education-panel,
 section.is-motion-live .infra-dashboard,
@@ -6984,7 +7129,6 @@ section.is-motion-live .certification-card::before {
 }
 
 .timeline-card:nth-child(2n),
-.project-card:nth-child(2n),
 .skill-card:nth-child(2n),
 .certification-card:nth-child(2n),
 .audit-card:nth-child(2n) {
@@ -6992,7 +7136,6 @@ section.is-motion-live .certification-card::before {
 }
 
 .timeline-card:nth-child(3n),
-.project-card:nth-child(3n),
 .skill-card:nth-child(3n),
 .certification-card:nth-child(3n),
 .audit-card:nth-child(3n) {
@@ -7252,6 +7395,11 @@ section.is-motion-live .certification-card::before {
 @media (max-width: 760px) {
   .section-kinetic-backdrop,
   .heading-orbit {
+    display: none;
+  }
+
+  .scene-code-panel,
+  .scene-camera-path {
     display: none;
   }
 
@@ -8199,6 +8347,16 @@ section.is-motion-live .certification-card::before {
   }
 }
 
+@keyframes ambient-raster-drift {
+  0% {
+    background-position: 0 0, 0 0;
+  }
+
+  100% {
+    background-position: 140px 0, 190px 190px;
+  }
+}
+
 @keyframes boot-drift {
   0%,
   100% {
@@ -8828,6 +8986,43 @@ section.is-motion-live .certification-card::before {
   100% {
     opacity: 0;
     transform: translate3d(112vw, -36px, 0) scaleX(0.9);
+  }
+}
+
+@keyframes kinetic-wave-pan {
+  0%,
+  100% {
+    opacity: 0.08;
+    transform: translate3d(0, 0, 0) rotate(-18deg) scale(0.96);
+  }
+
+  50% {
+    opacity: 0.2;
+    transform: translate3d(-18px, 12px, 0) rotate(-14deg) scale(1.04);
+  }
+}
+
+@keyframes scene-panel-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(-8px, 8px, 0);
+  }
+}
+
+@keyframes camera-node-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(189, 232, 255, 0.34), 0 0 18px rgba(189, 232, 255, 0.44);
+    transform: scale(1);
+  }
+
+  50% {
+    box-shadow: 0 0 0 8px rgba(255, 230, 129, 0), 0 0 22px rgba(255, 230, 129, 0.48);
+    transform: scale(1.18);
   }
 }
 
